@@ -1,0 +1,15 @@
+{
+  "name": "doggo-the-helper",
+  "version": "1.0.0",
+  "main": "bot.js",
+  "scripts": {
+    "test": "you serious?"
+  },
+  "keywords": [],
+  "author": "paritojr",
+  "license": "MIT",
+  "description": "a discord bot, useful for anything",
+  "dependencies": {
+    "discord.js": "^14.25.1"
+  }
+}
