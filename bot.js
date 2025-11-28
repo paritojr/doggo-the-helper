@@ -153,7 +153,7 @@ client.once("clientReady", async () => {
     }
 });
 //this function is IMPORTANT, as it makes your bot follow discord's AutoMod rules
-//tbh it depends on the server
+//it depends on the server's rules
 async function isContentFlagged(guild, content) {
     try {
         const rules = await guild.autoModerationRules.fetch();
@@ -162,6 +162,7 @@ async function isContentFlagged(guild, content) {
         for (const rule of rules.values()) {
             if ( rule.triggerType === AutoModerationRuleTriggerType.Keyword || rule.triggerType === AutoModerationRuleTriggerType.MemberProfile ) {
                 const keywords = rule.triggerMetadata.keywordFilter;
+                const regexPatterns = rule.triggerMetadata.regexPatterns;
                 if (keywords && keywords.length > 0) {
                     const isKeywordFlagged = keywords.some(rawKeyword => {
                         const cleanKeyword = rawKeyword.replace(/\*/g, '').toLowerCase();
@@ -172,9 +173,18 @@ async function isContentFlagged(guild, content) {
                         return true;
                     }
                 }
+                if (regexPatterns && regexPatterns.length > 0) {
+                    const isRegexFlagged = regexPatterns.some(pattern => {
+                        const regex = new RegExp(pattern, 'i');
+                        return regex.test(text);
+                    });
+                    if (isRegexFlagged) {
+                        console.log("this is flagged bruh");
+                        return true;
+                    }
+                }
             } else if (rule.triggerType === AutoModerationRuleTriggerType.KeywordPreset) {
-                //i didnt really know what to even do here, so i just put this
-                return false;
+                console.log("oh look a keyword preset");
             }
         }
         return false;
