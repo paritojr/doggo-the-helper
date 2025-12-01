@@ -386,7 +386,7 @@ client.on("interactionCreate", async (interaction) => {
         if (footer != null) {
             awesomeEmbed.setFooter({ text: footer });
         }
-        const isFlagged = await isContentFlagged(interaction.guild, title || description || footer);
+        const isFlagged = await isContentFlagged(interaction.guild, title && description || footer);
         if (isFlagged == true) {
           await interaction.reply({ 
             content: 'nuhuh, cant say that', 
