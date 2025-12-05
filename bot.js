@@ -402,6 +402,17 @@ client.on("interactionCreate", async (interaction) => {
         }
     }
 });
+client.on('guildMemberAdd', async (member) => {
+    const guild = member.guild;
+    const isFlagged = isContentFlagged(guild, member.user.tag);
+    if (isFlagged === true) {
+        try {
+            await member.ban({ reason: "not following rules" });
+        } catch (error) {
+            console.error(`failed to ban ${member.user.tag}:`, error);
+        }
+    }
+});
 client.on("reconnecting", () => {
     console.log("bot is reconnecting...");
 });
