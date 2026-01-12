@@ -19,20 +19,26 @@ you can do anything with the source code, i've provided a few commands (more com
 
 ## Installation/Setup
 
-**step 1**: install node.js [here](https://nodejs.org/en/download), if you haven't, go do that, otherwise, go to the next step
+**step 1**: clone this repo:
+```bash
+git clone https://github.com/paritojr/doggo-the-helper.git
+cd doggo-the-helper
+```
+
+**step 2**: install node.js [here](https://nodejs.org/en/download), if you haven't, go do that, otherwise, go to the next step
 <br>
 <br>
-**step 2**: get a discord bot token, if you don't have one, go to the [Discord Developer Portal](https://discord.dev) and create a new discord app
+**step 3**: get a discord bot token, if you don't have one, go to the [Discord Developer Portal](https://discord.dev) and create a new discord app
 <br>
 after that, copy the bot token and change the "BOT_TOKEN" variable from "YOUR_BOT_TOKEN" to yours
 <br>
 <br>
-**step 3**: run `npm install discord.js`
+**step 4**: run `npm install discord.js`
 <br>
 (this will install discord.js, the necessary library that this bot uses)
 <br>
 <br>
-**step 4**: run `node bot.js`
+**step 5**: run `node bot.js`
 <br>
 <br>
 as a bonus, if you want to invite your bot to other servers, you can make an bot invite link
