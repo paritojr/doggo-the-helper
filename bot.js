@@ -202,7 +202,7 @@ client.on("interactionCreate", async (interaction) => {
         await interaction.reply({ content: `pong! hello ${interaction.user}!`, ephemeral: true });
     } else if (commandName === "giveaway") {
         const prize = interaction.options.getString("prize");
-        const time = interaction.options.getString("time");
+        const time1 = interaction.options.getString("time");
         const stopOption = interaction.options.getString("stop");
         if (stopOption) {
             const giveawayId = stopOption;
@@ -262,14 +262,14 @@ client.on("interactionCreate", async (interaction) => {
                 });
             }
         } else {
-            if (!prize || !time) {
+            if (!prize || !time1) {
                 await interaction.reply({
                     content: "pls provide both prize and time for creating a giveaway",
                     ephemeral: true,
                 });
                 return;
             }
-            const duration = parseTime(time);
+            const duration = parseTime(time1);
             if (!duration) {
                 await interaction.reply({
                     content: "invalid time format, use format like: 1d, 5h, 30m",
@@ -292,7 +292,7 @@ client.on("interactionCreate", async (interaction) => {
                 .setTitle(`${prize} giveaway!`)
                 .setDescription(`react with 🎉 to enter!`)
                 .addFields(
-                    { name: "duration", value: time, inline: true },
+                    { name: "duration", value: time1, inline: true },
                     { name: "winners", value: "1", inline: true },
                 )
                 .setColor("#3060f1")
