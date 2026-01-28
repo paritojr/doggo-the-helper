@@ -137,6 +137,10 @@ const commands = [
     {
         name: "flip",
         description: "flip a coin!",
+    },
+    {
+        name: "random",
+        description: "get a random dog or cat!",
     }
 ];
 client.once("clientReady", async () => {
@@ -473,6 +477,31 @@ client.on("interactionCreate", async (interaction) => {
             .setColor("#3060f1")
             .setDescription(`coin landed on ${flip}! idk`)
             .setFooter({ text: "wowsers" })
+            .setTimestamp();
+        await interaction.reply({
+            embeds: [userEmbed],
+        });
+    } else if (commandName === "random") {
+        let finalUrl;
+        let type;
+        const roll = Math.random();
+        if (roll < 0.5) {
+            const res = await fetch('https://random.dog/woof.json');
+            const data = await res.json();
+            finalUrl = data.url;
+            type = "dog";
+        } else {
+            const randomNumber = Math.floor(Math.random() * 1986);
+            const res = await fetch(`https://cataas.com/api/cats?limit=1&skip=${randomNumber}`);
+            const data = await res.json();
+            finalUrl = `https://cataas.com/cat/${data[0].id}`;
+            type = "cat";
+        }
+        const userEmbed = new EmbedBuilder()
+            .setTitle(`your random ${type}!`)
+            .setColor("#3060f1")
+            .setImage(finalUrl)
+            .setFooter({ text: "amazing" })
             .setTimestamp();
         await interaction.reply({
             embeds: [userEmbed],
