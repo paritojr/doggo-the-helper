@@ -121,6 +121,22 @@ const commands = [
                 required: false
             }
         ],
+    },
+    {
+        name: "8ball",
+        description: "ask the mighty 8 ball a question",
+        options: [
+            {
+                name: "question",
+                description: "the question lmao",
+                type: 3,
+                required: false,
+            },
+        ]
+    },
+    {
+        name: "flip",
+        description: "flip a coin!",
     }
 ];
 client.once("clientReady", async () => {
@@ -414,6 +430,53 @@ client.on("interactionCreate", async (interaction) => {
                 embeds: [awesomeEmbed],
             });
         }
+    } else if (commandName === "8ball") {
+        const answers = [
+            "it is certain",
+            "without a doubt",
+            "you may rely on it",
+            "ask again later",
+            "can't predict it now",
+            "my sources say no",
+            "very doubtful",
+            "yes",
+            "no",
+            "pls stop",
+            "stfu",
+            "nuhuh"
+        ];
+        const question = interaction.options.getString('question');
+        const isFlagged = await isContentFlagged(interaction.guild, question);
+        if (isFlagged == true) {
+          await interaction.reply({ 
+            content: 'nuhuh, cant answer that', 
+            ephemeral: true 
+          });
+          console.log("flagged");
+          return;
+        }
+        const response = answers[Math.floor(Math.random() * answers.length)];
+        const userEmbed = new EmbedBuilder()
+            .setTitle(`the magic 8ball`)
+            .setColor("#3060f1")
+            .setDescription(`**question**: ${question}\n**8ball's answer**: ${response}`)
+            .setFooter({ text: "bruh" })
+            .setTimestamp();
+        await interaction.reply({
+            embeds: [userEmbed],
+        });
+    } else if (commandName === "flip") {
+        const results = ['heads', 'tails'];
+        const flip = results[Math.floor(Math.random() * results.length)];
+        const userEmbed = new EmbedBuilder()
+            .setTitle(`coin flip results`)
+            .setColor("#3060f1")
+            .setDescription(`coin landed on ${flip}! idk`)
+            .setFooter({ text: "wowsers" })
+            .setTimestamp();
+        await interaction.reply({
+            embeds: [userEmbed],
+        });
     }
 });
 client.on('guildMemberAdd', async (member) => {
