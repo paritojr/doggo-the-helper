@@ -15,7 +15,7 @@ you can do anything with the source code, i've provided a few commands (more com
 * `/giveaway start <prize> <time>` - starts a giveaway with the specific prize and time chosen by the user, the id is told to the user who ran the command
 * `/giveaway stop <id>` - stops a giveaway that has the id specified by the user
 * `/stats` - shows the server stats (members, bots, humans, channels, roles and server owner)
-* `/userstats <user>` - shows stats of an user (date joined and date created), if the user parameter is empty, the user stats will be from the user who initiated the command
+* `/userstats <user>` - shows stats of an user (date joined, date created, user type, and if they boosted the server), if the user parameter is empty, the user stats will be from the user who initiated the command
 
 ## Installation/Setup
 
