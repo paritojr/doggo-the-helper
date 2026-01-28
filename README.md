@@ -18,6 +18,7 @@ you can do anything with the source code, i've provided a few commands (more com
 * `/userstats <user>` - shows stats of an user (date joined, date created, user type, and if they boosted the server), if the user parameter is empty, the user stats will be from the user who initiated the command
 * `/8ball` - makes a question to the magic 8 ball
 * `/flip` - flips a coin
+* `/random` - shows you a random dog or a random cat
 
 ## Installation/Setup
 
