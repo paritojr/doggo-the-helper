@@ -498,10 +498,10 @@ client.on("interactionCreate", async (interaction) => {
             type = "cat";
         }
         const userEmbed = new EmbedBuilder()
-            .setTitle(`your random ${type}!`)
+            .setTitle(`${interaction.user.tag}'s random ${type}!`)
             .setColor("#3060f1")
             .setImage(finalUrl)
-            .setFooter({ text: "amazing" })
+            .setFooter({ text: "fantastic" })
             .setTimestamp();
         await interaction.reply({
             embeds: [userEmbed],
