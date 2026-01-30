@@ -130,7 +130,7 @@ const commands = [
                 name: "question",
                 description: "the question lmao",
                 type: 3,
-                required: false,
+                required: true,
             },
         ]
     },
