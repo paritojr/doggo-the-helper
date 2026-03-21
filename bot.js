@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { Client, GatewayIntentBits, REST, EmbedBuilder, ActivityType, time } = require("discord.js");
 const { AutoModerationRuleTriggerType, Routes } = require('discord-api-types/v10');
 const client = new Client({
@@ -27,8 +28,7 @@ function parseTime(timeString) {
             return null;
     }
 }
-//idk why i didn't use dotenv, oh well ¯\_(ツ)_/¯
-const BOT_TOKEN = "YOUR_BOT_TOKEN";
+const BOT_TOKEN = process.env.TOKEN;
 //rotating statuses are more fun than a static one
 const statuses = [
     { name: "doggo the doggo", type: ActivityType.Playing },

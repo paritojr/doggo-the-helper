@@ -33,7 +33,7 @@ cd doggo-the-helper
 <br>
 **step 3**: get a discord bot token, if you don't have one, go to the [Discord Developer Portal](https://discord.dev) and create a new discord app
 <br>
-after that, copy the bot token and change the "BOT_TOKEN" variable from "YOUR_BOT_TOKEN" to yours
+after that, make a .env file and then put on it "TOKEN=YOUR_BOT_TOKEN" (replace YOUR_BOT_TOKEN with your actual token)
 <br>
 <br>
 **step 4**: run `npm install discord.js`
