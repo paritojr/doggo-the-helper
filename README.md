@@ -36,9 +36,9 @@ cd doggo-the-helper
 after that, make a .env file and then put on it "TOKEN=YOUR_BOT_TOKEN" (replace YOUR_BOT_TOKEN with your actual token)
 <br>
 <br>
-**step 4**: run `npm install discord.js`
+**step 4**: run `npm install`
 <br>
-(this will install discord.js, the necessary library that this bot uses)
+(this will install every library the bot uses)
 <br>
 <br>
 **step 5**: run `node bot.js`
