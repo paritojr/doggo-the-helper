@@ -1,6 +1,9 @@
 require('dotenv').config();
-const { Client, GatewayIntentBits, REST, EmbedBuilder, ActivityType, time } = require("discord.js");
+const { Client, GatewayIntentBits, REST, EmbedBuilder, ActivityType, time, SlashCommandStringOption } = require("discord.js");
 const { AutoModerationRuleTriggerType, Routes } = require('discord-api-types/v10');
+const commands = require("./commands/list.json");
+const slashcmds = require("./commands/index.js");
+
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -11,23 +14,7 @@ const client = new Client({
     ],
 });
 client.activeGiveaways = new Map();
-function parseTime(timeString) {
-    const timeRegex = /^(\d+)([dhm])$/;
-    const match = timeString.match(timeRegex);
-    if (!match) return null;
-    const amount = parseInt(match[1]);
-    const unit = match[2];
-    switch (unit) {
-        case "d":
-            return amount * 24 * 60 * 60 * 1000;
-        case "h":
-            return amount * 60 * 60 * 1000;
-        case "m":
-            return amount * 60 * 1000;
-        default:
-            return null;
-    }
-}
+
 const BOT_TOKEN = process.env.TOKEN;
 //rotating statuses are more fun than a static one
 const statuses = [
@@ -36,112 +23,6 @@ const statuses = [
     { name: "wow", type: ActivityType.Custom, state: "life is awesome!" },
     { name: "lofi music", type: ActivityType.Listening },
     { name: "nice", type: ActivityType.Custom, state: "today's a great day!!!" }
-];
-const commands = [
-    {
-        name: "hello",
-        description: "says hello to you",
-    },
-    {
-        name: "ping",
-        description: "pings the bot",
-    },
-    {
-        name: "giveaway",
-        description: "creates or manages giveaways",
-        options: [
-            {
-                name: "prize",
-                description: "the giveaway prize :O",
-                type: 3,
-                required: false,
-            },
-            {
-                name: "time",
-                description: "the duration of the giveaway",
-                type: 3,
-                required: false,
-            },
-            {
-                name: "stop",
-                description: "stops da giveaway based on id",
-                type: 3,
-                required: false,
-            },
-        ],
-    },
-    {
-        name: "stats",
-        description: "shows the server stats",
-    },
-    {
-        name: "userstats",
-        description: "shows stats for a specific user",
-        options: [
-            {
-                name: "user",
-                description: "user id hehe",
-                type: 6,
-                required: false,
-            },
-        ]
-    },
-    {
-        name: "embed",
-        description: "creates a fantastic embed",
-        options: [
-            {
-                name: "title",
-                description: "the embed's title :O",
-                type: 3,
-                required: true
-            },
-            {
-                name: "description",
-                description: "the description of the embed",
-                type: 3,
-                required: true
-            },
-            {
-                name: "color",
-                description: "color for the embed (send in hexadecimal, like this: #2a62fd)",
-                type: 3,
-                required: true
-            },
-            {
-                name: "footer",
-                description: "the footer of the embed",
-                type: 3,
-                required: false
-            },
-            {
-                name: "timestamp",
-                description: "choose whether add a timestamp or not to the embed",
-                type: 5,
-                required: false
-            }
-        ],
-    },
-    {
-        name: "8ball",
-        description: "ask the mighty 8 ball a question",
-        options: [
-            {
-                name: "question",
-                description: "the question lmao",
-                type: 3,
-                required: true,
-            },
-        ]
-    },
-    {
-        name: "flip",
-        description: "flip a coin!",
-    },
-    {
-        name: "random",
-        description: "get a random dog or cat!",
-    }
 ];
 client.once("clientReady", async () => {
     console.log(`bot is online! logged in as ${client.user.tag}`);
@@ -172,46 +53,6 @@ client.once("clientReady", async () => {
         console.error("error registering slash commands:", error);
     }
 });
-//this function is IMPORTANT, as it makes your bot follow discord's AutoMod rules
-//it depends on the server's rules
-async function isContentFlagged(guild, content) {
-    try {
-        const rules = await guild.autoModerationRules.fetch();
-        const text = String(content || '').toLowerCase();
-        console.log('doggo is analyzing this text:', text);
-        for (const rule of rules.values()) {
-            if ( rule.triggerType === AutoModerationRuleTriggerType.Keyword || rule.triggerType === AutoModerationRuleTriggerType.MemberProfile ) {
-                const keywords = rule.triggerMetadata.keywordFilter;
-                const regexPatterns = rule.triggerMetadata.regexPatterns;
-                if (keywords && keywords.length > 0) {
-                    const isKeywordFlagged = keywords.some(rawKeyword => {
-                        const cleanKeyword = rawKeyword.replace(/\*/g, '').toLowerCase();
-                        return text.includes(cleanKeyword);
-                    });
-                    if (isKeywordFlagged) {
-                        console.log("its flagged, my bad");
-                        return true;
-                    }
-                }
-                if (regexPatterns && regexPatterns.length > 0) {
-                    const isRegexFlagged = regexPatterns.some(pattern => {
-                        const regex = new RegExp(pattern, 'i');
-                        return regex.test(text);
-                    });
-                    if (isRegexFlagged) {
-                        console.log("this is flagged bruh");
-                        return true;
-                    }
-                }
-            } else if (rule.triggerType === AutoModerationRuleTriggerType.KeywordPreset) {
-                console.log("oh look a keyword preset");
-            }
-        }
-        return false;
-    } catch (error) {
-        console.error('an error happened, here:', error);
-    }
-}
 
 client.on("interactionCreate", async (interaction) => {
     if (!interaction.isChatInputCommand()) return;
@@ -221,291 +62,19 @@ client.on("interactionCreate", async (interaction) => {
     } else if (commandName === "ping") {
         await interaction.reply({ content: `pong! hello ${interaction.user}!`, ephemeral: true });
     } else if (commandName === "giveaway") {
-        const prize = interaction.options.getString("prize");
-        const time1 = interaction.options.getString("time");
-        const stopOption = interaction.options.getString("stop");
-        if (stopOption) {
-            const giveawayId = stopOption;
-            const giveaway = client.activeGiveaways.get(giveawayId);
-            if (!giveaway) {
-                await interaction.reply({
-                    content: "giveaway not found (my bad)",
-                    ephemeral: true,
-                });
-                return;
-            }
-            try {
-                const channel = await client.channels.fetch(giveaway.channelId);
-                const message = await channel.messages.fetch(
-                    giveaway.messageId,
-                );
-                const reaction = message.reactions.cache.get("🎉");
-                if (!reaction) {
-                    await interaction.reply({
-                        content: "there are no participants :(",
-                        ephemeral: true,
-                    });
-                    return;
-                }
-
-                const users = await reaction.users.fetch();
-                const participants = users.filter((user) => !user.bot);
-
-                if (participants.size === 0) {
-                    await interaction.reply("there are no participants...");
-                    return;
-                }
-                const participantArray = Array.from(participants.values());
-                const winners = [];
-                for (let i = 0; i < Math.min(giveaway.winners, participantArray.length); i++) {
-                    const randomIndex = Math.floor(Math.random() * participantArray.length);
-                    winners.push(participantArray.splice(randomIndex, 1)[0]);
-                }
-                const winnerList = winners
-                    .map((winner) => `<@${winner.id}>`)
-                    .join(", ");
-                const winnerEmbed = new EmbedBuilder()
-                    .setTitle("🎉 GIVEAWAY ENDED! 🎉")
-                    .setDescription(
-                        `**Prize:** ${giveaway.prize}\n**Winner${winners.length > 1 ? "s" : ""}:** ${winnerList}\n\ncongratulations! you won the giveaway!`,
-                    )
-                    .setColor("#00FF00")
-                    .setTimestamp();
-
-                await interaction.reply({ embeds: [winnerEmbed] });
-                client.activeGiveaways.delete(giveawayId);
-            } catch (error) {
-                console.error("error ending giveaway:", error);
-                await interaction.reply({
-                    content: "error ending giveaway!",
-                    ephemeral: true,
-                });
-            }
-        } else {
-            if (!prize || !time1) {
-                await interaction.reply({
-                    content: "pls provide both prize and time for creating a giveaway",
-                    ephemeral: true,
-                });
-                return;
-            }
-            const duration = parseTime(time1);
-            if (!duration) {
-                await interaction.reply({
-                    content: "invalid time format, use format like: 1d, 5h, 30m",
-                    ephemeral: true,
-                });
-                return;
-            }
-            const isFlagged = await isContentFlagged(interaction.guild, prize);
-            if (isFlagged == true) {
-              await interaction.reply({ 
-                content: 'nuhuh, cant say that', 
-                ephemeral: true 
-              });
-              console.log("flagged");
-              return;
-            }
-            const giveawayId = Date.now().toString();
-            const endTime = Date.now() + duration;
-            const giveawayEmbed = new EmbedBuilder()
-                .setTitle(`${prize} giveaway!`)
-                .setDescription(`react with 🎉 to enter!`)
-                .addFields(
-                    { name: "duration", value: time1, inline: true },
-                    { name: "winners", value: "1", inline: true },
-                )
-                .setColor("#3060f1")
-                .setFooter({ text: "good luck to everyone!" })
-                .setTimestamp();
-
-            const giveawayMessage = await interaction.reply({
-                content: "its giveaway time!!!! 🐾🎉",
-                embeds: [giveawayEmbed],
-                fetchReply: true,
-            });
-            await interaction.followUp({
-                content: `this is the giveaway id: ${giveawayId}, whenever you want to manually stop the giveaway, use this id`,
-                ephemeral: true,
-            });
-            client.activeGiveaways.set(giveawayId, {
-                messageId: giveawayMessage.id,
-                channelId: interaction.channelId,
-                guildId: interaction.guildId,
-                prize: prize,
-                winners: 1,
-                endTime: endTime,
-                hostId: interaction.user.id,
-            });
-        }
+        slashcmds.giveaway(interaction, client);
     } else if (commandName === "stats") {
-        const guild = interaction.guild;
-        await guild.channels.fetch();
-        const allMembers = await guild.members.fetch();
-        const iconUrl = interaction.guild.iconURL({ dynamic: true, size: 256 });
-        const memberCount = allMembers.size;
-        const creationDate = guild.createdAt;
-        const botCount = allMembers.filter((member) => member.user.bot).size;
-        const humanCount = allMembers.filter((member) => !member.user.bot).size;
-        const channelCount = guild.channels.cache.filter((c) =>(c.type === 0 || c.type === 2 || c.type === 5 || c.type === 13 || c.type === 15) && c.viewable).size;
-        const roleCount = guild.roles.cache.size;
-        const serverOwner = await guild.fetchOwner();
-        const finalMemberCount = `${botCount} bots and ${humanCount} humans (${memberCount} total)`
-        const statsEmbed = new EmbedBuilder()
-            .setTitle(`server stats for ${guild.name}`)
-            .setColor("#3060f1")
-            .setThumbnail(iconUrl)
-            .addFields(
-                { name: "created at", value: time(creationDate, 'F'), inline: false },
-                { name: "members", value: String(finalMemberCount), inline: false },
-                { name: "channels", value: String(channelCount), inline: true },
-                { name: "roles", value: String(roleCount), inline: true },
-                { name: "owner", value: `<@${serverOwner.user.id}>`, inline: false },
-            )
-            .setFooter({ text: "wowsers" })
-            .setTimestamp();
-
-        await interaction.reply({
-            embeds: [statsEmbed],
-        });
+        slashcmds.stats(interaction);
     } else if (commandName === "userstats") {
-        const user = interaction.options.getUser("user") || interaction.user;
-        const user2 = await user.fetch(true);
-        const member = await interaction.guild.members.fetch(user.id);
-        const avatarUrl = user.displayAvatarURL();
-        const accentColor = user2.hexAccentColor || "#3060f1";
-        const joinedUnix = Math.floor(member.joinedTimestamp / 1000);
-        const joinedAt = `<t:${Math.floor(member.joinedTimestamp / 1000)}:d> (<t:${joinedUnix}:R>)`;
-        const createdUnix = Math.floor(user.createdTimestamp / 1000);
-        const createdAt = `<t:${Math.floor(user.createdTimestamp / 1000)}:d> (<t:${createdUnix}:R>)`;
-        const userType = user.bot ? "bot" : "human";
-        const isBooster = member.premiumSince ? "yeah!" : "nope";
-        const userEmbed = new EmbedBuilder()
-            .setTitle(`user stats for ${user.tag}`)
-            .setColor(accentColor)
-            .setThumbnail(avatarUrl)
-            .addFields(
-                { name: "joined at", value: joinedAt, inline: true },
-                { name: "created at", value: createdAt, inline: true },
-                { name: "type", value: `\`${userType}\``, inline: false },
-                { name: "avatar", value: `[click here idk](${avatarUrl})`, inline: false },
-                { name: "booster?", value: String(isBooster), inline: false },
-            )
-            .setFooter({ text: "amazing" })
-            .setTimestamp();
-        await interaction.reply({
-            embeds: [userEmbed],
-        });
+        slashcmds.userstats(interaction);
     } else if (commandName === "embed") {
-        const title = interaction.options.getString("title");
-        const description = interaction.options.getString("description");
-        const color = interaction.options.getString("color");
-        const footer = interaction.options.getString("footer") || null;
-        const timestamp = interaction.options.getBoolean("timestamp") || false;
-        const isTheColorValid = /^#[0-9A-Fa-f]{6}$/.test(color);
-        if (!isTheColorValid) {
-            await interaction.reply({
-                content: "whoops! color property is invalid, pls try again",
-                ephemeral: true
-            });
-            return;
-        }
-        const awesomeEmbed = new EmbedBuilder()
-            .setTitle(title)
-            .setDescription(description.replace(/\\n/g, '\n'))
-            .setColor(color)
-        if (timestamp == true) {
-            awesomeEmbed.setTimestamp(Date.now());
-        }
-        if (footer != null) {
-            awesomeEmbed.setFooter({ text: footer });
-        }
-        const isFlagged = await isContentFlagged(interaction.guild, `${title} ${description} ${footer}`);
-        if (isFlagged == true) {
-          await interaction.reply({ 
-            content: 'nuhuh, cant say that', 
-            ephemeral: true 
-          });
-          console.log("flagged");
-          return;
-        } else {
-            await interaction.reply({
-                content: `${interaction.user} says:`,
-                embeds: [awesomeEmbed],
-            });
-        }
+        slashcmds.embedcommand(interaction);
     } else if (commandName === "8ball") {
-        const answers = [
-            "it is certain",
-            "without a doubt",
-            "you may rely on it",
-            "ask again later",
-            "can't predict it now",
-            "my sources say no",
-            "very doubtful",
-            "yes",
-            "no",
-            "pls stop",
-            "stfu",
-            "nuhuh"
-        ];
-        const question = interaction.options.getString('question');
-        const isFlagged = await isContentFlagged(interaction.guild, question);
-        if (isFlagged == true) {
-          await interaction.reply({ 
-            content: 'nuhuh, cant answer that', 
-            ephemeral: true 
-          });
-          console.log("flagged");
-          return;
-        }
-        const response = answers[Math.floor(Math.random() * answers.length)];
-        const userEmbed = new EmbedBuilder()
-            .setTitle(`the magic 8ball`)
-            .setColor("#3060f1")
-            .setDescription(`**question**: ${question}\n**8ball's answer**: ${response}`)
-            .setFooter({ text: "bruh" })
-            .setTimestamp();
-        await interaction.reply({
-            embeds: [userEmbed],
-        });
+        slashcmds.eightball(interaction);
     } else if (commandName === "flip") {
-        const results = ['heads', 'tails'];
-        const flip = results[Math.floor(Math.random() * results.length)];
-        const userEmbed = new EmbedBuilder()
-            .setTitle(`coin flip results`)
-            .setColor("#3060f1")
-            .setDescription(`coin landed on ${flip}! idk`)
-            .setFooter({ text: "wowsers" })
-            .setTimestamp();
-        await interaction.reply({
-            embeds: [userEmbed],
-        });
+        slashcmds.flip(interaction);
     } else if (commandName === "random") {
-        let finalUrl;
-        let type;
-        const roll = Math.random();
-        if (roll < 0.5) {
-            const res = await fetch('https://random.dog/woof.json');
-            const data = await res.json();
-            finalUrl = data.url;
-            type = "dog";
-        } else {
-            const randomNumber = Math.floor(Math.random() * 1986);
-            const res = await fetch(`https://cataas.com/api/cats?limit=1&skip=${randomNumber}`);
-            const data = await res.json();
-            finalUrl = `https://cataas.com/cat/${data[0].id}`;
-            type = "cat";
-        }
-        const userEmbed = new EmbedBuilder()
-            .setTitle(`${interaction.user.tag}'s random ${type}!`)
-            .setColor("#3060f1")
-            .setImage(finalUrl)
-            .setFooter({ text: "fantastic" })
-            .setTimestamp();
-        await interaction.reply({
-            embeds: [userEmbed],
-        });
+        slashcmds.randompet(interaction);
     }
 });
 client.on('guildMemberAdd', async (member) => {

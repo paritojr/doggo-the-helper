@@ -1,0 +1,106 @@
+[
+  {
+    "name": "hello",
+    "description": "says hello to you"
+  },
+  {
+    "name": "ping",
+    "description": "pings the bot"
+  },
+  {
+    "name": "giveaway",
+    "description": "creates or manages giveaways",
+    "options": [
+      {
+        "name": "prize",
+        "description": "the giveaway prize :O",
+        "type": 3,
+        "required": false
+      },
+      {
+        "name": "time",
+        "description": "the duration of the giveaway",
+        "type": 3,
+        "required": false
+      },
+      {
+        "name": "stop",
+        "description": "stops da giveaway based on id",
+        "type": 3,
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "stats",
+    "description": "shows the server stats"
+  },
+  {
+    "name": "userstats",
+    "description": "shows stats for a specific user",
+    "options": [
+      {
+        "name": "user",
+        "description": "user id hehe",
+        "type": 6,
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "embed",
+    "description": "creates a fantastic embed",
+    "options": [
+      {
+        "name": "title",
+        "description": "the embed's title :O",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "description",
+        "description": "the description of the embed",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "color",
+        "description": "color for the embed (send in hexadecimal, like this: #2a62fd)",
+        "type": 3,
+        "required": true
+      },
+      {
+        "name": "footer",
+        "description": "the footer of the embed",
+        "type": 3,
+        "required": false
+      },
+      {
+        "name": "timestamp",
+        "description": "choose whether add a timestamp or not to the embed",
+        "type": 5,
+        "required": false
+      }
+    ]
+  },
+  {
+    "name": "8ball",
+    "description": "ask the mighty 8 ball a question",
+    "options": [
+      {
+        "name": "question",
+        "description": "the question lmao",
+        "type": 3,
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "flip",
+    "description": "flip a coin!"
+  },
+  {
+    "name": "random",
+    "description": "get a random dog or cat!"
+  }
+]
