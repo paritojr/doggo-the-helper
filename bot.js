@@ -75,6 +75,8 @@ client.on("interactionCreate", async (interaction) => {
         slashcmds.flip(interaction);
     } else if (commandName === "random") {
         slashcmds.randompet(interaction);
+    } else if (commandName === "qrcode") {
+        slashcmds.qrcode(interaction);
     }
 });
 client.on('guildMemberAdd', async (member) => {

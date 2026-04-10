@@ -19,6 +19,7 @@ you can do anything with the source code, i've provided a few commands (more com
 * `/8ball` - makes a question to the magic 8 ball
 * `/flip` - flips a coin
 * `/random` - shows you a random dog or a random cat
+* `/qrcode <data>` - makes a qrcode with the inputted data
 
 ## Installation/Setup
 

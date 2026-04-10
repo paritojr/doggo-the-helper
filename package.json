@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "bot.js",
   "scripts": {
-    "test": "you serious?"
+    "test": "echo \"you serious?\""
   },
   "keywords": [],
   "author": "paritojr",
@@ -11,6 +11,7 @@
   "description": "a discord bot, useful for anything",
   "dependencies": {
     "discord.js": "^14.25.1",
-    "dotenv": "^17.3.1"
+    "dotenv": "17.3.1",
+    "qrcode": "1.5.4"
   }
 }

@@ -102,5 +102,17 @@
   {
     "name": "random",
     "description": "get a random dog or cat!"
+  },
+  {
+    "name": "qrcode",
+    "description": "generate a qr code",
+    "options": [
+      {
+        "name": "data",
+        "description": "data to go on the qr code",
+        "type": 3,
+        "required": true
+      }
+    ]
   }
 ]
