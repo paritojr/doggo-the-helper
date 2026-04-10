@@ -21,16 +21,9 @@ async function giveaway(interaction, client) {
             return null;
     }
    }
-   if (stopOption) {
-      const giveawayId = stopOption;
+   async function stopGiveaway(givID) {
+      const giveawayId = givID;
       const giveaway = client.activeGiveaways.get(giveawayId);
-      if (!giveaway) {
-         await interaction.reply({
-            content: "giveaway not found (my bad)",
-            ephemeral: true,
-         });
-         return;
-      }
       try {
          const channel = await client.channels.fetch(giveaway.channelId);
          const message = await channel.messages.fetch(giveaway.messageId, );
@@ -56,17 +49,23 @@ async function giveaway(interaction, client) {
          }
          const winnerList = winners.map((winner) => `<@${winner.id}>`).join(", ");
          const winnerEmbed = new EmbedBuilder().setTitle("🎉 GIVEAWAY ENDED! 🎉").setDescription(`**Prize:** ${giveaway.prize}\n**Winner${winners.length > 1 ? "s" : ""}:** ${winnerList}\n\ncongratulations! you won the giveaway!`, ).setColor("#00FF00").setTimestamp();
-         await interaction.reply({
+         await channel.send({
             embeds: [winnerEmbed]
          });
          client.activeGiveaways.delete(giveawayId);
       } catch (error) {
          console.error("error ending giveaway:", error);
-         await interaction.reply({
-            content: "error ending giveaway!",
+      }
+   }
+   if (stopOption) {
+      const giveaway = client.activeGiveaways.get(stopOption);
+      if (!giveaway) {
+         return interaction.reply({
+            content: "giveaway not found (my bad)",
             ephemeral: true,
          });
       }
+      await stopGiveaway(stopOption);
    } else {
       if (!prize || !time1) {
          await interaction.reply({
@@ -94,7 +93,8 @@ async function giveaway(interaction, client) {
       }
       const giveawayId = Date.now().toString();
       const endTime = Date.now() + duration;
-      const giveawayEmbed = new EmbedBuilder().setTitle(`${prize} giveaway!`).setDescription(`react with 🎉 to enter!`).addFields({
+      const giveawayEmbed = new EmbedBuilder()
+         .setTitle(`${prize} giveaway!`).setDescription(`react with 🎉 to enter!`).addFields({
          name: "duration",
          value: time1,
          inline: true
@@ -110,6 +110,7 @@ async function giveaway(interaction, client) {
          embeds: [giveawayEmbed],
          fetchReply: true,
       });
+      await giveawayMessage.react("🎉");
       await interaction.followUp({
          content: `this is the giveaway id: ${giveawayId}, whenever you want to manually stop the giveaway, use this id`,
          ephemeral: true,
@@ -123,6 +124,9 @@ async function giveaway(interaction, client) {
          endTime: endTime,
          hostId: interaction.user.id,
       });
+      setTimeout(() => {
+         stopGiveaway(giveawayId);
+      }, duration);
    }
 }
 module.exports = {
