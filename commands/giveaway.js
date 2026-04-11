@@ -26,19 +26,18 @@ async function giveaway(interaction, client) {
       const giveaway = client.activeGiveaways.get(giveawayId);
       try {
          const channel = await client.channels.fetch(giveaway.channelId);
-         const message = await channel.messages.fetch(giveaway.messageId, );
+         const message = await channel.messages.fetch(giveaway.messageId);
          const reaction = message.reactions.cache.get("🎉");
          if (!reaction) {
-            await interaction.reply({
-               content: "there are no participants :(",
-               ephemeral: true,
-            });
+            await channel.send("a giveaway ended but there were no participants :(");
+            client.activeGiveaways.delete(giveawayId);
             return;
          }
          const users = await reaction.users.fetch();
          const participants = users.filter((user) => !user.bot);
          if (participants.size === 0) {
-            await interaction.reply("there are no participants...");
+            await channel.send("a giveaway ended but there were no participants :(");
+            client.activeGiveaways.delete(giveawayId);
             return;
          }
          const participantArray = Array.from(participants.values());
