@@ -1,6 +1,6 @@
 require('dotenv').config();
-const { Client, GatewayIntentBits, REST, EmbedBuilder, ActivityType, time, SlashCommandStringOption } = require("discord.js");
-const { AutoModerationRuleTriggerType, Routes } = require('discord-api-types/v10');
+const { Client, GatewayIntentBits, REST, ActivityType } = require("discord.js");
+const { Routes } = require('discord-api-types/v10');
 const commands = require("./commands/list.json");
 const slashcmds = require("./commands/index.js");
 
@@ -77,17 +77,6 @@ client.on("interactionCreate", async (interaction) => {
         slashcmds.randompet(interaction);
     } else if (commandName === "qrcode") {
         slashcmds.qrcode(interaction);
-    }
-});
-client.on('guildMemberAdd', async (member) => {
-    const guild = member.guild;
-    const isFlagged = isContentFlagged(guild, member.user.tag);
-    if (isFlagged === true) {
-        try {
-            await member.ban({ reason: "not following rules" });
-        } catch (error) {
-            console.error(`failed to ban ${member.user.tag}:`, error);
-        }
     }
 });
 client.on("reconnecting", () => {

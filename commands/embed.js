@@ -18,7 +18,7 @@ async function embedcommand(interaction) {
       .setTitle(title)
       .setDescription(description.replace(/\\n/g, '\n'))
       .setColor(color)
-   if (timestamp == true) {
+   if (timestamp) {
       awesomeEmbed.setTimestamp(Date.now());
    }
    if (footer != null) {
@@ -36,8 +36,11 @@ async function embedcommand(interaction) {
       console.log("flagged");
       return;
    } else {
-      await interaction.reply({
-         content: `${interaction.user} says:`,
+      await interaction.reply({ 
+         content: 'done ig', 
+         ephemeral: true 
+      });
+      await interaction.channel.send({
          embeds: [awesomeEmbed],
       });
    }
