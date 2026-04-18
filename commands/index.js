@@ -1,12 +1,12 @@
-const eightball = require("./8ball.js").eightball;
-const embedcommand = require("./embed.js").embedcommand;
-const flip = require("./coinflip.js").flip;
-const randompet = require("./random.js").randompet;
-const userstats = require("./userstats.js").userstats;
-const stats = require("./stats.js").stats;
-const giveaway = require("./giveaway.js").giveaway;
-const qrcode = require("./qrcode.js").qrcodebruh;
-
-module.exports = {
-  eightball, embedcommand, flip, randompet, userstats, stats, giveaway, qrcode
+const slashcmds = {
+  giveaway: require("./giveaway.js").giveaway,
+  stats: require("./stats.js").stats,
+  userstats: require("./userstats.js").userstats,
+  embed: require("./embed.js").embedcommand,
+  "8ball": require("./8ball.js").eightball,
+  flip: require("./coinflip.js").flip,
+  random: require("./random.js").randompet,
+  qrcode: require("./qrcode.js").qrcodebruh,
 };
+
+module.exports = slashcmds;

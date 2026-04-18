@@ -3,7 +3,6 @@ const { Client, GatewayIntentBits, REST, ActivityType } = require("discord.js");
 const { Routes } = require('discord-api-types/v10');
 const commands = require("./commands/list.json");
 const slashcmds = require("./commands/index.js");
-
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -14,7 +13,6 @@ const client = new Client({
     ],
 });
 client.activeGiveaways = new Map();
-
 const BOT_TOKEN = process.env.TOKEN;
 //rotating statuses are more fun than a static one
 const statuses = [
@@ -57,26 +55,24 @@ client.once("clientReady", async () => {
 client.on("interactionCreate", async (interaction) => {
     if (!interaction.isChatInputCommand()) return;
     const { commandName } = interaction;
-    if (commandName === "hello") {
-        await interaction.reply({ content: "hello there!", ephemeral: true });
-    } else if (commandName === "ping") {
-        await interaction.reply({ content: `pong! hello ${interaction.user}!`, ephemeral: true });
-    } else if (commandName === "giveaway") {
-        slashcmds.giveaway(interaction, client);
-    } else if (commandName === "stats") {
-        slashcmds.stats(interaction);
-    } else if (commandName === "userstats") {
-        slashcmds.userstats(interaction);
-    } else if (commandName === "embed") {
-        slashcmds.embedcommand(interaction);
-    } else if (commandName === "8ball") {
-        slashcmds.eightball(interaction);
-    } else if (commandName === "flip") {
-        slashcmds.flip(interaction);
-    } else if (commandName === "random") {
-        slashcmds.randompet(interaction);
-    } else if (commandName === "qrcode") {
-        slashcmds.qrcode(interaction);
+
+    try {
+        if (commandName === "hello") {
+            return interaction.reply({content: "hello there!", ephemeral: true});
+        }
+        if (commandName === "ping") {
+            return interaction.reply({content: `pong! hello ${interaction.user}!`, ephemeral: true});
+        }
+        const cmd = slashcmds[commandName];
+        if (!cmd) {
+            return interaction.reply({
+                content: "Unknown command.",
+                ephemeral: true
+            });
+        }
+        await cmd(interaction, client);
+    } catch (err) {
+        console.error(err);
     }
 });
 client.on("reconnecting", () => {
