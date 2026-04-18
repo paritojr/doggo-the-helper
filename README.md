@@ -11,7 +11,7 @@ you can do anything with the source code, i've provided a few commands (more com
 ## Usage
 * `/hello` - says hello to the user
 * `/ping` - pings the discord bot
-* `/embed <title> <description> <color> <footer> <timestamp>` - makes an embed based on the user's inputs (footer and timestamp are optional)
+* `/embed <title> <description> <color> <footer> <timestamp> <image>` - makes an embed based on the user's inputs (footer, timestamp and image are optional)
 * `/giveaway start <prize> <time>` - starts a giveaway with the specific prize and time chosen by the user, the id is told to the user who ran the command
 * `/giveaway stop <id>` - stops a giveaway that has the id specified by the user
 * `/stats` - shows the server stats (members, bots, humans, channels, roles and server owner)

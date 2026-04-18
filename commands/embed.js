@@ -6,6 +6,7 @@ async function embedcommand(interaction) {
    const color = interaction.options.getString("color");
    const footer = interaction.options.getString("footer") || null;
    const timestamp = interaction.options.getBoolean("timestamp") || false;
+   const image = interaction.options.getString("image");
    const isTheColorValid = /^#[0-9A-Fa-f]{6}$/.test(color);
    if (!isTheColorValid) {
       await interaction.reply({
@@ -25,6 +26,9 @@ async function embedcommand(interaction) {
       awesomeEmbed.setFooter({
          text: footer
       });
+   }
+   if (image != null) {
+      awesomeEmbed.setImage(image);
    }
 
    const isFlagged = await isContentFlagged(interaction.guild, `${title} ${description} ${footer}`);

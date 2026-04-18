@@ -59,7 +59,7 @@
       },
       {
         "name": "description",
-        "description": "the description of the embed",
+        "description": "the description of the embed, you can use \\n as newlines btw :)",
         "type": 3,
         "required": true
       },
@@ -79,6 +79,12 @@
         "name": "timestamp",
         "description": "choose whether add a timestamp or not to the embed",
         "type": 5,
+        "required": false
+      },
+      {
+        "name": "image",
+        "description": "add an image to the embed (must be a valid url)",
+        "type": 3,
         "required": false
       }
     ]
