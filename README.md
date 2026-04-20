@@ -20,6 +20,7 @@ you can do anything with the source code, i've provided a few commands (more com
 * `/flip` - flips a coin
 * `/random` - shows you a random dog or a random cat
 * `/qrcode <data>` - makes a qrcode with the inputted data
+* `/postboard <channel>` - toggles postboard mode in a channel (auto-creates threads for messages)
 
 ## Installation/Setup
 
