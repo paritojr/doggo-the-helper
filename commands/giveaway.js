@@ -1,26 +1,10 @@
 const { EmbedBuilder } = require("discord.js");
-const { isContentFlagged } = require("../utils/isContentFlagged.js")
+const { isContentFlagged } = require("../utils/isContentFlagged.js");
+const { parseTime } = require("../utils/parseTime.js");
 async function giveaway(interaction, client) {
    const prize = interaction.options.getString("prize");
    const time1 = interaction.options.getString("time");
    const stopOption = interaction.options.getString("stop");
-   function parseTime(timeString) {
-    const timeRegex = /^(\d+)([dhm])$/;
-    const match = timeString.match(timeRegex);
-    if (!match) return null;
-    const amount = parseInt(match[1]);
-    const unit = match[2];
-    switch (unit) {
-        case "d":
-            return amount * 24 * 60 * 60 * 1000;
-        case "h":
-            return amount * 60 * 60 * 1000;
-        case "m":
-            return amount * 60 * 1000;
-        default:
-            return null;
-    }
-   }
    async function stopGiveaway(givID) {
       const giveawayId = givID;
       const giveaway = client.activeGiveaways.get(giveawayId);
