@@ -7,6 +7,7 @@ const slashcmds = {
   flip: require("./coinflip.js").flip,
   random: require("./random.js").randompet,
   qrcode: require("./qrcode.js").qrcodebruh,
+  postboard: require("./postboard.js").postboard,
 };
 
 module.exports = slashcmds;

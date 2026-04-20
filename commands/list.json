@@ -120,5 +120,17 @@
         "required": true
       }
     ]
+  },
+  {
+    "name": "postboard",
+    "description": "toggles postboard mode for a channel (auto-threads messages)",
+    "options": [
+      {
+        "name": "channel",
+        "description": "channel to enable or disable postboard mode in",
+        "type": 7,
+        "required": true
+      }
+    ]
   }
 ]
