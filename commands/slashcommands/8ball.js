@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-const { isContentFlagged } = require("../utils/isContentFlagged.js")
+const { isContentFlagged } = require("../../utils/isContentFlagged.js")
 async function eightball(interaction) {
    const answers = [
       "it is certain",

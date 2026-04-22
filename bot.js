@@ -1,9 +1,9 @@
 require('dotenv').config();
+const prefix = "!";
 const { Client, GatewayIntentBits, REST, ActivityType } = require("discord.js");
 const { Routes } = require('discord-api-types/v10');
-const commands = require("./commands/list.json");
-const slashcmds = require("./commands/index.js");
-const { postboardChannels } = require("./commands/postboard.js");
+const { slashcmds, textcmds, commands } = require("./commands/index.js");
+const { postboardChannels } = require("./commands/slashcommands/postboard.js");
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -78,15 +78,26 @@ client.on("interactionCreate", async (interaction) => {
 });
 client.on("messageCreate", async (message) => {
     if (message.author.bot) return;
-    if (!postboardChannels.has(message.channel.id)) return;
+    const isPostboardChannel = postboardChannels.has(message.channel.id);
+    if (message.content.startsWith(prefix)) {
+        const args = message.content.slice(prefix.length).trim().split(/ +/);
+        const commandName = args.shift().toLowerCase();
+        const command = textcmds[commandName];
+        if (!command) return;
+        try {
+            return await command(message, args);
+        } catch (err) {
+            console.error("textcmd error:", err);
+        }
+    }
+    if (!isPostboardChannel) return;
     try {
         if (message.hasThread) return;
         const name = `${message.author.username}'s post`;
         await message.startThread({
-            name: name,
-            autoArchiveDuration: 1440
+            name,
+            autoArchiveDuration: 1440,
         });
-
     } catch (err) {
         console.error("postboard error:", err);
     }

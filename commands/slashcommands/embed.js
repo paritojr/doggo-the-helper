@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-const { isContentFlagged } = require("../utils/isContentFlagged.js")
+const { isContentFlagged } = require("../../utils/isContentFlagged.js")
 async function embedcommand(interaction) {
    const title = interaction.options.getString("title");
    const description = interaction.options.getString("description");

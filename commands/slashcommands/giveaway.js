@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
-const { isContentFlagged } = require("../utils/isContentFlagged.js");
-const { parseTime } = require("../utils/parseTime.js");
+const { isContentFlagged } = require("../../utils/isContentFlagged.js");
+const { parseTime } = require("../../utils/parseTime.js");
 async function giveaway(interaction, client) {
    const prize = interaction.options.getString("prize");
    const time1 = interaction.options.getString("time");

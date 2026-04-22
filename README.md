@@ -9,6 +9,7 @@ you can do anything with the source code, i've provided a few commands (more com
 <br>
 
 ## Usage
+### slash commands
 * `/hello` - says hello to the user
 * `/ping` - pings the discord bot
 * `/embed <title> <description> <color> <footer> <timestamp> <image>` - makes an embed based on the user's inputs (footer, timestamp and image are optional)
@@ -21,6 +22,10 @@ you can do anything with the source code, i've provided a few commands (more com
 * `/random` - shows you a random dog or a random cat
 * `/qrcode <data>` - makes a qrcode with the inputted data
 * `/postboard <channel>` - toggles postboard mode in a channel (auto-creates threads for messages)
+
+### text commands
+* `!ban` - bans an user and sends them a DM explaining why
+* `!kick` - kicks an user and sends them a DM explaining why
 
 ## Installation/Setup
 
