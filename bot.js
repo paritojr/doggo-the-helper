@@ -3,7 +3,8 @@ const prefix = "!";
 const { Client, GatewayIntentBits, REST, ActivityType } = require("discord.js");
 const { Routes } = require('discord-api-types/v10');
 const { slashcmds, textcmds, commands } = require("./commands/index.js");
-const { postboardChannels } = require("./commands/slashcommands/postboard.js");
+const { postboardChannels } = require("./commands/database.js");
+
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -13,7 +14,6 @@ const client = new Client({
         GatewayIntentBits.DirectMessages,
     ],
 });
-client.activeGiveaways = new Map();
 const BOT_TOKEN = process.env.TOKEN;
 //rotating statuses are more fun than a static one
 const statuses = [

@@ -1,5 +1,5 @@
 const { PermissionsBitField, EmbedBuilder } = require("discord.js");
-const postboardChannels = new Set();
+const { postboardChannels } = require("../database.js");
 
 async function postboard(interaction) {
     if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageChannels)) {
@@ -22,6 +22,5 @@ async function postboard(interaction) {
 }
 
 module.exports = {
-    postboard,
-    postboardChannels
+    postboard
 };

@@ -41,14 +41,16 @@ cd doggo-the-helper
 **step 3**: get a discord bot token, if you don't have one, go to the [Discord Developer Portal](https://discord.dev) and create a new discord app
 <br>
 after that, make a .env file and then put on it "TOKEN=YOUR_BOT_TOKEN" (replace YOUR_BOT_TOKEN with your actual token)
+<br><br>
+**step 4**: create a folder named "db" in the root directory
 <br>
 <br>
-**step 4**: run `npm install`
+**step 5**: run `npm install`
 <br>
 (this will install every library the bot uses)
 <br>
 <br>
-**step 5**: run `node bot.js`
+**step 6**: run `node bot.js`
 <br>
 <br>
 as a bonus, if you want to invite your bot to other servers, you can make an bot invite link

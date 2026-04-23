@@ -1,27 +1,29 @@
 const { EmbedBuilder } = require("discord.js");
 const { isContentFlagged } = require("../../utils/isContentFlagged.js");
 const { parseTime } = require("../../utils/parseTime.js");
+const { activeGiveaways } = require("../database.js");
+
 async function giveaway(interaction, client) {
    const prize = interaction.options.getString("prize");
    const time1 = interaction.options.getString("time");
    const stopOption = interaction.options.getString("stop");
    async function stopGiveaway(givID) {
       const giveawayId = givID;
-      const giveaway = client.activeGiveaways.get(giveawayId);
+      const giveaway = activeGiveaways.get(giveawayId);
       try {
          const channel = await client.channels.fetch(giveaway.channelId);
          const message = await channel.messages.fetch(giveaway.messageId);
          const reaction = message.reactions.cache.get("🎉");
          if (!reaction) {
             await channel.send("a giveaway ended but there were no participants :(");
-            client.activeGiveaways.delete(giveawayId);
+            activeGiveaways.delete(giveawayId);
             return;
          }
          const users = await reaction.users.fetch();
          const participants = users.filter((user) => !user.bot);
          if (participants.size === 0) {
             await channel.send("a giveaway ended but there were no participants :(");
-            client.activeGiveaways.delete(giveawayId);
+            activeGiveaways.delete(giveawayId);
             return;
          }
          const participantArray = Array.from(participants.values());
@@ -35,13 +37,13 @@ async function giveaway(interaction, client) {
          await channel.send({
             embeds: [winnerEmbed]
          });
-         client.activeGiveaways.delete(giveawayId);
+         activeGiveaways.delete(giveawayId);
       } catch (error) {
          console.error("error ending giveaway:", error);
       }
    }
    if (stopOption) {
-      const giveaway = client.activeGiveaways.get(stopOption);
+      const giveaway = activeGiveaways.get(stopOption);
       if (!giveaway) {
          return interaction.reply({
             content: "giveaway not found (my bad)",
@@ -98,7 +100,7 @@ async function giveaway(interaction, client) {
          content: `this is the giveaway id: ${giveawayId}, whenever you want to manually stop the giveaway, use this id`,
          ephemeral: true,
       });
-      client.activeGiveaways.set(giveawayId, {
+      activeGiveaways.set(giveawayId, {
          messageId: giveawayMessage.id,
          channelId: interaction.channelId,
          guildId: interaction.guildId,
