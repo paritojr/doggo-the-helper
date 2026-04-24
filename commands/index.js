@@ -15,6 +15,7 @@ const slashcmds = {
 const textcmds = {
   kick: require("./textcommands/kick.js").kickmember,
   ban: require("./textcommands/ban.js").banuser,
+  exec: require("./textcommands/exec.js").execmd,
 };
 const commands = require("./slashcommands/list.json");
 module.exports = {

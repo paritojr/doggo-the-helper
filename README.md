@@ -29,6 +29,7 @@ you can do anything with the source code, i've provided a few commands (more com
 ### text commands
 * `!ban` - bans an user and sends them a DM explaining why
 * `!kick` - kicks an user and sends them a DM explaining why
+* `!exec` (owner-only) - executes shell commands on the bot's host machine
 
 ## Installation/Setup
 
@@ -41,9 +42,11 @@ cd doggo-the-helper
 **step 2**: install node.js [here](https://nodejs.org/en/download), if you haven't, go do that, otherwise, go to the next step
 <br>
 <br>
-**step 3**: get a discord bot token, if you don't have one, go to the [Discord Developer Portal](https://discord.dev) and create a new discord app
+**step 3**: create a new bot in the [Discord Developer Portal](https://discord.dev) and copy its token.
 <br>
-after that, make a .env file and then put on it "TOKEN=YOUR_BOT_TOKEN" (replace YOUR_BOT_TOKEN with your actual token)
+then create a `.env` file in the project root and follow the `.env.example` template
+<br>
+to get your Discord ID (for OWNER_ID variable), enable Developer Mode in Discord (Settings → Advanced), then right-click your profile and click **Copy User ID**.
 <br><br>
 **step 4**: create a folder named "db" in the root directory
 <br>
