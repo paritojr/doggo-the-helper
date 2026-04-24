@@ -156,5 +156,23 @@
         "required": false
       }
     ]
+  },
+  {
+    "name": "pay",
+    "description": "pay coinz to an user",
+    "options": [
+      {
+        "name": "user",
+        "description": "user to send coinz",
+        "type": 6,
+        "required": true
+      },
+      {
+        "name": "amount",
+        "description": "amount of coinz to giv",
+        "type": 4,
+        "required": true
+      }
+    ]
   }
 ]

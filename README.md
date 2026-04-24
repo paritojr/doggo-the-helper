@@ -24,6 +24,7 @@ you can do anything with the source code, i've provided a few commands (more com
 * `/slots <amount>` - plays the slots game with a selected amount of coinz to gamble
 * `/qrcode <data>` - makes a qrcode with the inputted data
 * `/postboard <channel>` - toggles postboard mode in a channel (auto-creates threads for messages)
+* `/pay <user> <amount>` - transfers coinz to another user
 
 ### text commands
 * `!ban` - bans an user and sends them a DM explaining why
