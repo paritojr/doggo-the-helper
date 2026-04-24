@@ -132,5 +132,29 @@
         "required": true
       }
     ]
+  },
+  {
+    "name": "slots",
+    "description": "play slots game",
+    "options": [
+      {
+        "name": "bet",
+        "description": "amount of coinz to bet",
+        "type": 4,
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "balance",
+    "description": "shows an user's coinz balance",
+    "options": [
+      {
+        "name": "user",
+        "description": "check another user's balance ig",
+        "type": 6,
+        "required": false
+      }
+    ]
   }
 ]

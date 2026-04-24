@@ -12,14 +12,16 @@ you can do anything with the source code, i've provided a few commands (more com
 ### slash commands
 * `/hello` - says hello to the user
 * `/ping` - pings the discord bot
-* `/embed <title> <description> <color> <footer> <timestamp> <image>` - makes an embed based on the user's inputs (footer, timestamp and image are optional)
+* `/embed <title> <description> <color> [footer] [timestamp] [image]` - makes an embed based on the user's inputs (footer, timestamp and image are optional)
 * `/giveaway start <prize> <time>` - starts a giveaway with the specific prize and time chosen by the user, the id is told to the user who ran the command
 * `/giveaway stop <id>` - stops a giveaway that has the id specified by the user
 * `/stats` - shows the server stats (members, bots, humans, channels, roles and server owner)
-* `/userstats <user>` - shows stats of an user (date joined, date created, user type, and if they boosted the server), if the user parameter is empty, the user stats will be from the user who initiated the command
+* `/userstats [user]` - shows stats of an user (date joined, date created, user type, and if they boosted the server), if the user parameter is empty, the user stats will be from the user who initiated the command
 * `/8ball` - makes a question to the magic 8 ball
 * `/flip` - flips a coin
 * `/random` - shows you a random dog or a random cat
+* `/balance [user]` - check your (or another user's) coinz balance (virtual currency)
+* `/slots <amount>` - plays the slots game with a selected amount of coinz to gamble
 * `/qrcode <data>` - makes a qrcode with the inputted data
 * `/postboard <channel>` - toggles postboard mode in a channel (auto-creates threads for messages)
 

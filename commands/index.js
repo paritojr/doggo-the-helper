@@ -8,6 +8,8 @@ const slashcmds = {
   random: require("./slashcommands/random.js").randompet,
   qrcode: require("./slashcommands/qrcode.js").qrcodebruh,
   postboard: require("./slashcommands/postboard.js").postboard,
+  slots: require("./slashcommands/slots.js").slots,
+  balance: require("./slashcommands/balance.js").balance,
 };
 const textcmds = {
   kick: require("./textcommands/kick.js").kickmember,

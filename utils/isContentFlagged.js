@@ -1,4 +1,4 @@
-const { AutoModerationRuleTriggerType, Routes } = require('discord-api-types/v10');
+const { AutoModerationRuleTriggerType } = require('discord-api-types/v10');
 async function isContentFlagged(guild, content) {
     try {
         const rules = await guild.autoModerationRules.fetch();
