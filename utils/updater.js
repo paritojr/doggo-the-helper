@@ -23,7 +23,7 @@ async function updater() {
     if (local !== remote) {
       await runCommand("git pull", { cwd: botCwd });
       await runCommand("npm ci", { cwd: botCwd });
-
+      console.log("updating...");
       spawn(process.argv[0], process.argv.slice(1), {
         cwd: botCwd,
         detached: true,
