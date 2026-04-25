@@ -4,6 +4,8 @@ const { Client, GatewayIntentBits, REST, ActivityType } = require("discord.js");
 const { Routes } = require('discord-api-types/v10');
 const { slashcmds, textcmds, commands } = require("./commands/index.js");
 const { postboardChannels } = require("./commands/database.js");
+const { updater } = require("./utils/updater.js");
+updater();
 
 const client = new Client({
     intents: [
@@ -52,7 +54,7 @@ client.once("clientReady", async () => {
         console.error("error registering slash commands:", error);
     }
 });
-
+setInterval(() => { updater() }, 10 * 60 * 1000);
 client.on("interactionCreate", async (interaction) => {
     if (!interaction.isChatInputCommand()) return;
     const { commandName } = interaction;
