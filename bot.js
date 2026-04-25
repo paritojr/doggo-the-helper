@@ -55,55 +55,8 @@ client.once("clientReady", async () => {
     }
 });
 setInterval(() => { updater() }, 10 * 60 * 1000);
-client.on("interactionCreate", async (interaction) => {
-    if (!interaction.isChatInputCommand()) return;
-    const { commandName } = interaction;
-
-    try {
-        if (commandName === "hello") {
-            return interaction.reply({content: "hello there!", ephemeral: true});
-        }
-        if (commandName === "ping") {
-            return interaction.reply({content: `pong! hello ${interaction.user}!`, ephemeral: true});
-        }
-        const cmd = slashcmds[commandName];
-        if (!cmd) {
-            return interaction.reply({
-                content: "Unknown command.",
-                ephemeral: true
-            });
-        }
-        await cmd(interaction, client);
-    } catch (err) {
-        console.error(err);
-    }
-});
-client.on("messageCreate", async (message) => {
-    if (message.author.bot) return;
-    const isPostboardChannel = postboardChannels.has(message.channel.id);
-    if (message.content.startsWith(prefix)) {
-        const args = message.content.slice(prefix.length).trim().split(/ +/);
-        const commandName = args.shift().toLowerCase();
-        const command = textcmds[commandName];
-        if (!command) return;
-        try {
-            return await command(message, args);
-        } catch (err) {
-            console.error("textcmd error:", err);
-        }
-    }
-    if (!isPostboardChannel) return;
-    try {
-        if (message.hasThread) return;
-        const name = `${message.author.username}'s post`;
-        await message.startThread({
-            name,
-            autoArchiveDuration: 1440,
-        });
-    } catch (err) {
-        console.error("postboard error:", err);
-    }
-});
+require("./events/interactionCreate.js")(client, { slashcmds });
+require("./events/messageCreate.js")(client, { prefix, textcmds, postboardChannels });
 client.on("reconnecting", () => {
     console.log("bot is reconnecting...");
 });

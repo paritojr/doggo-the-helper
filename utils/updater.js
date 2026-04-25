@@ -1,64 +1,83 @@
 const { exec } = require("child_process");
-const path = require('path');
+const path = require("path");
+const fs = require("fs");
 
-async function runCommand(command, options = {}) {
-  return new Promise((resolve, reject) => {
+const runCommand = (command, options = {}) =>
+  new Promise((resolve, reject) => {
     exec(command, options, (error, stdout, stderr) => {
-      if (error) return reject(error);
+      if (error) return reject(stderr || error);
       resolve(stdout.trim());
     });
   });
-}
+
+const LOCK_FILE = path.join(process.cwd(), ".updater.lock");
+const currentScript = __filename;
+
 async function updater() {
   try {
+    if (fs.existsSync(LOCK_FILE)) return;
+    fs.writeFileSync(LOCK_FILE, "1");
+
     let pm2Installed = false;
+    let botCwd = process.cwd();
+    let pm2ProcessName = null;
+
     try {
       await runCommand("pm2 -v");
       pm2Installed = true;
-      console.log("[doggo updater] PM2 detected.");
-    } catch {
-      console.log("[doggo updater] PM2 not installed, which means time to node");
-    }
 
-    let botCwd = process.cwd();
-    if (pm2Installed) {
       const pm2List = await runCommand("pm2 jlist");
       const processes = JSON.parse(pm2List);
-      const botProcess = processes.find(p => path.resolve(p.pm2_env.pm_exec_path) === currentScript);
+
+      const botProcess = processes.find(
+        p => path.resolve(p.pm2_env.pm_exec_path) === path.resolve(currentScript)
+      );
+
       if (botProcess) {
         botCwd = botProcess.pm2_env.pm_cwd;
+        pm2ProcessName = botProcess.name || botProcess.pm2_env.name;
       }
-    }
+    } catch {}
 
-    console.log("[doggo updater] checking for updates...");
     await runCommand("git fetch", { cwd: botCwd });
 
-    const local = await runCommand("git rev-parse HEAD", { cwd: botCwd });
-    const remote = await runCommand("git rev-parse @{u}", { cwd: botCwd });
+    const branch = await runCommand("git rev-parse --abbrev-ref HEAD", {
+      cwd: botCwd,
+    });
 
-    if (local === remote) {
-      console.log("[doggo updater] bot is up to date");
+    let local, remote;
+
+    try {
+      local = await runCommand("git rev-parse HEAD", { cwd: botCwd });
+      remote = await runCommand(`git rev-parse origin/${branch}`, {
+        cwd: botCwd,
+      });
+    } catch {
       return;
     }
 
-    console.log("[doggo updater] new update!");
-    const gitOutput = await runCommand("git pull", { cwd: botCwd });
-    console.log("[doggo updater] git output:\n", gitOutput);
-
-    console.log("[doggo updater] installing dependencies...");
-    await runCommand("npm install", { cwd: botCwd });
-
-    if (pm2Installed) {
-      console.log("[doggo updater] restarting PM2 bot..");
-      await runCommand(`pm2 restart ${process.argv[1]}`);
-    } else {
-      console.log("[doggo updater] restarting node process...");
-      process.exit(0);
+    if (local === remote) {
+      console.log("[doggo updater] up to date");
+      return;
     }
 
-    console.log("[doggo updater] update completed!");
-  } catch (err) {
-    console.error("[doggo updater] error:", err);
+    await runCommand("git pull", { cwd: botCwd });
+    await runCommand("npm install", { cwd: botCwd });
+
+    console.log("[doggo updater] updated");
+
+    if (pm2Installed) {
+      if (pm2ProcessName) {
+        await runCommand(`pm2 restart ${pm2ProcessName}`);
+      } else {
+        await runCommand("pm2 restart all");
+      }
+    } else {
+      process.exit(0);
+    }
+  } catch {
+  } finally {
+    if (fs.existsSync(LOCK_FILE)) fs.unlinkSync(LOCK_FILE);
   }
 }
 
