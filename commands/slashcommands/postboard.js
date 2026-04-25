@@ -8,6 +8,12 @@ async function postboard(interaction) {
     const channel = interaction.options.getChannel("channel");
     if (postboardChannels.has(channel.id)) {
         postboardChannels.delete(channel.id);
+        const msgEmbed = new EmbedBuilder()
+        .setDescription("This channel is no longer a postboard. Messages sent here will behave normally from now on.")
+        .setColor("#fd3c2a")
+        await channel.send({
+            embeds: [msgEmbed]
+        });
         return interaction.reply({ content: `${channel} is no longer a postboard :(`, ephemeral: true });
     }
 
