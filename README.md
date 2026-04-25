@@ -27,9 +27,9 @@ you can do anything with the source code, i've provided a few commands (more com
 * `/pay <user> <amount>` - transfers coinz to another user
 
 ### text commands
-* `!ban` - bans an user and sends them a DM explaining why
-* `!kick` - kicks an user and sends them a DM explaining why
-* `!exec` (owner-only) - executes shell commands on the bot's host machine
+* `!ban <user>` - bans an user and sends them a DM explaining why
+* `!kick <user>` - kicks an user and sends them a DM explaining why
+* `!exec <command>` (owner-only) - executes shell commands on the bot's host machine
 
 ## Installation/Setup
 
