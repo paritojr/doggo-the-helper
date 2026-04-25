@@ -25,6 +25,7 @@ module.exports = (client, { prefix, textcmds, postboardChannels }) => {
                 name,
                 autoArchiveDuration: 1440,
             });
+            await message.react("🔥");
         } catch (err) {
             console.error("postboard error:", err);
         }
