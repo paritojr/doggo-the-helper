@@ -56,7 +56,7 @@ to get your Discord ID (for OWNER_ID variable), enable Developer Mode in Discord
 (this will install every library the bot uses)
 <br>
 <br>
-**step 6**: run `node bot.js` or if you use pm2: `pm2 start bot.js`
+**step 6**: run `node bot.js`
 <br>
 <br>
 as a bonus, if you want to invite your bot to other servers, you can make an bot invite link
