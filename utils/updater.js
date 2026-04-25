@@ -1,5 +1,5 @@
-const { exec } = require("child_process");
-const { spawn } = require("child_process");
+const { exec, spawn } = require("child_process");
+const fs = require("fs");
 const path = require("path");
 
 const runCommand = (command, options = {}) =>
@@ -14,26 +14,40 @@ async function updater() {
   try {
     const botCwd = process.cwd();
 
-    await runCommand("git fetch", { cwd: botCwd });
-
     const branch = await runCommand("git rev-parse --abbrev-ref HEAD", { cwd: botCwd });
     const local = await runCommand("git rev-parse HEAD", { cwd: botCwd });
-    const remote = await runCommand(`git rev-parse origin/${branch}`, { cwd: botCwd });
 
-    if (local !== remote) {
-      await runCommand("git pull", { cwd: botCwd });
+    const remoteRaw = await runCommand(`git ls-remote origin ${branch}`, { cwd: botCwd });
+    const remote = remoteRaw.split("\t")[0];
+
+    if (!remote || local === remote) return;
+
+    console.log("update found!");
+
+    const lockPath = path.join(botCwd, "package-lock.json");
+    const beforeLock = fs.existsSync(lockPath)
+      ? fs.readFileSync(lockPath, "utf8")
+      : null;
+
+    await runCommand("git pull", { cwd: botCwd });
+
+    const afterLock = fs.existsSync(lockPath)
+      ? fs.readFileSync(lockPath, "utf8")
+      : null;
+
+    if (beforeLock !== afterLock) {
       await runCommand("npm ci", { cwd: botCwd });
-      console.log("updating...");
-      spawn(process.argv[0], process.argv.slice(1), {
-        cwd: botCwd,
-        detached: true,
-        stdio: "inherit",
-      });
-
-      process.exit(0);
     }
-  } catch {
-    // do nothing
+
+    spawn(process.argv[0], process.argv.slice(1), {
+      cwd: botCwd,
+      detached: true,
+      stdio: "inherit",
+    });
+
+    process.exit(0);
+  } catch (err) {
+    console.error("updater error:", err);
   }
 }
 
