@@ -174,5 +174,9 @@
         "required": true
       }
     ]
+  },
+  {
+    "name": "dailycoinz",
+    "description": "claim your daily coinz!"
   }
 ]

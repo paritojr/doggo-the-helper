@@ -13,6 +13,7 @@ const slashcmds = {
   slots: require("./slashcommands/slots.js").slots,
   balance: require("./slashcommands/balance.js").balance,
   pay: require("./slashcommands/pay.js").paycmd,
+  dailycoinz: require("./slashcommands/dailycoins.js").dailycoins,
 };
 const textcmds = {
   kick: require("./textcommands/kick.js").kickmember,
