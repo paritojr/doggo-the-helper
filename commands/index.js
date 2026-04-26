@@ -1,4 +1,6 @@
 const slashcmds = {
+  hello: require("./slashcommands/hello.js").hello,
+  ping: require("./slashcommands/ping.js").ping,
   giveaway: require("./slashcommands/giveaway.js").giveaway,
   stats: require("./slashcommands/stats.js").stats,
   userstats: require("./slashcommands/userstats.js").userstats,

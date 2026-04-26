@@ -4,12 +4,6 @@ module.exports = (client, { slashcmds }) => {
       const { commandName } = interaction;
 
       try {
-         if (commandName === "hello") {
-            return interaction.reply({content: "hello there!", ephemeral: true});
-         }
-         if (commandName === "ping") {
-            return interaction.reply({content: `pong! hello ${interaction.user}!`,ephemeral: true});
-         }
          const cmd = slashcmds[commandName];
          if (!cmd) {
             return interaction.reply({
