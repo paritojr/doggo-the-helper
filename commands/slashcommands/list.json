@@ -12,22 +12,36 @@
     "description": "creates or manages giveaways",
     "options": [
       {
-        "name": "prize",
-        "description": "the giveaway prize :O",
-        "type": 3,
-        "required": false
+        "type": 1,
+        "name": "start",
+        "description": "start a giveaway",
+        "options": [
+          {
+            "name": "prize",
+            "description": "the giveaway prize :O",
+            "type": 3,
+            "required": true
+          },
+          {
+            "name": "time",
+            "description": "giveaway duration (examples: 1d, 2h, 10m — m = minutes)",
+            "type": 3,
+            "required": true
+          }
+        ]
       },
       {
-        "name": "time",
-        "description": "giveaway duration (examples: 1d, 2h, 10m — m = minutes)",
-        "type": 3,
-        "required": false
-      },
-      {
+        "type": 1,
         "name": "stop",
         "description": "stops da giveaway based on id",
-        "type": 3,
-        "required": false
+        "options": [
+          {
+            "name": "id",
+            "description": "ID of the giveaway",
+            "type": 3,
+            "required": true
+          }
+        ]
       }
     ]
   },

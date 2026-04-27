@@ -4,9 +4,7 @@ const { parseTime } = require("../../utils/parseTime.js");
 const { activeGiveaways } = require("../database.js");
 
 async function giveaway(interaction, client) {
-   const prize = interaction.options.getString("prize");
-   const time1 = interaction.options.getString("time");
-   const stopOption = interaction.options.getString("stop");
+   const subcommand = interaction.options.getSubcommand();
    async function stopGiveaway(givID) {
       const giveawayId = givID;
       const giveaway = activeGiveaways.get(giveawayId);
@@ -42,16 +40,19 @@ async function giveaway(interaction, client) {
          console.error("error ending giveaway:", error);
       }
    }
-   if (stopOption) {
-      const giveaway = activeGiveaways.get(stopOption);
+   if (subcommand === "stop") {
+      const giveawayId = interaction.options.getString("id");
+      const giveaway = activeGiveaways.get(giveawayId);
       if (!giveaway) {
          return interaction.reply({
             content: "giveaway not found (my bad)",
             ephemeral: true,
          });
       }
-      await stopGiveaway(stopOption);
-   } else {
+      await stopGiveaway(giveawayId);
+   } else if (subcommand === "start")  {
+      const prize = interaction.options.getString("prize");
+      const time1 = interaction.options.getString("time");
       if (!prize || !time1) {
          await interaction.reply({
             content: "pls provide both prize and time for creating a giveaway",
