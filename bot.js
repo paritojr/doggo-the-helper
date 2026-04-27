@@ -33,7 +33,7 @@ client.once("clientReady", async () => {
     });
     const rest = new REST({ version: "10" }).setToken(BOT_TOKEN);
     let currentIndex = 0;
-    //customize this as you want! not only does it have to be 30 seconds, you know ;)
+    //customize this as you want! not only does it have to be 10 seconds, you know ;)
     setInterval(() => {
         currentIndex = (currentIndex + 1) % statuses.length;
         const { name, type, state } = statuses[currentIndex];
@@ -42,7 +42,7 @@ client.once("clientReady", async () => {
         } else {
             client.user.setActivity(name, { type: type });
         }
-    }, 30000);
+    }, 10000);
     try {
         console.log("started refreshing application (/) commands...");
         await rest.put(Routes.applicationCommands(client.user.id), {
