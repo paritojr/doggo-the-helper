@@ -26,7 +26,7 @@ module.exports = {
       }
 
       message.reply(
-        `command executed: \`${command}\`\noutput:\n\`\`\`${output}\`\`\``
+        `command executed: \`${command}\`\n\`\`\`sh\n${output}\n\`\`\``
       );
     });
   }
