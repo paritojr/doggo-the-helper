@@ -1,5 +1,5 @@
-const { coinz, dailycoinzt } = require("../database.js");
-const { SlashCommandBuilder } = require('discord.js');
+import { coinz, dailycoinzt } from "../database.js";
+import { SlashCommandBuilder } from 'discord.js';
 
 const balances = coinz;
 const dailyct = dailycoinzt;
@@ -8,7 +8,7 @@ const STARTING_BALANCE = 1000;
 const DAILY_AMOUNT = 100;
 const COOLDOWN = 24 * 60 * 60 * 1000;
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName('dailycoinz')
         .setDescription('claim your daily coinz!'),

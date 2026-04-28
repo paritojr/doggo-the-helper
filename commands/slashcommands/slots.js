@@ -1,5 +1,5 @@
-const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
-const { coinz } = require("../database.js");
+import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { coinz } from "../database.js";
 
 const balances = coinz;
 const STARTING_BALANCE = 1000;
@@ -13,7 +13,7 @@ function sleep(ms) {
 }
 
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName('slots')
         .setDescription('play slots game')

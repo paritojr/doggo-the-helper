@@ -1,5 +1,5 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-module.exports = {
+import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+export default {
    data: new SlashCommandBuilder()
         .setName('random')
         .setDescription('get a random dog or cat!'),

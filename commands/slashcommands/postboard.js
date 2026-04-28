@@ -1,7 +1,7 @@
-const { PermissionsBitField, EmbedBuilder, SlashCommandBuilder } = require("discord.js");
-const { postboardChannels } = require("../database.js");
+import { PermissionsBitField, EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { postboardChannels } from "../database.js";
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName('postboard')
         .setDescription('toggles postboard mode for a channel (auto-threads messages)')

@@ -1,4 +1,4 @@
-module.exports = (client, { slashcmds }) => {
+export default (client, { slashcmds }) => {
    client.on("interactionCreate", async (interaction) => {
       if (!interaction.isChatInputCommand()) return;
       const { commandName } = interaction;

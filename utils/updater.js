@@ -1,6 +1,6 @@
-const { exec, spawn } = require("child_process");
-const fs = require("fs");
-const path = require("path");
+import { exec, spawn } from "child_process";
+import fs from "fs";
+import path from "path";
 
 const runCommand = (command, options = {}) =>
   new Promise((resolve, reject) => {
@@ -51,4 +51,4 @@ async function updater() {
   }
 }
 
-module.exports = { updater };
+export { updater };

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   name: "kick",
   async execute(message, args) {
     if (!message.member.permissions.has("KickMembers")) {

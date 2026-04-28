@@ -1,6 +1,6 @@
-const QRCode = require('qrcode');
-const { SlashCommandBuilder } = require('discord.js');
-module.exports = {
+import QRCode from "qrcode";
+import { SlashCommandBuilder } from "discord.js";
+export default {
   data: new SlashCommandBuilder()
         .setName('qrcode')
         .setDescription('generate a qr code')

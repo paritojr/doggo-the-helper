@@ -1,8 +1,8 @@
-const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
-const { isContentFlagged } = require("../../utils/isContentFlagged.js");
-const { parseTime } = require("../../utils/parseTime.js");
-const { activeGiveaways } = require("../database.js");
-module.exports = {
+import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { isContentFlagged } from "../../utils/isContentFlagged.js";
+import { parseTime } from "../../utils/parseTime.js";
+import { activeGiveaways } from "../database.js";
+export default {
    data: new SlashCommandBuilder()
       .setName('giveaway')
       .setDescription('creates or manages giveaways')

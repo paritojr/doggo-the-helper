@@ -1,4 +1,4 @@
-const fs = require("fs");
+import fs from "fs";
 class CatDB {
   constructor(path = "./db/catDB.json") {
     this.path = path;
@@ -123,4 +123,4 @@ class CatDBSet {
   }
 }
 
-module.exports = { CatDB, CatDBMap, CatDBSet };
+export { CatDB, CatDBMap, CatDBSet };

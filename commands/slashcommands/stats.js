@@ -1,5 +1,5 @@
-const { EmbedBuilder, time, SlashCommandBuilder } = require("discord.js");
-module.exports = {
+import { EmbedBuilder, time, SlashCommandBuilder } from "discord.js";
+export default {
     data: new SlashCommandBuilder()
     .setName("stats")
     .setDescription("shows the server stats"),

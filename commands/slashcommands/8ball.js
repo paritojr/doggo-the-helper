@@ -1,6 +1,6 @@
-const { isContentFlagged } = require("../../utils/isContentFlagged.js")
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-module.exports = {
+import { isContentFlagged } from "../../utils/isContentFlagged.js";
+import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+export default {
    data: new SlashCommandBuilder()
         .setName('8ball')
         .setDescription('ask the mighty 8 ball a question')

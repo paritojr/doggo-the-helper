@@ -15,6 +15,6 @@ function parseTime(timeString) {
             return null;
     }
 }
-module.exports = {
+export {
   parseTime
 };

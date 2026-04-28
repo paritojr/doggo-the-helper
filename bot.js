@@ -1,10 +1,12 @@
-require('dotenv').config();
+import "dotenv/config";
 const prefix = "!";
-const { Client, GatewayIntentBits, REST, ActivityType } = require("discord.js");
-const { Routes } = require('discord-api-types/v10');
-const { slashcmds, textcmds } = require("./commands/index.js");
-const { postboardChannels } = require("./commands/database.js");
-const { updater } = require("./utils/updater.js");
+import { Client, GatewayIntentBits, REST, ActivityType } from "discord.js";
+import { Routes } from "discord-api-types/v10";
+import { slashcmds, textcmds } from "./commands/index.js";
+import { postboardChannels } from "./commands/database.js";
+import { updater } from "./utils/updater.js";
+import messageCreate from "./events/messageCreate.js";
+import interactionCreate from "./events/interactionCreate.js";
 
 const client = new Client({
     intents: [
@@ -24,6 +26,8 @@ const statuses = [
     { name: "lofi music", type: ActivityType.Listening },
     { name: "nice", type: ActivityType.Custom, state: "today's a great day!!!" }
 ];
+messageCreate(client, { prefix, textcmds, postboardChannels });
+interactionCreate(client, { slashcmds });
 client.once("clientReady", async () => {
     console.log(`bot is online! logged in as ${client.user.tag}`);
     console.log(`bot is serving ${client.guilds.cache.size} guilds`);
@@ -54,8 +58,6 @@ client.once("clientReady", async () => {
         console.error("error registering slash commands:", error);
     }
 });
-require("./events/interactionCreate.js")(client, { slashcmds });
-require("./events/messageCreate.js")(client, { prefix, textcmds, postboardChannels });
 client.on("reconnecting", () => {
     console.log("bot is reconnecting...");
 });
@@ -86,6 +88,5 @@ client.login(BOT_TOKEN)
         console.error("token invalid, my bad");
         process.exit(1);
     });
-module.exports = client;
 updater();
 setInterval(() => { updater() }, 10 * 60 * 1000);

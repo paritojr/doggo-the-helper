@@ -1,4 +1,4 @@
-const { AutoModerationRuleTriggerType } = require('discord-api-types/v10');
+import { AutoModerationRuleTriggerType } from 'discord-api-types/v10';
 async function isContentFlagged(guild, content) {
     try {
         const rules = await guild.autoModerationRules.fetch();
@@ -37,6 +37,6 @@ async function isContentFlagged(guild, content) {
         console.error('an error happened, here:', error);
     }
 }
-module.exports = {
+export {
   isContentFlagged
 };

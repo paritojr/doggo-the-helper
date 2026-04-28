@@ -1,9 +1,9 @@
-require("dotenv").config();
-const { exec } = require("child_process");
+import "dotenv/config";
+import { exec } from "child_process";
 
 const OWNER_ID = process.env.OWNER_ID;
 
-module.exports = {
+export default {
   name: "exec",
   async execute(message, args) {
     if (message.author.id !== OWNER_ID) {

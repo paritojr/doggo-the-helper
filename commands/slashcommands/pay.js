@@ -1,10 +1,10 @@
-const { SlashCommandBuilder } = require('discord.js');
-const { coinz } = require("../database.js");
+import { SlashCommandBuilder } from 'discord.js';
+import { coinz } from "../database.js";
 
 const balances = coinz;
 const STARTING_BALANCE = 1000;
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName('pay')
         .setDescription('pay coinz to an user')

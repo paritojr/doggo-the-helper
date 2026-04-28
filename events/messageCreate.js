@@ -1,4 +1,4 @@
-module.exports = (client, { prefix, textcmds, postboardChannels }) => {
+export default (client, { prefix, textcmds, postboardChannels }) => {
     client.on("messageCreate", async (message) => {
         if (message.author.bot) return;
 

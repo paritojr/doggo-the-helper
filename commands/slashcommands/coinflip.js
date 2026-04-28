@@ -1,5 +1,5 @@
-const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
-module.exports = {
+import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+export default {
    data: new SlashCommandBuilder()
         .setName('flip')
         .setDescription('flip a coin!'),

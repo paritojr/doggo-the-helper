@@ -1,4 +1,4 @@
-const { CatDB, CatDBMap, CatDBSet } = require("../utils/catDB.js");
+import { CatDB, CatDBMap, CatDBSet } from "../utils/catDB.js";
 
 const db = new CatDB("./db/catdb.json");
 
@@ -7,7 +7,7 @@ const postboardChannels = new CatDBSet(db, "postboards");
 const coinz = new CatDBMap(db, "coinz");
 const dailycoinzt = new CatDBMap(db, "dcoinzt");
 
-module.exports = {
+export {
   db,
   activeGiveaways,
   postboardChannels,

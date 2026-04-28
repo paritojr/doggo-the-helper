@@ -2,6 +2,7 @@
   "name": "doggo-the-helper",
   "version": "1.0.0",
   "main": "bot.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"you serious?\""
   },
