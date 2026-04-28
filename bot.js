@@ -2,7 +2,7 @@ require('dotenv').config();
 const prefix = "!";
 const { Client, GatewayIntentBits, REST, ActivityType } = require("discord.js");
 const { Routes } = require('discord-api-types/v10');
-const { slashcmds, textcmds, commands } = require("./commands/index.js");
+const { slashcmds, textcmds } = require("./commands/index.js");
 const { postboardChannels } = require("./commands/database.js");
 const { updater } = require("./utils/updater.js");
 
@@ -31,6 +31,7 @@ client.once("clientReady", async () => {
         type: ActivityType.Custom,
         state: "relaxing as a doggo :)",
     });
+    const cmdsarray = Object.values(slashcmds).map(cmd => cmd.data.toJSON());
     const rest = new REST({ version: "10" }).setToken(BOT_TOKEN);
     let currentIndex = 0;
     //customize this as you want! not only does it have to be 10 seconds, you know ;)
@@ -46,7 +47,7 @@ client.once("clientReady", async () => {
     try {
         console.log("started refreshing application (/) commands...");
         await rest.put(Routes.applicationCommands(client.user.id), {
-            body: commands,
+            body: cmdsarray,
         });
         console.log("successfully reloaded application (/) commands!");
     } catch (error) {

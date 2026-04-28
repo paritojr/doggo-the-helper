@@ -11,7 +11,7 @@ module.exports = (client, { slashcmds }) => {
                ephemeral: true
             });
          }
-         await cmd(interaction, client);
+         await cmd.execute(interaction, client);
       } catch (err) {
          console.error(err);
       }

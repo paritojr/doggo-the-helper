@@ -11,7 +11,7 @@ module.exports = (client, { prefix, textcmds, postboardChannels }) => {
             if (!command) return;
 
             try {
-                await command(message, args);
+                await command.execute(message, args);
             } catch (err) {
                 console.error("textcmd error:", err);
             }

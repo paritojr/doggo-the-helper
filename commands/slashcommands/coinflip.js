@@ -1,8 +1,13 @@
-const { EmbedBuilder } = require("discord.js");
-async function flip(interaction) {
-   const results = ['heads', 'tails'];
-   const flip = results[Math.floor(Math.random() * results.length)];
-   const userEmbed = new EmbedBuilder()
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
+module.exports = {
+   data: new SlashCommandBuilder()
+        .setName('flip')
+        .setDescription('flip a coin!'),
+
+   async execute(interaction) {
+      const results = ['heads', 'tails'];
+      const flip = results[Math.floor(Math.random() * results.length)];
+      const userEmbed = new EmbedBuilder()
       .setTitle(`coin flip results`)
       .setColor("#3060f1")
       .setDescription(`coin landed on ${flip}! yeah`)
@@ -10,10 +15,8 @@ async function flip(interaction) {
          text: "wowsers"
       })
       .setTimestamp();
-   await interaction.reply({
-      embeds: [userEmbed],
-   });
-}
-module.exports = {
-    flip
+      await interaction.reply({
+         embeds: [userEmbed],
+      });
+   }
 };
