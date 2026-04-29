@@ -73,17 +73,13 @@ export default {
          const giveawayId = Date.now().toString();
          const endTime = Date.now() + duration;
          const giveawayEmbed = new EmbedBuilder()
-            .setTitle(`${prize} giveaway!`).setDescription(`react with 🎉 to enter!`).addFields({
-               name: "duration",
-               value: time1,
-               inline: true
-            }, {
-               name: "winners",
-               value: "1",
-               inline: true
-            }, ).setColor("#3060f1").setFooter({
-               text: "good luck to everyone!"
-            }).setTimestamp();
+            .setTitle(`${prize} giveaway!`)
+            .setDescription(`react with 🎉 to enter!`)
+            .addFields(
+               { name: "duration", value: time1, inline: true },
+               { name: "winners", value: "1", inline: true })
+            .setColor("#3060f1").setFooter({ text: "good luck to everyone!" })
+            .setTimestamp();
          const giveawayMessage = await interaction.reply({
             content: "its giveaway time!!!! 🐾🎉",
             embeds: [giveawayEmbed],
