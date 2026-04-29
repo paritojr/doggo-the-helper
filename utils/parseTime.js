@@ -1,4 +1,4 @@
-function parseTime(timeString) {
+export function parseTime(timeString) {
     const timeRegex = /^(\d+)([dhm])$/;
     const match = timeString.match(timeRegex);
     if (!match) return null;
@@ -15,6 +15,3 @@ function parseTime(timeString) {
             return null;
     }
 }
-export {
-  parseTime
-};

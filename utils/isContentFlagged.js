@@ -1,5 +1,5 @@
 import { AutoModerationRuleTriggerType } from 'discord-api-types/v10';
-async function isContentFlagged(guild, content) {
+export async function isContentFlagged(guild, content) {
     try {
         const rules = await guild.autoModerationRules.fetch();
         const text = String(content || '').toLowerCase();
@@ -37,6 +37,3 @@ async function isContentFlagged(guild, content) {
         console.error('an error happened, here:', error);
     }
 }
-export {
-  isContentFlagged
-};
