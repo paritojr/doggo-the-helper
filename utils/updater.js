@@ -42,10 +42,9 @@ async function updater() {
     spawn(process.argv[0], process.argv.slice(1), {
       cwd: botCwd,
       detached: true,
-      stdio: "ignore",
+      stdio: "inherit",
     });
-
-    child.unref();
+    
     process.exit(0);
   } catch (err) {
     console.error("updater error:", err);
