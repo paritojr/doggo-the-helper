@@ -9,6 +9,9 @@ you can do anything with the source code, i've provided a few commands (more com
 <br>
 
 ## Usage
+#### parameter notation
+<> = required parameter<br>
+[] = optional parameter
 ### slash commands
 * `/hello` - says hello to the user
 * `/ping` - pings the discord bot
