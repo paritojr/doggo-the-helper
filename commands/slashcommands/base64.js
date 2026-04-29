@@ -31,7 +31,8 @@ export default {
             const string = Buffer.from(inputlol, "utf8").toString("base64");
             const funnyembed = new EmbedBuilder()
             .setTitle("results:")
-            .setDescription(`\`\`\`\n${string}\n\`\`\``);
+            .setDescription(`\`\`\`\n${string}\n\`\`\``)
+            .setColor("#3060f1");
 
             await interaction.reply({
                 embeds: [funnyembed],
@@ -41,7 +42,8 @@ export default {
             const string = Buffer.from(inputlol, "base64").toString("utf8");
             const funnyembed = new EmbedBuilder()
             .setTitle("results:")
-            .setDescription(`${string}`);
+            .setDescription(`${string}`)
+            .setColor("#3060f1");
 
             await interaction.reply({
                 embeds: [funnyembed],
