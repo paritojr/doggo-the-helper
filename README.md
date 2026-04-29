@@ -19,6 +19,8 @@ you can do anything with the source code, i've provided a few commands (more com
 * `/userstats [user]` - shows stats of an user (date joined, date created, user type, and if they boosted the server), if the user parameter is empty, the user stats will be from the user who initiated the command
 * `/8ball` - makes a question to the magic 8 ball
 * `/flip` - flips a coin
+* `/base64 encode <text>` - encode a string with base64
+* `/base64 decode <text>` - decode a string with base64
 * `/dailycoinz` - claim your daily reward of coinz (once every 24 hours)
 * `/random` - shows you a random dog or a random cat
 * `/balance [user]` - check your (or another user's) coinz balance (virtual currency)
