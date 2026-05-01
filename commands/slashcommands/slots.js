@@ -1,4 +1,4 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder } from "discord.js";
 import { coinz } from "../database.js";
 
 const balances = coinz;
@@ -11,7 +11,6 @@ function getRandomSymbol() {
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-
 
 export default {
     data: new SlashCommandBuilder()
@@ -44,21 +43,6 @@ export default {
       const s2 = getRandomSymbol();
       const s3 = getRandomSymbol();
     
-      const msg = await interaction.reply({
-        content: "🎰 spinning...",
-        fetchReply: true,
-      });
-    
-      //suspense is always a great option
-      await sleep(900);
-      await msg.edit(`${s1} | ❓ | ❓`);
-    
-      await sleep(900);
-      await msg.edit(`${s1} | ${s2} | ❓`);
-    
-      await sleep(900);
-      await msg.edit(`${s1} | ${s2} | ${s3}`);
-    
       let winnings = 0;
       let resultText = "";
     
@@ -77,17 +61,21 @@ export default {
       balance += winnings;
       balances.set(userId, balance);
     
-      const embed = new EmbedBuilder()
-        .setTitle("🎰 RESULTS")
-        .setDescription(`${s1} | ${s2} | ${s3}`)
-        .addFields(
-          { name: "final result", value: resultText, inline: true },
-          { name: "change", value: `${winnings} coinz`, inline: true },
-          { name: "balance", value: `${balance} coinz`, inline: true }
-        )
-        .setColor(winnings > 0 ? "Green" : "Red");
-    
-      await sleep(500);
-      await msg.edit({ content: null, embeds: [embed] });
+      
+      interaction.reply({ content: "🎰 spinning...", fetchReply: true })
+        .then(async (msg) => {
+          await sleep(900);
+          await msg.edit(`${s1} | ❓ | ❓`);
+          
+          await sleep(900);
+          await msg.edit(`${s1} | ${s2} | ❓`);
+          
+          await sleep(900);
+          await msg.edit(`${s1} | ${s2} | ${s3}`);
+          
+          await sleep(500);
+          await msg.edit(`${s1} | ${s2} | ${s3}\n\n${resultText}\nchange: ${winnings} coinz\nbalance: ${balance}`);
+        })
+        .catch(console.error);
     }
 };

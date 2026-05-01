@@ -1,39 +1,76 @@
-import fs from "fs";
+import Database from "better-sqlite3";
+
 class CatDB {
-  constructor(path = "./db/catDB.json") {
-    this.path = path;
+  constructor(path = "./db/catDB.sqlite") {
     this.data = {};
-    this._load();
     this._saveTimeout = null;
+    this._dirty = new Set();
+
+    this.db = new Database(path);
+
+    this.db.prepare(`
+      CREATE TABLE IF NOT EXISTS store (
+        key TEXT PRIMARY KEY,
+        value TEXT
+      )
+    `).run();
+
+    this._load();
   }
+
   _load() {
-    if (!fs.existsSync(this.path)) {
-      fs.writeFileSync(this.path, JSON.stringify({}));
-    }
-    try {
-      this.data = JSON.parse(fs.readFileSync(this.path));
-    } catch {
-      this.data = {};
+    const rows = this.db.prepare("SELECT key, value FROM store").all();
+
+    for (const row of rows) {
+      try {
+        this.data[row.key] = JSON.parse(row.value);
+      } catch {
+        this.data[row.key] = {};
+      }
     }
   }
 
   _scheduleSave() {
     if (this._saveTimeout) return;
-
     this._saveTimeout = setTimeout(() => {
-      fs.writeFileSync(this.path, JSON.stringify(this.data, null, 2));
+      if (this._dirty.size === 0) {
+        this._saveTimeout = null;
+        return;
+      }
+
+      const stmt = this.db.prepare(`
+        INSERT INTO store (key, value)
+        VALUES (?, ?)
+        ON CONFLICT(key) DO UPDATE SET value = excluded.value
+      `);
+
+      const transaction = this.db.transaction(() => {
+        for (const key of this._dirty) {
+          stmt.run(key, JSON.stringify(this.data[key]));
+        }
+      });
+
+      transaction();
+
+      this._dirty.clear();
       this._saveTimeout = null;
-    }, 500);
+    }, 300);
   }
 
   getStore(name, defaultValue) {
     if (!this.data[name]) {
       this.data[name] = defaultValue;
+      this._dirty.add(name);
+      this.save();
     }
     return this.data[name];
   }
 
   save() {
+    for (const key of Object.keys(this.data)) {
+      this._dirty.add(key);
+    }
+
     this._scheduleSave();
   }
 }

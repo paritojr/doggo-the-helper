@@ -1,6 +1,6 @@
 import { CatDB, CatDBMap, CatDBSet } from "../utils/catDB.js";
 
-const db = new CatDB("./db/catdb.json");
+const db = new CatDB("./db/catdb.sqlite");
 
 const activeGiveaways = new CatDBMap(db, "giveaways");
 const postboardChannels = new CatDBSet(db, "postboards");
