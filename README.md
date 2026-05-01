@@ -15,6 +15,8 @@ you can do anything with the source code, i've provided a few commands (more com
 ### slash commands
 * `/hello` - says hello to the user
 * `/ping` - pings the discord bot
+* `/random cat` - shows you a random cat
+* `/random dog` - shows you a random cat
 * `/embed <title> <description> <color> [footer] [timestamp] [image]` - makes an embed based on the user's inputs (footer, timestamp and image are optional)
 * `/giveaway start <prize> <time>` - starts a giveaway with the specific prize and time chosen by the user, the id is told to the user who ran the command
 * `/giveaway stop <id>` - stops a giveaway that has the id specified by the user
@@ -25,7 +27,6 @@ you can do anything with the source code, i've provided a few commands (more com
 * `/base64 encode <text>` - encode a string with base64
 * `/base64 decode <text>` - decode a string with base64
 * `/dailycoinz` - claim your daily reward of coinz (once every 24 hours)
-* `/random` - shows you a random dog or a random cat
 * `/balance [user]` - check your (or another user's) coinz balance (virtual currency)
 * `/slots <amount>` - plays the slots game with a selected amount of coinz to gamble
 * `/qrcode <data>` - makes a qrcode with the inputted data
