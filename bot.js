@@ -49,7 +49,7 @@ client.once("clientReady", async () => {
             client.user.setActivity(name, { type: type });
         }
     }, 10000);
-    for (const [id, g] of activeGiveaways) {
+    for (const [id, g] of activeGiveaways.entries()) {
         const timeLeft = g.endTime - Date.now();
         setTimeout(
             () => stopGiveaway(client, id),
