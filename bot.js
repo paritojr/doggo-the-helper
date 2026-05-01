@@ -1,5 +1,4 @@
 import "dotenv/config";
-const prefix = "!";
 import { Client, GatewayIntentBits, REST, ActivityType } from "discord.js";
 import { Routes } from "discord-api-types/v10";
 import { slashcmds, textcmds } from "./commands/index.js";
@@ -8,6 +7,7 @@ import { updater } from "./utils/updater.js";
 import { stopGiveaway } from "./utils/stopGiveaway.js";
 import messageCreate from "./events/messageCreate.js";
 import interactionCreate from "./events/interactionCreate.js";
+import config from "./config.json" with { type: "json" };
 
 const client = new Client({
     intents: [
@@ -27,7 +27,7 @@ const statuses = [
     { name: "lofi music", type: ActivityType.Listening },
     { name: "nice", type: ActivityType.Custom, state: "today's a great day!!!" }
 ];
-messageCreate(client, { prefix, textcmds, postboardChannels });
+messageCreate(client, { prefix:config.prefix, textcmds, postboardChannels });
 interactionCreate(client, { slashcmds });
 client.once("clientReady", async () => {
     console.log(`bot is online! logged in as ${client.user.tag}`);
