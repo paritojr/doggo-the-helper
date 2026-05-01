@@ -16,7 +16,7 @@ you can do anything with the source code, i've provided a few commands (more com
 * `/hello` - says hello to the user
 * `/ping` - pings the discord bot
 * `/random cat` - shows you a random cat
-* `/random dog` - shows you a random cat
+* `/random dog` - shows you a random dog
 * `/embed <title> <description> <color> [footer] [timestamp] [image]` - makes an embed based on the user's inputs (footer, timestamp and image are optional)
 * `/giveaway start <prize> <time>` - starts a giveaway with the specific prize and time chosen by the user, the id is told to the user who ran the command
 * `/giveaway stop <id>` - stops a giveaway that has the id specified by the user
