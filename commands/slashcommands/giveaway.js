@@ -20,6 +20,12 @@ export default {
             option.setName('time')
             .setDescription('giveaway duration (examples: 1d, 2h, 10m)')
             .setRequired(true))
+         .addIntegerOption(option =>
+            option.setName('winners')
+            .setDescription('number of winners')
+            .setMinValue(1)
+            .setMaxValue(10)
+            .setRequired(false))
       )
       .addSubcommand(subcommand =>
          subcommand
@@ -42,10 +48,11 @@ export default {
                ephemeral: true,
             });
          }
-         await stopGiveaway(giveawayId);
+         await stopGiveaway(client, giveawayId);
       } else if (subcommand === "start") {
          const prize = interaction.options.getString("prize");
          const time1 = interaction.options.getString("time");
+         const winners = interaction.options.getInteger("winners") || 1;
          if (!prize || !time1) {
             await interaction.reply({
                content: "pls provide both prize and time for creating a giveaway",
@@ -77,7 +84,7 @@ export default {
             .setDescription(`react with 🎉 to enter!`)
             .addFields(
                { name: "duration", value: time1, inline: true },
-               { name: "winners", value: "1", inline: true })
+               { name: "winners", value: winners.toString(), inline: true })
             .setColor("#3060f1").setFooter({ text: "good luck to everyone!" })
             .setTimestamp();
          const giveawayMessage = await interaction.reply({
@@ -95,7 +102,7 @@ export default {
             channelId: interaction.channelId,
             guildId: interaction.guildId,
             prize: prize,
-            winners: 1,
+            winners: winners,
             endTime: endTime,
             hostId: interaction.user.id,
          });
