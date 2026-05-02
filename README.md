@@ -23,6 +23,7 @@ you can do anything with the source code, i've provided a few commands (more com
 * `/flip` - flips a coin
 * `/base64 encode <text>` - encode a string with base64
 * `/base64 decode <text>` - decode a string with base64
+* `/hash <type> <text>` - hashes text with an algorithm (can be MD5, SHA-1, SHA-256 and SHA-512)
 * `/dailycoinz` - claim your daily reward of coinz (once every 24 hours)
 * `/balance [user]` - check your (or another user's) coinz balance (virtual currency)
 * `/slots <amount>` - plays the slots game with a selected amount of coinz to gamble
