@@ -10,7 +10,7 @@ const runCommand = (command, options = {}) =>
     });
   });
 
-async function updater() {
+export async function updater() {
   try {
     const botCwd = process.cwd();
 
@@ -50,5 +50,3 @@ async function updater() {
     console.error("updater error:", err);
   }
 }
-
-export { updater };
