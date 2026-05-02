@@ -1,8 +1,8 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { EmbedBuilder, SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 export default {
     data: new SlashCommandBuilder()
-        .setName('userstats')
-        .setDescription('shows stats for a specific user')
+        .setName('userinfo')
+        .setDescription('shows info for a specific user')
         .addUserOption(option =>
             option.setName('user')
                 .setDescription('user id hehe')
@@ -20,22 +20,36 @@ export default {
         const createdUnix = Math.floor(user.createdTimestamp / 1000);
         const createdAt = `<t:${Math.floor(user.createdTimestamp / 1000)}:d> (<t:${createdUnix}:R>)`;
         const userType = user.bot ? "bot" : "human";
-        const isBooster = member.premiumSince ? "yeah!" : "nope";
+        const isBooster = member.premiumSince ? "yes!" : "no :(";
+
         const userEmbed = new EmbedBuilder()
-            .setTitle(`user stats for ${user.tag}`)
+            .setTitle(`user info for ${user.tag}`)
             .setColor(accentColor)
             .setThumbnail(avatarUrl)
             .addFields(
-                { name: "joined at", value: joinedAt, inline: true },
+                { name: "joined server at", value: joinedAt, inline: true },
                 { name: "created at", value: createdAt, inline: true },
                 { name: "type", value: `\`${userType}\``, inline: false },
-                { name: "avatar", value: `[click here idk](${avatarUrl})`, inline: false },
                 { name: "booster?", value: String(isBooster), inline: false },
             )
             .setFooter({ text: "amazing" })
             .setTimestamp();
+
+        const row = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setLabel("Avatar")
+                .setStyle(ButtonStyle.Link)
+                .setURL(user.displayAvatarURL({ size: 1024 })),
+
+            new ButtonBuilder()
+                .setLabel("Profile")
+                .setStyle(ButtonStyle.Link)
+                .setURL(`https://discord.com/users/${user.id}`)
+        );
+
         await interaction.reply({
             embeds: [userEmbed],
+            components: [row],
         });
     }
 }
