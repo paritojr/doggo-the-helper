@@ -27,7 +27,7 @@ const statuses = [
     { name: "lofi music", type: ActivityType.Listening },
     { name: "nice", type: ActivityType.Custom, state: "today's a great day!!!" }
 ];
-messageCreate(client, { prefix:config.prefix, textcmds, postboardChannels });
+messageCreate(client, { prefix:config.prefix, ownerprefix:config.ownerprefix, textcmds, postboardChannels });
 interactionCreate(client, { slashcmds });
 client.once("clientReady", async () => {
     console.log(`bot is online! logged in as ${client.user.tag}`);

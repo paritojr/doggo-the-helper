@@ -1,15 +1,9 @@
-import "dotenv/config";
 import { exec } from "child_process";
-
-const OWNER_ID = process.env.OWNER_ID;
-
 export default {
   name: "exec",
+  description: "run commands on host machine",
+  ownerOnly: true,
   async execute(message, args) {
-    if (message.author.id !== OWNER_ID) {
-      return message.reply("nope.");
-    }
-
     const command = args.join(" ");
     if (!command) {
       return message.reply("pls provide a command to execute, thx :)");
