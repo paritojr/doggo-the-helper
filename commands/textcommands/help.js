@@ -23,8 +23,8 @@ export default {
     const commandsPath = path.join(process.cwd(), "commands/textcommands");
     const commands = await loadCommands(commandsPath);
 
-    const list = commands.filter(cmd => cmd?.description)
-    .map(cmd => `**${cmd.name}**: ${cmd.description}`)
+    const list = commands.filter(cmd => cmd?.description && !cmd.ownerOnly)
+    .map(cmd => `**!${cmd.name}**: ${cmd.description}`)
     .join("\n");
     
     return message.channel.send(
