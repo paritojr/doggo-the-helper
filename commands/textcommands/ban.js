@@ -1,5 +1,6 @@
 export default {
   name: "ban",
+  description: "bans an user",
   async execute(message, args) {
     if (!message.member.permissions.has("BanMembers")) {
       return message.reply("No permission.");

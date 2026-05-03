@@ -1,5 +1,6 @@
 export default {
   name: "kick",
+  description: "kicks an user",
   async execute(message, args) {
     if (!message.member.permissions.has("KickMembers")) {
       return message.reply("you can't use this command, srry :(");
