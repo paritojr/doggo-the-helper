@@ -1,4 +1,4 @@
-import { EmbedBuilder, SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
+import { SlashCommandBuilder, ButtonStyle, MessageFlags } from "discord.js";
 export default {
     data: new SlashCommandBuilder()
         .setName('userinfo')
@@ -11,45 +11,59 @@ export default {
     
     async execute(interaction) {
         const user = interaction.options.getUser("user") || interaction.user;
-        const user2 = await user.fetch(true);
         const member = await interaction.guild.members.fetch(user.id);
-        const avatarUrl = user.displayAvatarURL();
-        const accentColor = user2.hexAccentColor || "#3060f1";
+
         const joinedUnix = Math.floor(member.joinedTimestamp / 1000);
-        const joinedAt = `<t:${Math.floor(member.joinedTimestamp / 1000)}:d> (<t:${joinedUnix}:R>)`;
         const createdUnix = Math.floor(user.createdTimestamp / 1000);
-        const createdAt = `<t:${Math.floor(user.createdTimestamp / 1000)}:d> (<t:${createdUnix}:R>)`;
+
         const userType = user.bot ? "bot" : "human";
         const isBooster = member.premiumSince ? "yes!" : "no :(";
-
-        const userEmbed = new EmbedBuilder()
-            .setTitle(`user info for ${user.tag}`)
-            .setColor(accentColor)
-            .setThumbnail(avatarUrl)
-            .addFields(
-                { name: "joined server at", value: joinedAt, inline: true },
-                { name: "created at", value: createdAt, inline: true },
-                { name: "type", value: `\`${userType}\``, inline: false },
-                { name: "booster?", value: String(isBooster), inline: false },
-            )
-            .setFooter({ text: "amazing" })
-            .setTimestamp();
-
-        const row = new ActionRowBuilder().addComponents(
-            new ButtonBuilder()
-                .setLabel("Avatar")
-                .setStyle(ButtonStyle.Link)
-                .setURL(user.displayAvatarURL({ size: 1024 })),
-
-            new ButtonBuilder()
-                .setLabel("Profile")
-                .setStyle(ButtonStyle.Link)
-                .setURL(`https://discord.com/users/${user.id}`)
-        );
-
         await interaction.reply({
-            embeds: [userEmbed],
-            components: [row],
+            flags: MessageFlags.IsComponentsV2,
+            components: [
+                {
+                    type: 17,
+                    components: [
+                        {
+                            type: 9,
+                            components: [
+                                {
+                                    type: 10,
+                                    content:
+                                        `# ${member.displayName}\n` +
+                                        `<@${user.id}> (${user.username})\n`
+                                }
+                            ],
+                            accessory: {
+                                type: 11,
+                                media: {
+                                    url: user.displayAvatarURL({ size: 256 })
+                                }
+                            }
+                        },
+                        { type: 14 },
+                        {
+                            type: 9,
+                            components: [
+                                {
+                                    type: 10,
+                                    content:
+                                        `created at: <t:${createdUnix}:d> (<t:${createdUnix}:R>)\n` +
+                                        `joined server at: <t:${joinedUnix}:d> (<t:${joinedUnix}:R>)\n\n` +
+                                        `type: \`${userType}\`\n` +
+                                        `booster?: ${isBooster}`
+                                }
+                            ],
+                            accessory: {
+                                type: 2,
+                                style: ButtonStyle.Link,
+                                label: "Avatar",
+                                url: user.displayAvatarURL({ size: 1024 })
+                            }
+                        }
+                    ]
+                }
+            ]
         });
     }
-}
+};
