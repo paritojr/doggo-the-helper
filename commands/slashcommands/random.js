@@ -4,19 +4,19 @@ export default {
         .setName('random')
         .setDescription("get random things")
         .addSubcommand(subcommand =>
-         subcommand
-         .setName('cat')
-         .setDescription('get a random cat!')
+           subcommand
+            .setName('cat')
+            .setDescription('get a random cat!')
          )
         .addSubcommand(subcommand =>
-          subcommand
-          .setName('dog')
-          .setDescription('get a random dog!')
+           subcommand
+            .setName('dog')
+            .setDescription('get a random dog!')
          )
         .addSubcommand(subcommand =>
-          subcommand
-          .setName('number')
-          .setDescription('get a random number!')
+           subcommand
+            .setName('number')
+            .setDescription('get a random number!')
          ),
 
    async execute(interaction) {
