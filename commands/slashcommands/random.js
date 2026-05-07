@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from 'discord.js';
 export default {
    data: new SlashCommandBuilder()
         .setName('random')
-        .setDescription("get a random cat, or a random dog")
+        .setDescription("get random things")
         .addSubcommand(subcommand =>
          subcommand
          .setName('cat')
@@ -12,6 +12,11 @@ export default {
           subcommand
           .setName('dog')
           .setDescription('get a random dog!')
+         )
+        .addSubcommand(subcommand =>
+          subcommand
+          .setName('number')
+          .setDescription('get a random number!')
          ),
 
    async execute(interaction) {
@@ -25,6 +30,9 @@ export default {
          const res = await fetch(`https://cataas.com/api/cats?limit=1&skip=${randomNumber}`);
          const data = await res.json();
          interaction.reply(`https://cataas.com/cat/${data[0].id}`);
+      } else if (subcommand === "number") {
+         const randomNumber = Math.floor(Math.random() * 1000) + 1;
+         interaction.reply(`your random number: ${randomNumber}`);
       }
    }
 };
