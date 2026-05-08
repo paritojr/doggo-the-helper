@@ -11,7 +11,7 @@ export default {
         const json = await res.json();
         const quote = json[0];
         const embed = new EmbedBuilder()
-          .setDescription(`${quote.q} - ${quote.a}`)
+          .setDescription(`*"${quote.q}"*\n— ${quote.a}`)
           .setColor(0x2b2d31);
         await interaction.editReply({ embeds: [embed] });
     } catch (err) {
