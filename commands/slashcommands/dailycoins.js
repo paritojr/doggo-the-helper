@@ -1,5 +1,5 @@
 import { coinz, dailycoinzt } from "../database.js";
-import { SlashCommandBuilder } from 'discord.js';
+import { SlashCommandBuilder, MessageFlags } from 'discord.js';
 
 const balances = coinz;
 const dailyct = dailycoinzt;
@@ -32,7 +32,7 @@ export default {
 
         return interaction.reply({
           content: `you already claimed your daily coinz, come back in **${hours}h ${minutes}m**, k? thx :)`,
-          ephemeral: true
+          flags: MessageFlags.Ephemeral
         });
       }
 

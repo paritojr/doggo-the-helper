@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, MessageFlags } from "discord.js";
 import { coinz } from "../database.js";
 
 const balances = coinz;
@@ -30,12 +30,12 @@ export default {
       }
       let balance = balances.get(userId);
       if (bet <= 0) {
-        return interaction.reply({ content: "bet must be more than 0 lol", ephemeral: true });
+        return interaction.reply({ content: "bet must be more than 0 lol", flags: MessageFlags.Ephemeral });
       }
       if (bet > balance) {
         return interaction.reply({
           content: `srry but you only have ${balance} coinz :)`,
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral
         });
       }
     

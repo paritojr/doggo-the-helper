@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 export default (client, { slashcmds }) => {
    client.on("interactionCreate", async (interaction) => {
       if (!interaction.isChatInputCommand()) return;
@@ -8,7 +9,7 @@ export default (client, { slashcmds }) => {
          if (!cmd) {
             return interaction.reply({
                content: "Unknown command.",
-               ephemeral: true
+               flags: MessageFlags.Ephemeral
             });
          }
          await cmd.execute(interaction, client);

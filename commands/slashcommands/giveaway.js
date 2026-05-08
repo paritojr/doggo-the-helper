@@ -1,4 +1,4 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { EmbedBuilder, SlashCommandBuilder, MessageFlags } from "discord.js";
 import { isContentFlagged } from "../../utils/isContentFlagged.js";
 import { parseTime } from "../../utils/parseTime.js";
 import { activeGiveaways } from "../database.js";
@@ -45,7 +45,7 @@ export default {
          if (!giveaway) {
             return interaction.reply({
                content: "giveaway not found (my bad)",
-               ephemeral: true,
+               flags: MessageFlags.Ephemeral
             });
          }
          await stopGiveaway(client, giveawayId);
@@ -56,7 +56,7 @@ export default {
          if (!prize || !time1) {
             await interaction.reply({
                content: "pls provide both prize and time for creating a giveaway",
-               ephemeral: true,
+               flags: MessageFlags.Ephemeral
             });
             return;
          }
@@ -64,7 +64,7 @@ export default {
          if (!duration) {
             await interaction.reply({
                content: "invalid time format, use format like: 1d, 5h, 30m",
-               ephemeral: true,
+               flags: MessageFlags.Ephemeral
             });
             return;
          }
@@ -72,7 +72,7 @@ export default {
          if (isFlagged == true) {
             await interaction.reply({
                content: 'nuhuh, cant say that',
-               ephemeral: true
+               flags: MessageFlags.Ephemeral
             });
             console.log("flagged");
             return;
@@ -95,7 +95,7 @@ export default {
          await giveawayMessage.react("🎉");
          await interaction.followUp({
             content: `this is the giveaway id: ${giveawayId}, whenever you want to manually stop the giveaway, use this id`,
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral
          });
          activeGiveaways.set(giveawayId, {
             messageId: giveawayMessage.id,

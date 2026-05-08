@@ -1,5 +1,5 @@
 import { isContentFlagged } from "../../utils/isContentFlagged.js";
-import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import { SlashCommandBuilder, EmbedBuilder, MessageFlags } from 'discord.js';
 export default {
    data: new SlashCommandBuilder()
         .setName('8ball')
@@ -29,7 +29,7 @@ export default {
       if (isFlagged == true) {
          await interaction.reply({
             content: 'nuhuh, cant answer that',
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
          });
          console.log("flagged");
          return;

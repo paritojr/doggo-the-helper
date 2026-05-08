@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, MessageFlags } from "discord.js";
 export default {
   data: new SlashCommandBuilder()
     .setName("hello")
@@ -7,7 +7,7 @@ export default {
   async execute(interaction) {
     return interaction.reply({
       content: "hello there!",
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral
     });
   },
 };

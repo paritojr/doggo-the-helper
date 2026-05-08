@@ -1,4 +1,4 @@
-import { PermissionsBitField, EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { PermissionsBitField, EmbedBuilder, SlashCommandBuilder, MessageFlags } from "discord.js";
 import { postboardChannels } from "../database.js";
 
 export default {
@@ -12,7 +12,7 @@ export default {
 
     async execute(interaction) {
         if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageChannels)) {
-            return interaction.reply({ content: "you can't use this, my bad :(", ephemeral: true });
+            return interaction.reply({ content: "you can't use this, my bad :(", flags: MessageFlags.Ephemeral });
         }
         const channel = interaction.options.getChannel("channel");
         if (postboardChannels.has(channel.id)) {
@@ -23,7 +23,7 @@ export default {
             await channel.send({
                 embeds: [msgEmbed]
             });
-            return interaction.reply({ content: `${channel} is no longer a postboard :(`, ephemeral: true });
+            return interaction.reply({ content: `${channel} is no longer a postboard :(`, flags: MessageFlags.Ephemeral });
         }
 
         postboardChannels.add(channel.id);
@@ -33,6 +33,6 @@ export default {
         await channel.send({
             embeds: [msgEmbed]
         });
-        return interaction.reply({ content: `${channel} is now a postboard!`, ephemeral: true });
+        return interaction.reply({ content: `${channel} is now a postboard!`, flags: MessageFlags.Ephemeral });
     }
 };

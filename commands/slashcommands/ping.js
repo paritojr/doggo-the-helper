@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, MessageFlags } from "discord.js";
 export default {
   data: new SlashCommandBuilder()
     .setName("ping")
@@ -10,7 +10,7 @@ export default {
 
     return interaction.reply({
         content: `pong! hello ${interaction.user}!\nlatency (bot): ${botLatency}ms\nlatency (API): ${apiLatency}ms`,
-        ephemeral: true
+        flags: MessageFlags.Ephemeral
     });
   },
 };

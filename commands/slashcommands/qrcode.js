@@ -1,5 +1,5 @@
 import QRCode from "qrcode";
-import { SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder, MessageFlags } from "discord.js";
 export default {
   data: new SlashCommandBuilder()
         .setName('qrcode')
@@ -18,7 +18,7 @@ export default {
       });
     } catch (err) {
       console.error(err);
-      await interaction.reply({ content: 'qr code gen failed', ephemeral: true });
+      await interaction.reply({ content: 'qr code gen failed', Flags: MessageFlags.Ephemeral });
     }
   }
 };

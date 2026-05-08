@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import { SlashCommandBuilder, EmbedBuilder, MessageFlags } from 'discord.js';
 import { isContentFlagged } from "../../utils/isContentFlagged.js";
 
 export default {
@@ -41,7 +41,7 @@ export default {
       if (!isTheColorValid) {
          await interaction.reply({
             content: "whoops! color property is invalid, pls try again",
-            ephemeral: true
+            flags: MessageFlags.Ephemeral
          });
          return;
       }
@@ -65,14 +65,14 @@ export default {
       if (isFlagged == true) {
          await interaction.reply({ 
             content: 'nuhuh, cant say that', 
-            ephemeral: true 
+            flags: MessageFlags.Ephemeral
          });
          console.log("flagged");
          return;
       } else {
          await interaction.reply({ 
             content: 'done ig', 
-            ephemeral: true 
+            flags: MessageFlags.Ephemeral
          });
          await interaction.channel.send({
             embeds: [awesomeEmbed],
