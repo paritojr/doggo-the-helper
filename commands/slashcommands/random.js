@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { SlashCommandBuilder, MessageFlags } from 'discord.js';
 export default {
    data: new SlashCommandBuilder()
         .setName('random')
@@ -17,6 +17,18 @@ export default {
            subcommand
             .setName('number')
             .setDescription('get a random number!')
+            .addIntegerOption(option =>
+               option
+               .setName('min')
+               .setDescription('minimum number')
+               .setRequired(false)
+            )
+            .addIntegerOption(option =>
+               option
+               .setName('max')
+               .setDescription('maximum number')
+               .setRequired(false)
+            )
          ),
 
    async execute(interaction) {
@@ -31,7 +43,15 @@ export default {
          const data = await res.json();
          interaction.reply(`https://cataas.com/cat/${data[0].id}`);
       } else if (subcommand === "number") {
-         const randomNumber = Math.floor(Math.random() * 1000) + 1;
+         let min = interaction.options.getInteger('min') ?? 1;
+         let max = interaction.options.getInteger('max') ?? 1000;
+         if (min > max) {
+            return interaction.reply({
+               content: 'min cannot be bigger than max!',
+               flags: MessageFlags.Ephemeral
+            });
+         }
+         const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
          interaction.reply(`your random number: ${randomNumber}`);
       }
    }
