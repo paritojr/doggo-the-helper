@@ -2,7 +2,7 @@ import { AutoModerationRuleTriggerType } from 'discord-api-types/v10';
 export async function isContentFlagged(guild, content) {
     try {
         const rules = await guild.autoModerationRules.fetch();
-        const text = String(content || '').toLowerCase();
+        const text = String(content || '').normalize('NFKC').toLowerCase().trim();
         console.log('doggo is analyzing this text:', text);
         for (const rule of rules.values()) {
             if ( rule.triggerType === AutoModerationRuleTriggerType.Keyword || rule.triggerType === AutoModerationRuleTriggerType.MemberProfile ) {
@@ -10,8 +10,13 @@ export async function isContentFlagged(guild, content) {
                 const regexPatterns = rule.triggerMetadata.regexPatterns;
                 if (keywords && keywords.length > 0) {
                     const isKeywordFlagged = keywords.some(rawKeyword => {
-                        const cleanKeyword = rawKeyword.replace(/\*/g, '').toLowerCase();
-                        return text.includes(cleanKeyword);
+                        const escaped = rawKeyword.replace(
+                            /[.+?^${}()|[\]\\]/g,
+                            '\\$&'
+                        );
+                        const pattern = escaped.replace(/\*/g, '.*');
+                        const regex = new RegExp(`\\b${pattern}\\b`, 'i');
+                        return regex.test(text);
                     });
                     if (isKeywordFlagged) {
                         console.log("its flagged, my bad");
@@ -20,7 +25,7 @@ export async function isContentFlagged(guild, content) {
                 }
                 if (regexPatterns && regexPatterns.length > 0) {
                     const isRegexFlagged = regexPatterns.some(pattern => {
-                        const regex = new RegExp(pattern, 'i');
+                        const regex = new RegExp(pattern, 'iu');
                         return regex.test(text);
                     });
                     if (isRegexFlagged) {
