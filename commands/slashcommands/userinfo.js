@@ -41,25 +41,25 @@ export default {
                                 }
                             }
                         },
+                        {
+                            type: 10,
+                            content:
+                                `created at: <t:${createdUnix}:d> (<t:${createdUnix}:R>)\n` +
+                                `joined server at: <t:${joinedUnix}:d> (<t:${joinedUnix}:R>)\n\n` +
+                                `type: \`${userType}\`\n` +
+                                `booster?: ${isBooster}`
+                        },
                         { type: 14 },
                         {
-                            type: 9,
+                            type: 1,
                             components: [
                                 {
-                                    type: 10,
-                                    content:
-                                        `created at: <t:${createdUnix}:d> (<t:${createdUnix}:R>)\n` +
-                                        `joined server at: <t:${joinedUnix}:d> (<t:${joinedUnix}:R>)\n\n` +
-                                        `type: \`${userType}\`\n` +
-                                        `booster?: ${isBooster}`
+                                    type: 2,
+                                    style: ButtonStyle.Link,
+                                    label: "Avatar",
+                                    url: user.displayAvatarURL({ size: 1024 })
                                 }
                             ],
-                            accessory: {
-                                type: 2,
-                                style: ButtonStyle.Link,
-                                label: "Avatar",
-                                url: user.displayAvatarURL({ size: 1024 })
-                            }
                         }
                     ]
                 }
