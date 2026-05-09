@@ -1,39 +1,26 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath, pathToFileURL } from "url";
-import { dirname } from "path";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function loadCommands(dir, getName) {
-  const files = fs.readdirSync(dir).filter(f => f.endsWith(".js"));
-  const entries = await Promise.all(
-    files.map(async (file) => {
-      const filePath = path.join(dir, file);
-      const module = await import(pathToFileURL(filePath).href);
-
-      const cmd = module.default ?? module;
-      const name = getName(cmd);
-
-      if (name && cmd.execute) {
-        return [name, cmd];
-      }
-      return null;
-    })
-  );
-
-  return Object.fromEntries(entries.filter(Boolean));
+  const out = {};
+  for (const file of fs.readdirSync(dir)) {
+    if (!file.endsWith(".js")) continue;
+    const mod = await import(pathToFileURL(path.join(dir, file)).href);
+    const cmd = mod.default ?? mod;
+    const name = getName(cmd);
+    if (name && cmd.execute) out[name] = cmd;
+  }
+  return out;
 }
 
-const slashcmds = await loadCommands(
+export const slashcmds = await loadCommands(
   path.join(__dirname, "slashcommands"),
-  cmd => cmd.data?.name
+  c => c.data?.name
 );
 
-const textcmds = await loadCommands(
+export const textcmds = await loadCommands(
   path.join(__dirname, "textcommands"),
-  cmd => cmd.name
+  c => c.name
 );
-
-export { slashcmds, textcmds };
