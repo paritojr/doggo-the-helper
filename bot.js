@@ -2,12 +2,12 @@ import "dotenv/config";
 import { Client, GatewayIntentBits, REST, ActivityType } from "discord.js";
 import { Routes } from "discord-api-types/v10";
 import { slashcmds, textcmds } from "./commands/index.js";
-import { postboardChannels, activeGiveaways } from "./commands/database.js";
+import { postboardChannels } from "./commands/database.js";
 import { updater } from "./utils/updater.js";
-import { stopGiveaway } from "./utils/stopGiveaway.js";
 import messageCreate from "./events/messageCreate.js";
 import interactionCreate from "./events/interactionCreate.js";
 import config from "./config.json" with { type: "json" };
+import { restoreTimeouts } from "./utils/restoreTimeouts.js";
 
 const client = new Client({
     intents: [
@@ -49,13 +49,7 @@ client.once("clientReady", async () => {
             client.user.setActivity(name, { type: type });
         }
     }, 10000);
-    for (const [id, g] of activeGiveaways.entries()) {
-        const timeLeft = g.endTime - Date.now();
-        setTimeout(
-            () => stopGiveaway(client, id),
-            timeLeft > 0 ? timeLeft : 0
-        );
-    }
+    restoreTimeouts(client)
     try {
         console.log("started refreshing application (/) commands...");
         await rest.put(Routes.applicationCommands(client.user.id), {
