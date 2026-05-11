@@ -6,6 +6,7 @@ const activeGiveaways = new CatDBMap(db, "giveaways");
 const postboardChannels = new CatDBSet(db, "postboards");
 const coinz = new CatDBMap(db, "coinz");
 const dailycoinzt = new CatDBMap(db, "dcoinzt");
+const dangerChannels = new CatDBSet(db, "dangerch");
 const reminders = new CatDBMap(db, "reminders");
 
 export {
@@ -14,5 +15,6 @@ export {
   postboardChannels,
   coinz,
   dailycoinzt,
+  dangerChannels,
   reminders
 };

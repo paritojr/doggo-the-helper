@@ -1,10 +1,25 @@
 import "dotenv/config";
-export default (client, { prefix, ownerprefix, textcmds, postboardChannels }) => {
+export default (client, { prefix, ownerprefix, textcmds, postboardChannels, dangerChannels }) => {
     client.on("messageCreate", async (message) => {
         if (message.author.bot) return;
 
         const isPostboardChannel = postboardChannels.has(message.channel.id);
         const isOwner = message.author.id === process.env.OWNER_ID;
+        const isDangerChannel = dangerChannels.has(message.channel.id);
+
+        if (isDangerChannel) {
+            if (isOwner || message.member.permissions.has("Administrator") || message.member.permissions.has("ManageMessages")) return;
+            try {
+                await message.delete().catch(() => {});
+                await message.guild.members.ban(message.author.id, {
+                    reason: "triggered anti-spam channel"
+                });
+            } catch (err) {
+                console.error("error:", err);
+            }
+            return;
+        }
+
         if (message.content.startsWith(ownerprefix)) {
             if (!isOwner) return;
             const args = message.content.slice(ownerprefix.length)
