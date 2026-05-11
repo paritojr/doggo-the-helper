@@ -33,7 +33,6 @@ to get your Discord ID (for OWNER_ID variable), enable Developer Mode in Discord
 (this will install necessary build tools for some dependencies)
 <br>
 <br>
-<br>
 **step 6**: run `npm install`
 <br>
 (this will install all dependencies the bot uses)
