@@ -28,12 +28,18 @@ to get your Discord ID (for OWNER_ID variable), enable Developer Mode in Discord
 **step 4**: create a folder named "db" in the root directory
 <br>
 <br>
-**step 5**: run `npm install`
+**step 5**: run `sudo apt install -y python3 make build-essential`
 <br>
-(this will install every library the bot uses)
+(this will install necessary build tools for some dependencies)
 <br>
 <br>
-**step 6**: run `node bot.js`
+<br>
+**step 6**: run `npm install`
+<br>
+(this will install all dependencies the bot uses)
+<br>
+<br>
+**step 7**: run `node bot.js`
 <br>
 <br>
 as a bonus, if you want to invite your bot to other servers, you can make an bot invite link
