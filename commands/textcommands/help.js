@@ -23,8 +23,14 @@ export default {
     const commandsPath = path.join(process.cwd(), "commands/textcommands");
     const commands = await loadCommands(commandsPath);
 
-    const list = commands.filter(cmd => cmd?.description && !cmd.ownerOnly)
-    .map(cmd => `**!${cmd.name}**: ${cmd.description}`)
+    const isModerator = message.member.permissions.has("BanMembers");
+    
+    const list = commands.filter(cmd => {
+      if (!cmd?.description) return false; 
+      if (cmd.ownerOnly) return false;
+      if (cmd.modOnly && !isModerator) return false;
+      return true;
+    }).map(cmd => `**!${cmd.name}**: ${cmd.description}`)
     .join("\n");
     
     return message.channel.send(

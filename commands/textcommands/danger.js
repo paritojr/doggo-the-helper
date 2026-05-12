@@ -4,6 +4,7 @@ import { EmbedBuilder } from "discord.js";
 export default {
   name: "danger",
   description: "toggle anti-spam channels",
+  modOnly: true,
   async execute(message) {
     if (!message.guild) return;
 
