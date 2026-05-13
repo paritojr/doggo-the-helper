@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, MessageFlags } from "discord.js";
+import { SlashCommandBuilder, MessageFlags, EmbedBuilder } from "discord.js";
 import { dailyMiaChannels } from "../database.js";
 import { scheduleDailyContent, clearDailyContent } from "../../utils/dailycontent.js";
 
@@ -9,6 +9,7 @@ export default {
 
   async execute(interaction) {
     const channelId = interaction.channel.id;
+    const channel = interaction.channel;
     const isEnabled = dailyMiaChannels.has(channelId);
 
     if (isEnabled) {
@@ -28,11 +29,22 @@ export default {
       
       dailyMiaChannels.set(channelId, config);
       scheduleDailyContent(interaction.client, channelId, config, dailyMiaChannels);
-
+      const msgEmbed = new EmbedBuilder()
+        .setDescription("This channel will now receive daily Mia pictures!")
+        .setColor("#2a62fd")
+      await channel.send({
+        embeds: [msgEmbed]
+      });
+      await channel.send(
+        await fetch("http://media.paritojr.co/mia/totalmias.json")
+          .then(res => res.json())
+          .then(data => `http://media.paritojr.co/mia/mia${Math.floor(Math.random() * data.total) + 1}.jpg`)
+      );
       return interaction.reply({
         content: `daily mia enabled!`,
         flags: MessageFlags.Ephemeral,
       });
+      
     }
   },
 };
