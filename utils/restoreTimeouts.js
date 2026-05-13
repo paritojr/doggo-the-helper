@@ -1,5 +1,6 @@
-import { reminders, activeGiveaways } from "../commands/database.js"
+import { reminders, activeGiveaways, dailyMiaChannels } from "../commands/database.js"
 import { stopGiveaway } from "./stopGiveaway.js";
+import { scheduleDailyContent } from "./dailycontent.js";
 
 export function restoreTimeouts(client) {
     //giveaways
@@ -36,5 +37,15 @@ export function restoreTimeouts(client) {
                 }
             }, timeLeft > 0 ? timeLeft : 0);
         }
+    }
+
+    // daily stuff
+    for (const [channelId, config] of dailyMiaChannels.entries()) {
+        scheduleDailyContent(
+            client,
+            channelId,
+            config,
+            dailyMiaChannels
+        );
     }
 }
