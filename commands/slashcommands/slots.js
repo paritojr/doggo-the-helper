@@ -47,11 +47,14 @@ export default {
       let resultText = "";
     
       //tf i was doing with this one
-      if (s1 === s2 && s2 === s3) {
-        winnings = bet * 5;
+      if (s1 === "7️⃣" && s2 === "7️⃣" && s3 === "7️⃣") {
+        winnings = bet * 20;
+        resultText = "💎 JACKPOT!!!!";
+      } else if (s1 === s2 && s2 === s3) {
+        winnings = bet * 10;
         resultText = "TRIPLE-PAIR??? YOOOOOOO!!!! 🎉";
       } else if (s1 === s2 || s2 === s3 || s1 === s3) {
-        winnings = bet * 2;
+        winnings = bet * 3;
         resultText = "2-pair, nice";
       } else {
         winnings = -bet;
