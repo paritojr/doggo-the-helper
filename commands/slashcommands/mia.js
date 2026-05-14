@@ -6,7 +6,7 @@ export default {
 
   async execute(interaction) {
     try {
-      const apiUrl = "http://media.paritojr.co";
+      const apiUrl = "https://media.paritojr.co";
       const response = await fetch(`${apiUrl}/mia/totalmias.json`);
       const data = await response.json();
       const total = data.total;
