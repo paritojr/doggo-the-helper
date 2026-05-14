@@ -16,9 +16,9 @@ export function scheduleDailyContent(client, channelId, config, dailyMiaChannels
     const run = async () => {
         const channel = client.channels.cache.get(channelId);
         if (channel) {
-            await channel.send(await fetch("http://media.paritojr.co/mia/totalmias.json")
+            await channel.send(await fetch("https://media.paritojr.co/mia/totalmias.json")
                .then(res => res.json())
-               .then(data => `http://media.paritojr.co/mia/mia${Math.floor(Math.random() * data.total) + 1}.jpg`));
+               .then(data => `https://media.paritojr.co/mia/mia${Math.floor(Math.random() * data.total) + 1}.jpg`));
         }
         const latest = dailyMiaChannels.get(channelId);
         if (!latest) return;
