@@ -36,9 +36,9 @@ export default {
         embeds: [msgEmbed]
       });
       await channel.send(
-        await fetch("http://media.paritojr.co/mia/totalmias.json")
+        await fetch("https://media.paritojr.co/mia/totalmias.json")
           .then(res => res.json())
-          .then(data => `http://media.paritojr.co/mia/mia${Math.floor(Math.random() * data.total) + 1}.jpg`)
+          .then(data => `https://media.paritojr.co/mia/mia${Math.floor(Math.random() * data.total) + 1}.jpg`)
       );
       return interaction.reply({
         content: `daily mia enabled!`,
