@@ -42,5 +42,3 @@ export function clearDailyContent(channelId) {
     if (timeout) clearTimeout(timeout);
     timeoutsig.delete(channelId);
 }
-
-export { timeoutsig };
