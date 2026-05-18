@@ -8,39 +8,45 @@ you can do anything with the source code, i've provided a few commands (more com
 <br>
 <br>
 
+
+## Requirements
+- Node.js v24
+- Git 2.47.0 or higher
+- Debian 12.0
+- A Discord bot token
+
 ## Installation/Setup
 
-**step 1**: clone this repo:
-```bash
-git clone https://github.com/paritojr/doggo-the-helper.git
-cd doggo-the-helper
-```
+1. clone this repo
+    ```bash
+    git clone https://github.com/paritojr/doggo-the-helper.git
+    cd doggo-the-helper
+    ```
+2. create the database folder:
+	```bash
+	mkdir db
+	```
 
-**step 2**: install node.js [here](https://nodejs.org/en/download), if you haven't, go do that, otherwise, go to the next step
-<br>
-<br>
-**step 3**: create a new bot in the [Discord Developer Portal](https://discord.dev) and copy its token.
-<br>
-then create a `.env` file in the project root and follow the `.env.example` template
-<br>
-to get your Discord ID (for OWNER_ID variable), enable Developer Mode in Discord (Settings → Advanced), then right-click your profile and click **Copy User ID**.
-<br><br>
-**step 4**: create a folder named "db" in the root directory
-<br>
-<br>
-**step 5**: run `sudo apt install -y python3 make build-essential`
-<br>
-(this will install necessary build tools for some dependencies)
-<br>
-<br>
-**step 6**: run `npm install`
-<br>
-(this will install all dependencies the bot uses)
-<br>
-<br>
-**step 7**: run `npm run start`
-<br>
-<br>
+3. make the .env file:
+	```sh
+	cp .env.example .env
+	```
+    and fill in with
+	- `TOKEN`: the discord bot token
+	- `OWNER_ID`: your discord user id 
+
+4. install dependencies:
+	```bash
+	sudo apt install -y python3 make build-essential
+    npm install
+	```
+
+5. run da bot!!!!:
+	```sh
+	npm run start
+	```
+
+
 as a bonus, if you want to invite your bot to other servers, you can make an bot invite link
 
 ## License
