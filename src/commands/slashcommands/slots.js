@@ -55,7 +55,7 @@ export default {
         resultText = "TRIPLE-PAIR??? YOOOOOOO!!!! 🎉";
       } else if (s1 === s2 || s2 === s3 || s1 === s3) {
         winnings = bet * 3;
-        resultText = "2-pair, nice";
+        resultText = "2-pair, nice ✨";
       } else {
         winnings = -bet;
         resultText = "you lost 💀";
@@ -65,20 +65,24 @@ export default {
       balances.set(userId, balance);
     
       
-      interaction.reply({ content: "🎰 spinning...", fetchReply: true })
-        .then(async (msg) => {
-          await sleep(900);
-          await msg.edit(`${s1} | ❓ | ❓`);
-          
-          await sleep(900);
-          await msg.edit(`${s1} | ${s2} | ❓`);
-          
-          await sleep(900);
-          await msg.edit(`${s1} | ${s2} | ${s3}`);
-          
-          await sleep(500);
-          await msg.edit(`${s1} | ${s2} | ${s3}\n\n${resultText}\nchange: ${winnings} coinz\nbalance: ${balance}`);
-        })
-        .catch(console.error);
+      await interaction.reply({
+        content: "🎰 spinning..."
+      });
+      
+      const msg = await interaction.fetchReply();
+      
+      await sleep(900);
+      await msg.edit(`${s1} | ❓ | ❓`);
+      
+      await sleep(900);
+      await msg.edit(`${s1} | ${s2} | ❓`);
+      
+      await sleep(900);
+      await msg.edit(`${s1} | ${s2} | ${s3}`);
+      
+      await sleep(500);
+      await msg.edit(
+        `${s1} | ${s2} | ${s3}\n\n${resultText}\nchange: ${winnings} coinz\nbalance: ${balance}`
+      );
     }
 };
