@@ -87,11 +87,11 @@ export default {
                { name: "winners", value: winners.toString(), inline: true })
             .setColor("#3060f1").setFooter({ text: "good luck to everyone!" })
             .setTimestamp();
-         const giveawayMessage = await interaction.reply({
+         await interaction.reply({
             content: "its giveaway time!!!! 🐾🎉",
             embeds: [giveawayEmbed],
-            fetchReply: true,
          });
+         const giveawayMessage = await interaction.fetchReply();
          await giveawayMessage.react("🎉");
          await interaction.followUp({
             content: `this is the giveaway id: ${giveawayId}, whenever you want to manually stop the giveaway, use this id`,
@@ -107,7 +107,7 @@ export default {
             hostId: interaction.user.id,
          });
          setTimeout(() => {
-            stopGiveaway(giveawayId);
+            stopGiveaway(client, giveawayId);
          }, duration);
       }
    },
