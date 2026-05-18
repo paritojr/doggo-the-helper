@@ -39,7 +39,7 @@ export async function updater() {
       await runCommand("npm ci", { cwd: botCwd });
     }
 
-    spawn(process.argv[0], process.argv.slice(1), {
+    spawn("npm", ["run", "start"], {
       cwd: botCwd,
       detached: true,
       stdio: "inherit",
