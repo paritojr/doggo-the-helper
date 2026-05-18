@@ -6,7 +6,7 @@ import { postboardChannels, dangerChannels } from "./commands/database.js";
 import { updater } from "./utils/updater.js";
 import messageCreate from "./events/messageCreate.js";
 import interactionCreate from "./events/interactionCreate.js";
-import config from "./config.json" with { type: "json" };
+import config from "../config.json" with { type: "json" };
 import { restoreTimeouts } from "./utils/restoreTimeouts.js";
 
 const client = new Client({
