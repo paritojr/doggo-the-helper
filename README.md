@@ -12,7 +12,7 @@ you can do anything with the source code, i've provided a few commands (more com
 ## Requirements
 - Node.js v24
 - Git 2.47.0 or higher
-- Debian 12.0
+- Debian/Debian-based OSes
 - A Discord bot token
 
 ## Installation/Setup
