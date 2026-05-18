@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { pathToFileURL } from "url";
+import config from "../../../config.json" with { type: "json" };
 
 async function loadCommands(dir) {
   const files = fs.readdirSync(dir).filter(f => f.endsWith(".js"));
@@ -20,7 +21,7 @@ export default {
   name: "help",
   description: "lists all commands",
   async execute(message) {
-    const commandsPath = path.join(process.cwd(), "commands/textcommands");
+    const commandsPath = path.join(process.cwd(), "src/commands/textcommands");
     const commands = await loadCommands(commandsPath);
 
     const isModerator = message.member.permissions.has("BanMembers");
@@ -30,7 +31,7 @@ export default {
       if (cmd.ownerOnly) return false;
       if (cmd.modOnly && !isModerator) return false;
       return true;
-    }).map(cmd => `**!${cmd.name}**: ${cmd.description}`)
+    }).map(cmd => `**\\${config.prefix}${cmd.name}**: ${cmd.description}`)
     .join("\n");
     
     return message.channel.send(
