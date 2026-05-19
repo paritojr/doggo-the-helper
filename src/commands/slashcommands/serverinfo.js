@@ -1,8 +1,8 @@
 import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
 export default {
     data: new SlashCommandBuilder()
-    .setName("serverinfo")
-    .setDescription("shows server info"),
+       .setName("serverinfo")
+       .setDescription("shows server info"),
     
     async execute(interaction) {
         const guild = interaction.guild;
