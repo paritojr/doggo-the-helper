@@ -1,10 +1,10 @@
 import { coinz, dailycoinzt } from "../../db.js";
 import { SlashCommandBuilder, MessageFlags } from 'discord.js';
+import { initCoinz } from "../../utils/initcoinz.js";
 
 const balances = coinz;
 const dailyct = dailycoinzt;
 
-const STARTING_BALANCE = 1000;
 const DAILY_AMOUNT = 100;
 const COOLDOWN = 24 * 60 * 60 * 1000;
 
@@ -16,11 +16,8 @@ export default {
     async execute(interaction) {
       const sender = interaction.user;
       const userId = sender.id;
-      
-      if (!balances.has(userId)) {
-        balances.set(userId, STARTING_BALANCE);
-      }
-      
+      initCoinz(userId);
+
       const now = Date.now();
       const lastClaim = dailyct.get(userId);
       
