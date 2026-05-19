@@ -66,7 +66,7 @@ export default {
                                     type: 2,
                                     style: ButtonStyle.Link,
                                     label: "Avatar",
-                                    url: user.displayAvatarURL({ size: 1024 })
+                                    url: member.displayAvatarURL({ size: 1024 })
                                 }
                             ],
                         }
