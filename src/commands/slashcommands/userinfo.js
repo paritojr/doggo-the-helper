@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, ButtonStyle, MessageFlags } from "discord.js";
-import { coinz } from "../database.js";
+import { coinz } from "../../db.js";
 import { initCoinz } from "../../utils/initcoinz.js";
 
 const balances = coinz;

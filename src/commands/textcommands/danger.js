@@ -1,4 +1,4 @@
-import { dangerChannels } from "../database.js";
+import { dangerChannels } from "../../db.js";
 import { EmbedBuilder } from "discord.js";
 
 export default {

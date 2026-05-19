@@ -1,4 +1,4 @@
-import { coinz, dailycoinzt } from "../database.js";
+import { coinz, dailycoinzt } from "../../db.js";
 import { SlashCommandBuilder, MessageFlags } from 'discord.js';
 
 const balances = coinz;

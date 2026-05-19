@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, MessageFlags, EmbedBuilder } from "discord.js";
-import { dailyMiaChannels } from "../database.js";
+import { dailyMiaChannels } from "../../db.js";
 import { scheduleDailyContent, clearDailyContent } from "../../utils/dailycontent.js";
 
 export default {

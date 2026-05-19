@@ -1,7 +1,7 @@
 import { EmbedBuilder, SlashCommandBuilder, MessageFlags } from "discord.js";
 import { isContentFlagged } from "../../utils/isContentFlagged.js";
 import { parseTime } from "../../utils/parseTime.js";
-import { activeGiveaways } from "../database.js";
+import { activeGiveaways } from "../../db.js";
 import { stopGiveaway } from "../../utils/stopGiveaway.js";
 
 export default {

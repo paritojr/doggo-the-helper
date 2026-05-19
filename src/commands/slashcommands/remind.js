@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, MessageFlags } from "discord.js";
 import { parseTime } from "../../utils/parseTime.js";
-import { reminders } from "../database.js";
+import { reminders } from "../../db.js";
 
 export default {
   data: new SlashCommandBuilder()

@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { postboardChannels, dangerChannels } from "../commands/database.js";
+import { postboardChannels, dangerChannels } from "../db.js";
 export default (client, { prefix, textcmds }) => {
     client.on("messageCreate", async (message) => {
         if (message.author.bot) return;

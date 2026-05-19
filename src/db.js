@@ -1,4 +1,4 @@
-import { CatDB, CatDBMap, CatDBSet } from "../utils/catDB.js";
+import { CatDB, CatDBMap, CatDBSet } from "./utils/catDB.js";
 
 const db = new CatDB("./db/catdb.sqlite");
 
