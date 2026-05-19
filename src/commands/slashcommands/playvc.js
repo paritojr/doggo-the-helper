@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, MessageFlags, ChannelType } from "discord.js";
-import { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus, StreamType, entersState, VoiceConnectionStatus } from "@discordjs/voice";
+import { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus, StreamType, entersState, VoiceConnectionStatus, demuxProbe } from "@discordjs/voice";
 import { Readable } from "node:stream";
 export let isPlaying = false;
 export let starterId = null;
@@ -19,7 +19,7 @@ export default {
     .addAttachmentOption(option =>
       option
         .setName("audio")
-        .setDescription("upload an .ogg opus file")
+        .setDescription("upload an audio file")
         .setRequired(true)
     ),
 
@@ -33,9 +33,9 @@ export default {
 
     const channel = interaction.options.getChannel("channel");
     const attachment = interaction.options.getAttachment("audio");
-    if (!attachment.name.endsWith(".ogg") && !attachment.contentType?.includes("ogg")) {
+    if (!attachment.contentType?.startsWith("audio/")) {
       return interaction.reply({
-        content: "only ogg files!",
+        content: "only audio files!",
         flags: MessageFlags.Ephemeral,
       });
     }
@@ -60,8 +60,9 @@ export default {
       }
 
       const stream = Readable.fromWeb(response.body);
-      const resource = createAudioResource(stream, {
-        inputType: StreamType.OggOpus,
+      const { stream: probedStream, type } = await demuxProbe(stream);
+      const resource = createAudioResource(probedStream, {
+        inputType: type,
       });
       player = createAudioPlayer();
       connection.subscribe(player);
