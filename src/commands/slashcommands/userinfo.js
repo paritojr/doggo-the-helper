@@ -45,7 +45,7 @@ export default {
                             accessory: {
                                 type: 11,
                                 media: {
-                                    url: user.displayAvatarURL({ size: 256 })
+                                    url: member.displayAvatarURL({ size: 256 })
                                 }
                             }
                         },
