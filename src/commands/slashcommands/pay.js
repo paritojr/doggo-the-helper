@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { coinz } from "../database.js";
+import { initCoinz } from "../../utils/initcoinz.js";
 
 const balances = coinz;
-const STARTING_BALANCE = 1000;
 
 export default {
     data: new SlashCommandBuilder()
@@ -23,8 +23,8 @@ export default {
       const target = interaction.options.getUser("user");
       const amount = interaction.options.getInteger("amount");
       
-      if (!balances.has(sender.id)) balances.set(sender.id, STARTING_BALANCE);
-      if (!balances.has(target.id)) balances.set(target.id, STARTING_BALANCE);
+      initCoinz(sender.id);
+      initCoinz(target.id);
       
       balances.set(sender.id, balances.get(sender.id) - amount);
       balances.set(target.id, balances.get(target.id) + amount);

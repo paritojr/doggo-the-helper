@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { coinz } from "../database.js";
+import { initCoinz } from "../../utils/initcoinz.js";
 
 const balances = coinz;
-const STARTING_BALANCE = 1000;
 
 export default {
     data: new SlashCommandBuilder()
@@ -16,9 +16,7 @@ export default {
     async execute(interaction) {
       const target = interaction.options.getUser("user") || interaction.user;
       const userId = target.id;
-      if (!balances.has(userId)) {
-        balances.set(userId, STARTING_BALANCE);
-      }
+      initCoinz(userId);
       const userBalance = balances.get(userId);
       await interaction.reply({
         content: `${target} has **${userBalance} coinz**`

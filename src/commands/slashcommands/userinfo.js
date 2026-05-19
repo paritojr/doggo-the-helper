@@ -1,8 +1,8 @@
 import { SlashCommandBuilder, ButtonStyle, MessageFlags } from "discord.js";
 import { coinz } from "../database.js";
+import { initCoinz } from "../../utils/initcoinz.js";
 
 const balances = coinz;
-const STARTING_BALANCE = 1000;
 export default {
     data: new SlashCommandBuilder()
         .setName('userinfo')
@@ -23,12 +23,9 @@ export default {
         const userType = user.bot ? "bot" : "human";
         const isBooster = member.premiumSince ? "yes!" : "no :(";
 
-        const userId = user.id;
-        if (!balances.has(userId)) {
-            balances.set(userId, STARTING_BALANCE);
-        }
-        const userBalance = balances.get(userId);
-        
+        initCoinz(user.id);
+        const userBalance = balances.get(user.id);
+
         await interaction.reply({
             flags: MessageFlags.IsComponentsV2,
             components: [

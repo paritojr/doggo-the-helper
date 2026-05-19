@@ -1,7 +1,8 @@
 import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import { coinz } from "../database.js";
+import { initCoinz } from "../../utils/initcoinz.js";
 const balances = coinz;
-const STARTING_BALANCE = 1000;
+
 export default {
    data: new SlashCommandBuilder()
         .setName('flip')
@@ -23,13 +24,10 @@ export default {
 
    async execute(interaction) {
       const userId = interaction.user.id;
+      initCoinz(userId);
       let balance = balances.get(userId);
       const choice = interaction.options.getString('choice');
       const bet = interaction.options.getInteger('bet');
-
-      if (!balances.has(userId)) {
-        balances.set(userId, STARTING_BALANCE);
-      }
 
       const results = ['heads', 'tails'];
       const flip = results[Math.floor(Math.random() * results.length)];

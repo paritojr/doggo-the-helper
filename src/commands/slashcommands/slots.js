@@ -1,8 +1,8 @@
 import { SlashCommandBuilder, MessageFlags } from "discord.js";
 import { coinz } from "../database.js";
+import { initCoinz } from "../../utils/initcoinz.js";
 
 const balances = coinz;
-const STARTING_BALANCE = 1000;
 
 const symbols = ["🍒", "🍋", "🍉", "⭐", "💎", "7️⃣", "🍇", "🍊",];
 function getRandomSymbol() {
@@ -25,9 +25,7 @@ export default {
     async execute(interaction) {
       const userId = interaction.user.id;
       const bet = interaction.options.getInteger("bet");
-      if (!balances.has(userId)) {
-        balances.set(userId, STARTING_BALANCE);
-      }
+      initCoinz(userId);
       let balance = balances.get(userId);
       if (bet <= 0) {
         return interaction.reply({ content: "bet must be more than 0 lol", flags: MessageFlags.Ephemeral });
