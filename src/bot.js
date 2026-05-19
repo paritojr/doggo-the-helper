@@ -91,4 +91,4 @@ client.login(BOT_TOKEN)
         process.exit(1);
     });
 updater();
-setInterval(() => { updater() }, 10 * 60 * 1000);
+setInterval(updater, 10 * 60 * 1000);git
