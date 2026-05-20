@@ -1,3 +1,4 @@
+import config from "../../../config.json" with { type: "json" };
 export default {
   name: "unban",
   description: "unbans a user by user id",
@@ -8,7 +9,7 @@ export default {
     }
 
     const userId = args[0];
-    if (!userId) return message.reply("pls provide an user id");
+    if (!userId) return message.reply(`usage: \\${config.prefix}unban <user id>`);
 
     try {
       const bannedUser = await message.guild.bans.fetch(userId).catch(() => null);

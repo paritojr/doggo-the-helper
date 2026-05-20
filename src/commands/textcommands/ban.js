@@ -1,3 +1,4 @@
+import config from "../../../config.json" with { type: "json" };
 export default {
   name: "ban",
   description: "bans an user",
@@ -8,7 +9,7 @@ export default {
     }
 
     const member = message.mentions.members.first();
-    if (!member) return message.reply("Mention a user.");
+    if (!member) return message.reply(`usage: \\${config.prefix}ban @user <reason>`);
 
     const reason = args.slice(1).join(" ") || "No reason provided";
 

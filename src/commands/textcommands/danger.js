@@ -1,5 +1,6 @@
 import { dangerChannels } from "../../db.js";
 import { EmbedBuilder } from "discord.js";
+import config from "../../../config.json" with { type: "json" };
 
 export default {
   name: "danger",
@@ -13,7 +14,7 @@ export default {
     }
     const channel = message.mentions.channels.first();
     if (!channel) {
-      return message.channel.send("usage: !danger #channel");
+      return message.channel.send(`usage: \\${config.prefix}danger #channel`);
     }
 
     if (dangerChannels.has(channel.id)) {
