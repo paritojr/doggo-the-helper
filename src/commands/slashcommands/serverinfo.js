@@ -19,7 +19,12 @@ export default {
         const serverOwner = await guild.fetchOwner();
         const finalMemberCount = `${guild.memberCount} (${botCount} bots)`;
         const ageDays = Math.floor((Date.now() - guild.createdTimestamp) / 86400000);
-        const features = guild.features.join(", ") || "None";
+        const features = guild.features.length
+          ? guild.features.map(f => f
+            .toLowerCase()
+            .replace(/_/g, " ")
+            .replace(/\b\w/g, c => c.toUpperCase())).join(", ")
+          : "None";
 
         const statsEmbed = new EmbedBuilder()
             .setTitle(`server info for ${guild.name}`)
