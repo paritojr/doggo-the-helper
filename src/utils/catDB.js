@@ -1,6 +1,6 @@
 import Database from "better-sqlite3";
 
-class CatDB {
+export class CatDB {
   constructor(path = "./db/catDB.sqlite") {
     this.data = {};
     this._saveTimeout = null;
@@ -75,7 +75,7 @@ class CatDB {
   }
 }
 
-class CatDBMap {
+export class CatDBMap {
   constructor(db, key) {
     this.db = db;
     this.key = key;
@@ -121,7 +121,7 @@ class CatDBMap {
   }
 }
 
-class CatDBSet {
+export class CatDBSet {
   constructor(db, key) {
     this.db = db;
     this.key = key;
@@ -159,5 +159,3 @@ class CatDBSet {
     return this.store.values();
   }
 }
-
-export { CatDB, CatDBMap, CatDBSet };
