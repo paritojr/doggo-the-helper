@@ -6,7 +6,7 @@ export default {
     
     async execute(interaction) {
         const guild = interaction.guild;
-        await guild.channels.fetch();
+        await guild.members.fetch();
         const iconUrl = guild.iconURL({ dynamic: true, size: 256 }) || null;
         const emojiCount = guild.emojis.cache.size;
         const stickerCount = guild.stickers.cache.size;
