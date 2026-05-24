@@ -92,7 +92,7 @@ export default {
         \\- a person can't count twice
         \\- non numeric inputs are ignored
 
-        if you get a correct number the bot reacts with "✅", otherwise it will return an "❌" and the game will restart
+        if you get a correct number the bot reacts with "✅", otherwise it will react with "❌" and the game will restart
         if the channel gets to the goal the game ends
 
         that's it, have fun! :)
