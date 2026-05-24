@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, MessageFlags, EmbedBuilder } from 'discord.js';
+import { SlashCommandBuilder, MessageFlags, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
 import { countingChannels } from '../../db.js';
 export default {
    data: new SlashCommandBuilder()
@@ -38,6 +38,12 @@ export default {
    async execute(interaction) {
       const subcommand = interaction.options.getSubcommand();
       if (subcommand === "add") {
+        if (!interaction.memberPermissions.has(PermissionFlagsBits.ManageChannels)) {
+            return interaction.reply({
+              content: 'you need permissions to use this lol',
+              flags: MessageFlags.Ephemeral
+            });
+        }
         const channel = interaction.options.getChannel('channel');
         const goal = interaction.options.getInteger('goal');
 
@@ -59,8 +65,14 @@ export default {
             content: `counting game added to ${channel}! the goal is: ${goal}`
         });
       } else if (subcommand === "remove") {
+        if (!interaction.memberPermissions.has(PermissionFlagsBits.ManageChannels)) {
+            return interaction.reply({
+              content: 'you need permissions to use this lol',
+              flags: MessageFlags.Ephemeral
+            });
+        }
+        
         const channel = interaction.options.getChannel('channel');
-
         if (!countingChannels.has(channel.id)) {
             return interaction.reply({
                content: 'that channel doesn\'t even have a counting game lol',
