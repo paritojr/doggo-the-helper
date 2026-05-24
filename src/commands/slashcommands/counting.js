@@ -7,7 +7,7 @@ export default {
         .addSubcommand(subcommand =>
            subcommand
             .setName('help')
-            .setDescription('get info about counting game')
+            .setDescription('get help about counting game')
          ),
 
    async execute(interaction) {
@@ -26,7 +26,7 @@ export default {
         
         `
         const funnyembed = new EmbedBuilder()
-            .setTitle("counting game info")
+            .setTitle("counting game overview")
             .setDescription(`${infolol}`)
             .setColor("#3060f1");
 
