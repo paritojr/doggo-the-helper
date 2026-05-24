@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { postboardChannels, dangerChannels } from "../db.js";
+import { postboardChannels, dangerChannels, countingChannels } from "../db.js";
 export default (client, { prefix, textcmds }) => {
     client.on("messageCreate", async (message) => {
         if (message.author.bot) return;
@@ -7,6 +7,7 @@ export default (client, { prefix, textcmds }) => {
         const isPostboardChannel = postboardChannels.has(message.channel.id);
         const isOwner = message.author.id === process.env.OWNER_ID;
         const isDangerChannel = dangerChannels.has(message.channel.id);
+        const isCountingChannel = countingChannels.has(message.channel.id);
 
         if (isDangerChannel) {
             if (isOwner || message.member.permissions.has("Administrator") || message.member.permissions.has("ManageMessages")) return;
@@ -17,6 +18,37 @@ export default (client, { prefix, textcmds }) => {
                 });
             } catch (err) {
                 console.error("error:", err);
+            }
+            return;
+        }
+
+        if (isCountingChannel) {
+            const state = countingChannels.get(message.channel.id);
+            if (!state) return;
+            
+            const raw = message.content.trim();
+            if (!/^\d+$/.test(raw)) return;
+            const num = Number(raw);
+            const expected = state.current + 1;
+            if (message.author.id === state.lastUser || num !== expected) {
+                await message.react('❌').catch(()=>{});
+                state.highest = Math.max(state.highest ?? 0, state.current);
+                state.current = 0;
+                state.lastUser = null;
+                countingChannels.set(message.channel.id, state);
+                return;
+            }
+            
+            state.current = num;
+            state.lastUser = message.author.id;
+            state.highest = Math.max(state.highest ?? 0, state.current);
+            countingChannels.set(message.channel.id, state);
+            await message.react('✅').catch(()=>{});
+            if (state.goal && state.current >= state.goal) {
+                await message.channel.send(`goal reached dudes: ${state.current}`).catch(()=>{});
+                state.current = 0;
+                state.lastUser = null;
+                countingChannels.delete(message.channel.id);
             }
             return;
         }
