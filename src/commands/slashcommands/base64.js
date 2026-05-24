@@ -3,26 +3,26 @@ import { Buffer } from "buffer";
 
 export default {
     data: new SlashCommandBuilder()
-    .setName("base64")
-    .setDescription("encode or decode a string with base64")
-    .addSubcommand(subcommand =>
-        subcommand
-        .setName('encode')
-        .setDescription('encode a string with base64')
-         .addStringOption(option =>
-            option.setName('text')
-            .setDescription('text to encode')
-            .setRequired(true))
-    )
-    .addSubcommand(subcommand =>
-         subcommand
-         .setName('decode')
-         .setDescription('decode a string with base64')
-         .addStringOption(option =>
-            option.setName('text')
-            .setDescription('text to decode')
-            .setRequired(true))
-    ),
+        .setName("base64")
+        .setDescription("encode or decode a string with base64")
+        .addSubcommand(subcommand =>
+            subcommand
+            .setName('encode')
+            .setDescription('encode a string with base64')
+             .addStringOption(option =>
+                option.setName('text')
+                .setDescription('text to encode')
+                .setRequired(true))
+        )
+        .addSubcommand(subcommand =>
+             subcommand
+             .setName('decode')
+             .setDescription('decode a string with base64')
+             .addStringOption(option =>
+                option.setName('text')
+                .setDescription('text to decode')
+                .setRequired(true))
+        ),
 
     async execute(interaction) {
         const subcommand = interaction.options.getSubcommand();
