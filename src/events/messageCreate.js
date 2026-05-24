@@ -32,6 +32,7 @@ export default (client, { prefix, textcmds }) => {
             const expected = state.current + 1;
             if (message.author.id === state.lastUser || num !== expected) {
                 await message.react('❌').catch(()=>{});
+                await message.reply(`${message.author} ruined it! game starts back again now`)
                 state.highest = Math.max(state.highest ?? 0, state.current);
                 state.current = 0;
                 state.lastUser = null;
