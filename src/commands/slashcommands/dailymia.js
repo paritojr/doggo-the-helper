@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, MessageFlags, EmbedBuilder, InteractionContextType } from "discord.js";
+import { SlashCommandBuilder, PermissionFlagsBits, MessageFlags, EmbedBuilder, InteractionContextType } from "discord.js";
 import { dailyMiaChannels } from "../../db.js";
 import { scheduleDailyContent, clearDailyContent } from "../../utils/dailycontent.js";
 
@@ -6,6 +6,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName("dailymia")
     .setDescription("toggle daily mia in this channel")
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
     .setContexts(InteractionContextType.Guild),
 
   async execute(interaction) {

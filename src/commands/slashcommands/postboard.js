@@ -1,4 +1,4 @@
-import { PermissionsBitField, EmbedBuilder, SlashCommandBuilder, MessageFlags, InteractionContextType } from "discord.js";
+import { PermissionsBitField, PermissionFlagsBits, EmbedBuilder, SlashCommandBuilder, MessageFlags, InteractionContextType } from "discord.js";
 import { postboardChannels } from "../../db.js";
 
 export default {
@@ -6,6 +6,7 @@ export default {
         .setName('postboard')
         .setDescription('toggles postboard mode for a channel (auto-threads messages)')
         .setContexts(InteractionContextType.Guild)
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
         .addChannelOption(option =>
             option.setName('channel')
                 .setDescription('channel to enable or disable postboard mode in')
