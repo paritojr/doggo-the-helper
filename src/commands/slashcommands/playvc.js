@@ -25,6 +25,23 @@ export default {
     ),
 
   async execute(interaction) {
+    const now = new Date();
+    const isOpenTime = now.getUTCHours() === 20 && now.getUTCMinutes() < 15;
+    
+    if (!isOpenTime) {
+      const start = new Date(Date.UTC(
+        now.getUTCFullYear(),
+        now.getUTCMonth(),
+        now.getUTCDate(),
+        20, 0, 0
+      ));
+
+      return interaction.reply({
+        content: `playvc closed rn, only open at <t:${Math.floor(start.getTime() / 1000)}:t>`,
+        flags: MessageFlags.Ephemeral,
+      });
+    }
+
     if (isPlaying) {
       return interaction.reply({
         content: "already playing audio, duh",
@@ -71,7 +88,12 @@ export default {
       starterId = interaction.user.id;
       activePlayer = player;
       player.play(resource);
+      //max 1 minute lol
+      const timeout = setTimeout(() => {
+        player.stop();
+      }, 60 * 1000);
       const cleanup = () => {
+        clearTimeout(timeout);
         isPlaying = false;
         starterId = null;
         activePlayer = null;
