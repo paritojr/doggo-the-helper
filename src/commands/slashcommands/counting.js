@@ -1,5 +1,4 @@
 import { SlashCommandBuilder, MessageFlags, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
-import { countingChannels } from '../../db.js';
 export default {
    data: new SlashCommandBuilder()
         .setName('counting')

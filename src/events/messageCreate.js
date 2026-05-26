@@ -3,6 +3,7 @@ import { postboardChannels, dangerChannels, countingChannels } from "../db.js";
 export default (client, { prefix, textcmds }) => {
     client.on("messageCreate", async (message) => {
         if (message.author.bot) return;
+        if (message.channel.type === "dm") return;
 
         const isPostboardChannel = postboardChannels.has(message.channel.id);
         const isOwner = message.author.id === process.env.OWNER_ID;

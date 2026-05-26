@@ -61,25 +61,20 @@ export default {
     
       balance += winnings;
       balances.set(userId, balance);
-    
       
-      await interaction.reply({
-        content: "🎰 spinning..."
-      });
-      
-      const msg = await interaction.fetchReply();
+      await interaction.reply({ content: "🎰 spinning..." });
       
       await sleep(900);
-      await msg.edit(`${s1} | ❓ | ❓`);
+      await interaction.editReply(`${s1} | ❓ | ❓`);
       
       await sleep(900);
-      await msg.edit(`${s1} | ${s2} | ❓`);
+      await interaction.editReply(`${s1} | ${s2} | ❓`);
       
       await sleep(900);
-      await msg.edit(`${s1} | ${s2} | ${s3}`);
+      await interaction.editReply(`${s1} | ${s2} | ${s3}`);
       
       await sleep(500);
-      await msg.edit(
+      await interaction.editReply(
         `${s1} | ${s2} | ${s3}\n\n${resultText}\nchange: ${winnings} coinz\nbalance: ${balance}`
       );
     }

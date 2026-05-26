@@ -1,10 +1,11 @@
-import { SlashCommandBuilder, MessageFlags } from "discord.js";
+import { SlashCommandBuilder, MessageFlags, InteractionContextType } from "discord.js";
 import { isPlaying, starterId, activePlayer } from "./playvc.js";
 
 export default {
   data: new SlashCommandBuilder()
     .setName("stopvc")
-    .setDescription("stops vc playback"),
+    .setDescription("stops vc playback")
+    .setContexts(InteractionContextType.Guild),
 
   async execute(interaction) {
     if (!isPlaying) {

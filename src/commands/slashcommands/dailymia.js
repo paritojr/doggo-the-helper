@@ -1,11 +1,12 @@
-import { SlashCommandBuilder, MessageFlags, EmbedBuilder } from "discord.js";
+import { SlashCommandBuilder, MessageFlags, EmbedBuilder, InteractionContextType } from "discord.js";
 import { dailyMiaChannels } from "../../db.js";
 import { scheduleDailyContent, clearDailyContent } from "../../utils/dailycontent.js";
 
 export default {
   data: new SlashCommandBuilder()
     .setName("dailymia")
-    .setDescription("toggle daily mia in this channel"),
+    .setDescription("toggle daily mia in this channel")
+    .setContexts(InteractionContextType.Guild),
 
   async execute(interaction) {
     const channelId = interaction.channel.id;

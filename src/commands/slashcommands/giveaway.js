@@ -1,4 +1,4 @@
-import { EmbedBuilder, SlashCommandBuilder, MessageFlags } from "discord.js";
+import { EmbedBuilder, SlashCommandBuilder, MessageFlags, InteractionContextType } from "discord.js";
 import { isContentFlagged } from "../../utils/isContentFlagged.js";
 import { parseTime } from "../../utils/parseTime.js";
 import { activeGiveaways } from "../../db.js";
@@ -8,6 +8,7 @@ export default {
    data: new SlashCommandBuilder()
       .setName('giveaway')
       .setDescription('creates or manages giveaways')
+      .setContexts(InteractionContextType.Guild)
       .addSubcommand(subcommand =>
          subcommand
          .setName('start')

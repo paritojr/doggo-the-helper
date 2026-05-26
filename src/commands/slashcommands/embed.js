@@ -71,10 +71,6 @@ export default {
          return;
       } else {
          await interaction.reply({ 
-            content: 'done ig', 
-            flags: MessageFlags.Ephemeral
-         });
-         await interaction.channel.send({
             embeds: [awesomeEmbed],
          });
       }
