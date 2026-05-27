@@ -5,7 +5,7 @@ export default {
   modOnly: true,
   async execute(message, args) {
     if (!message.member.permissions.has("BanMembers")) {
-      return message.reply("No permission.");
+      return;
     }
 
     const member = message.mentions.members.first();

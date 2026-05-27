@@ -6,7 +6,7 @@ export default {
   modOnly: true,
   async execute(message, args) {
     if (!message.member.permissions.has("ManageGuild") && !message.member.permissions.has("Administrator")) {
-      return message.channel.send("you can't use this!");
+      return;
     }
     if (!args[0]) {
       return message.reply(`usage: \\${config.prefix}addcounting #channel <goal>`);

@@ -5,7 +5,7 @@ export default {
   modOnly: true,
   async execute(message, args) {
     if (!message.member.permissions.has("BanMembers")) {
-      return message.reply("you can't use this lol");
+      return;
     }
 
     const userId = args[0];
