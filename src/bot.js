@@ -1,4 +1,5 @@
 import "dotenv/config";
+import "./migration.js";
 import { Client, GatewayIntentBits, REST, ActivityType } from "discord.js";
 import { Routes } from "discord-api-types/v10";
 import { slashcmds, textcmds } from "./commands/index.js";
