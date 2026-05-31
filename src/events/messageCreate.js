@@ -1,5 +1,7 @@
 import "dotenv/config";
 import { postboardChannels, dangerChannels, countingChannels } from "../db.js";
+const cooldowns = new Map();
+const cooldownTime = 1000;
 export default (client, { prefix, textcmds }) => {
     client.on("messageCreate", async (message) => {
         if (message.author.bot) return;
@@ -63,6 +65,12 @@ export default (client, { prefix, textcmds }) => {
             const command = textcmds[commandName];
             if (!command) return;
             if (command.ownerOnly && !isOwner) return;
+
+            const now = Date.now();
+            const expirationTime = cooldowns.get("global") || 0;
+            if (now < expirationTime) return;
+            cooldowns.set("global", now + cooldownTime);
+            
             try {
                 await command.execute(message, args);
             } catch (err) {
