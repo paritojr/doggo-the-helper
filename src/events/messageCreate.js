@@ -28,8 +28,10 @@ export default (client, { prefix, textcmds }) => {
             if (!state) return;
             
             const raw = message.content.trim();
-            if (!/^\d+$/.test(raw)) return;
-            const num = Number(raw);
+            const match = raw.match(/^\d+/); 
+            if (!match) return;
+            
+            const num = Number(match[0]);
             const expected = state.current + 1;
             if (message.author.id === state.lastUser || num !== expected) {
                 await message.react('❌').catch(()=>{});
