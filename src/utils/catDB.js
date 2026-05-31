@@ -21,14 +21,6 @@ export class CatDB {
     `);
   }
 
-  map(name) {
-    return new CatDBMap(this, name);
-  }
-
-  set(name) {
-    return new CatDBSet(this, name);
-  }
-
   _get(key, ns) {
     const row = this.db.prepare(
       "SELECT value FROM store WHERE namespace = ? AND key = ?"
