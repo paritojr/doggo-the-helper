@@ -11,7 +11,9 @@ const COOLDOWN = 24 * 60 * 60 * 1000;
 export default {
     data: new SlashCommandBuilder()
         .setName('dailycoinz')
-        .setDescription('claim your daily coinz!'),
+        .setDescription('claim your daily coinz!')
+        .setIntegrationTypes([0, 1])
+        .setContexts([0, 1, 2]),
 
     async execute(interaction) {
       const sender = interaction.user;

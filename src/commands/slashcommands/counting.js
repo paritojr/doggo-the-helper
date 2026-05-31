@@ -3,6 +3,8 @@ export default {
    data: new SlashCommandBuilder()
         .setName('counting')
         .setDescription("counting game")
+        .setIntegrationTypes([0, 1])
+        .setContexts([0, 1, 2])
         .addSubcommand(subcommand =>
            subcommand
             .setName('help')

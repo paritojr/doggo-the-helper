@@ -4,6 +4,8 @@ export default {
    data: new SlashCommandBuilder()
         .setName('8ball')
         .setDescription('ask the mighty 8 ball a question')
+        .setIntegrationTypes([0, 1])
+        .setContexts([0, 1, 2])
         .addStringOption(option =>
             option.setName('question')
                 .setDescription('the question lmao')

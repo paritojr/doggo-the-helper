@@ -2,7 +2,9 @@ import { SlashCommandBuilder, MessageFlags } from "discord.js";
 export default {
   data: new SlashCommandBuilder()
     .setName("ping")
-    .setDescription("pings the bot"),
+    .setDescription("pings the bot")
+    .setIntegrationTypes([0, 1])
+    .setContexts([0, 1, 2]),
 
   async execute(interaction) {
     const botLatency = Date.now() - interaction.createdTimestamp;

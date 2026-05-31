@@ -7,6 +7,8 @@ export default {
    data: new SlashCommandBuilder()
         .setName('flip')
         .setDescription('flip a coin!')
+        .setIntegrationTypes([0, 1])
+        .setContexts([0, 1, 2])
         .addIntegerOption(option =>
             option.setName('bet')
                 .setDescription('amount of coinz to bet')

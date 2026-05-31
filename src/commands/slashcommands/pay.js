@@ -8,6 +8,8 @@ export default {
     data: new SlashCommandBuilder()
         .setName('pay')
         .setDescription('pay coinz to an user')
+        .setIntegrationTypes([0, 1])
+        .setContexts([0, 1, 2])
         .addUserOption(option =>
             option.setName('user')
                 .setDescription('user to send coinz')

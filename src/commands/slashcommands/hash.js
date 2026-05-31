@@ -5,6 +5,8 @@ export default {
     data: new SlashCommandBuilder()
        .setName("hash")
        .setDescription("hash sum text")
+       .setIntegrationTypes([0, 1])
+       .setContexts([0, 1, 2])
        .addStringOption(option =>
            option.setName('type')
            .setDescription('algorithm to hash')

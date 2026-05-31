@@ -2,7 +2,9 @@ import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 export default {
   data: new SlashCommandBuilder()
     .setName("quote")
-    .setDescription("send a random quote"),
+    .setDescription("send a random quote")
+    .setIntegrationTypes([0, 1])
+    .setContexts([0, 1, 2]),
 
   async execute(interaction) {
     try {

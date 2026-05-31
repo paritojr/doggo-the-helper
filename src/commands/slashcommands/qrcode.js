@@ -4,6 +4,8 @@ export default {
   data: new SlashCommandBuilder()
         .setName('qrcode')
         .setDescription('generate a qr code')
+        .setIntegrationTypes([0, 1])
+        .setContexts([0, 1, 2])
         .addStringOption(option =>
             option.setName('data')
                 .setDescription('data to go on the qr code')

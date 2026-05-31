@@ -7,6 +7,8 @@ export default {
     data: new SlashCommandBuilder()
         .setName('userinfo')
         .setDescription('shows info for a specific user')
+        .setIntegrationTypes([0, 1])
+        .setContexts([0, 1, 2])
         .addUserOption(option =>
             option.setName('user')
                 .setDescription('user id hehe')

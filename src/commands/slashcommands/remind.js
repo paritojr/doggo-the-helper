@@ -6,6 +6,8 @@ export default {
   data: new SlashCommandBuilder()
     .setName("remind")
     .setDescription("sets a reminder for something")
+    .setIntegrationTypes([0, 1])
+    .setContexts([0, 1, 2])
     .addStringOption(option =>
       option
         .setName("time")

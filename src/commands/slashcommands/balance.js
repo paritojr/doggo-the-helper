@@ -8,6 +8,8 @@ export default {
     data: new SlashCommandBuilder()
         .setName('balance')
         .setDescription("shows an user's coinz balance")
+        .setIntegrationTypes([0, 1])
+        .setContexts([0, 1, 2])
         .addUserOption(option =>
             option.setName('user')
                 .setDescription("check another user's balance ig")

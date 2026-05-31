@@ -4,7 +4,9 @@ import { coinz } from "../../db.js";
 export default {
   data: new SlashCommandBuilder()
     .setName("leaderboard")
-    .setDescription("show richest users"),
+    .setDescription("show richest users")
+    .setIntegrationTypes([0, 1])
+    .setContexts([0, 1, 2]),
 
   async execute(interaction) {
     const entries = [...coinz.entries()];

@@ -3,6 +3,8 @@ export default {
    data: new SlashCommandBuilder()
         .setName('random')
         .setDescription("get random things")
+        .setIntegrationTypes([0, 1])
+        .setContexts([0, 1, 2])
         .addSubcommand(subcommand =>
            subcommand
             .setName('cat')

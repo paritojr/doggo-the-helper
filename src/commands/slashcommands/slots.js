@@ -16,6 +16,8 @@ export default {
     data: new SlashCommandBuilder()
         .setName('slots')
         .setDescription('play slots game')
+        .setIntegrationTypes([0, 1])
+        .setContexts([0, 1, 2])
         .addIntegerOption(option =>
             option.setName('bet')
                 .setDescription('amount of coinz to bet')

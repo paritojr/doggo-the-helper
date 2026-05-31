@@ -5,6 +5,8 @@ export default {
    data: new SlashCommandBuilder()
         .setName('embed')
         .setDescription('creates a fantastic embed')
+        .setIntegrationTypes([0, 1])
+        .setContexts([0, 1, 2])
         .addStringOption(option =>
             option.setName('title')
                 .setDescription("the embed's title :O")

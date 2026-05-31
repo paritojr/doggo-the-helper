@@ -5,6 +5,8 @@ export default {
     data: new SlashCommandBuilder()
         .setName("base64")
         .setDescription("encode or decode a string with base64")
+        .setIntegrationTypes([0, 1])
+        .setContexts([0, 1, 2])
         .addSubcommand(subcommand =>
             subcommand
             .setName('encode')
