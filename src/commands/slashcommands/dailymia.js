@@ -46,7 +46,6 @@ export default {
         content: `daily mia enabled!`,
         flags: MessageFlags.Ephemeral,
       });
-      
     }
   },
 };
