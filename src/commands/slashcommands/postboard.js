@@ -1,5 +1,5 @@
 import { PermissionsBitField, PermissionFlagsBits, EmbedBuilder, SlashCommandBuilder, MessageFlags, InteractionContextType } from "discord.js";
-import { postboardChannels } from "../../db.js";
+import { postboardChannels } from "../../database.js";
 
 export default {
     data: new SlashCommandBuilder()

@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { postboardChannels, dangerChannels, countingChannels } from "../db.js";
+import { postboardChannels, dangerChannels, countingChannels } from "../database.js";
 const cooldowns = new Map();
 const cooldownTime = 1000;
 export default (client, { prefix, textcmds }) => {

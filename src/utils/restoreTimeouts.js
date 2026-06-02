@@ -1,4 +1,4 @@
-import { reminders, activeGiveaways, dailyMiaChannels } from "../db.js"
+import { reminders, activeGiveaways, dailyMiaChannels } from "../database.js"
 import { stopGiveaway } from "./stopGiveaway.js";
 import { scheduleDailyContent } from "./dailycontent.js";
 

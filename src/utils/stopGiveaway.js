@@ -1,5 +1,5 @@
 import { EmbedBuilder } from "discord.js";
-import { activeGiveaways } from "../db.js";
+import { activeGiveaways } from "../database.js";
 
 export async function stopGiveaway(client, giveawayId) {
    const giveaway = activeGiveaways.get(giveawayId);

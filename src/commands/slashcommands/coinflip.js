@@ -1,5 +1,5 @@
 import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
-import { coinz } from "../../db.js";
+import { coinz } from "../../database.js";
 import { initCoinz } from "../../utils/initcoinz.js";
 const balances = coinz;
 

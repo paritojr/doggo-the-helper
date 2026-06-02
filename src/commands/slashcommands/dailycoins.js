@@ -1,4 +1,4 @@
-import { coinz, dailycoinzt } from "../../db.js";
+import { coinz, dailycoinzt } from "../../database.js";
 import { SlashCommandBuilder, MessageFlags } from 'discord.js';
 import { initCoinz } from "../../utils/initcoinz.js";
 

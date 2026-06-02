@@ -1,4 +1,4 @@
-import { countingChannels } from '../../db.js';
+import { countingChannels } from '../../database.js';
 import config from "../../../config.json" with { type: "json" };
 export default {
   name: "addcounting",

@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "discord.js";
-import { coinz } from "../../db.js";
+import { coinz } from "../../database.js";
 
 export default {
   data: new SlashCommandBuilder()

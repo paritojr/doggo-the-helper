@@ -1,12 +1,10 @@
 import "dotenv/config";
 import { Client, GatewayIntentBits, REST, ActivityType } from "discord.js";
 import { Routes } from "discord-api-types/v10";
-import { slashcmds, textcmds } from "./commands/index.js";
+import { slashcmds } from "./commands/index.js";
 import { updater } from "./utils/updater.js";
-import messageCreate from "./events/messageCreate.js";
-import interactionCreate from "./events/interactionCreate.js";
-import config from "../config.json" with { type: "json" };
 import { restoreTimeouts } from "./utils/restoreTimeouts.js";
+import { createEvents } from "./events.js";
 
 const client = new Client({
     intents: [
@@ -27,8 +25,6 @@ const statuses = [
     { name: "lofi music", type: ActivityType.Listening },
     { name: "nice", type: ActivityType.Custom, state: "today's a great day!!!" }
 ];
-messageCreate(client, { prefix:config.prefix, textcmds });
-interactionCreate(client, { slashcmds });
 client.once("clientReady", async () => {
     console.log(`bot is online! logged in as ${client.user.tag}`);
     console.log(`bot is serving ${client.guilds.cache.size} guilds`);
@@ -60,6 +56,7 @@ client.once("clientReady", async () => {
         console.error("error registering slash commands:", error);
     }
 });
+createEvents(client);
 client.on("reconnecting", () => {
     console.log("bot is reconnecting...");
 });

@@ -1,4 +1,4 @@
-import { coinz } from "../db.js";
+import { coinz } from "../database.js";
 const balances = coinz;
 const STARTING_BALANCE = 1000;
 
