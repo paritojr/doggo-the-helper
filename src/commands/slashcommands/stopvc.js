@@ -5,6 +5,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName("stopvc")
     .setDescription("stops vc playback")
+    .setIntegrationTypes(0)
     .setContexts(InteractionContextType.Guild),
 
   async execute(interaction) {

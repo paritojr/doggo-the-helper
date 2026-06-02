@@ -6,6 +6,7 @@ export default {
         .setName('postboard')
         .setDescription('toggles postboard mode for a channel (auto-threads messages)')
         .setContexts(InteractionContextType.Guild)
+        .setIntegrationTypes(0)
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
         .addChannelOption(option =>
             option.setName('channel')

@@ -3,6 +3,7 @@ export default {
     data: new SlashCommandBuilder()
        .setName("serverinfo")
        .setDescription("shows server info")
+       .setIntegrationTypes(0)
        .setContexts(InteractionContextType.Guild),
     
     async execute(interaction) {

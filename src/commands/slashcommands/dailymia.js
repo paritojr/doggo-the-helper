@@ -6,6 +6,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName("dailymia")
     .setDescription("toggle daily mia in this channel")
+    .setIntegrationTypes(0)
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
     .setContexts(InteractionContextType.Guild),
 

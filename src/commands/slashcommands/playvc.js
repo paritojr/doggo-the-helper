@@ -9,6 +9,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName("playvc")
     .setDescription("plays audio on a voice channel")
+    .setIntegrationTypes(0)
     .setContexts(InteractionContextType.Guild)
     .addChannelOption(option =>
       option

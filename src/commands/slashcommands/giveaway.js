@@ -8,6 +8,7 @@ export default {
    data: new SlashCommandBuilder()
       .setName('giveaway')
       .setDescription('creates or manages giveaways')
+      .setIntegrationTypes(0)
       .setContexts(InteractionContextType.Guild)
       .addSubcommand(subcommand =>
          subcommand
