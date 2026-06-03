@@ -1,10 +1,15 @@
 import "dotenv/config";
+import { textcmds } from "../commands/index.js";
+import config from "../../config.json" with { type: "json" };
+import { client } from "../client.js"
 import { postboardChannels, dangerChannels, countingChannels } from "../database.js";
+
+const prefix = config.prefix;
 const cooldowns = new Map();
 const cooldownTime = 1000;
-export default (client, { prefix, textcmds }) => {
-    client.on("messageCreate", async (message) => {
-        if (message.author.bot) return;
+
+client.on("messageCreate", async (message) => {
+    if (message.author.bot) return;
         if (message.channel.type === "dm") return;
 
         const isPostboardChannel = postboardChannels.has(message.channel.id);
@@ -91,4 +96,3 @@ export default (client, { prefix, textcmds }) => {
             console.error("postboard error:", err);
         }
     });
-};

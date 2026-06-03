@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"you serious?\"",
-    "start": "node src/bot.js"
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "paritojr",

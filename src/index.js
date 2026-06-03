@@ -1,21 +1,11 @@
 import "dotenv/config";
-import { Client, GatewayIntentBits, REST, ActivityType } from "discord.js";
+import { REST, ActivityType } from "discord.js";
 import { Routes } from "discord-api-types/v10";
 import { slashcmds } from "./commands/index.js";
 import { updater } from "./utils/updater.js";
 import { restoreTimeouts } from "./utils/restoreTimeouts.js";
-import { createEvents } from "./events.js";
+import { client } from "./client.js";
 
-const client = new Client({
-    intents: [
-        GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.GuildVoiceStates,
-        GatewayIntentBits.MessageContent,
-        GatewayIntentBits.DirectMessages,
-    ],
-});
 const BOT_TOKEN = process.env.TOKEN;
 //rotating statuses are more fun than a static one
 const statuses = [
@@ -56,7 +46,8 @@ client.once("clientReady", async () => {
         console.error("error registering slash commands:", error);
     }
 });
-createEvents(client);
+import "./events/messageCreate.js"
+import "./events/interactionCreate.js";
 client.on("reconnecting", () => {
     console.log("bot is reconnecting...");
 });
