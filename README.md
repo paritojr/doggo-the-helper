@@ -34,6 +34,7 @@ you can do anything with the source code, i've provided a few commands (more com
     and fill in with
 	- `TOKEN`: the discord bot token
 	- `OWNER_ID`: your discord user id 
+	- `INVITE_LINK` (optional): your invite link for the bot
 
 4. install dependencies:
 	```bash

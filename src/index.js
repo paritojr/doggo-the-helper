@@ -5,6 +5,7 @@ import { slashcmds } from "./commands/index.js";
 import { updater } from "./utils/updater.js";
 import { restoreTimeouts } from "./utils/restoreTimeouts.js";
 import { client } from "./client.js";
+import "./web.js";
 
 const BOT_TOKEN = process.env.TOKEN;
 //rotating statuses are more fun than a static one
