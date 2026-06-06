@@ -22,6 +22,14 @@ app.get("/style.css", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "style.css"));
 });
 
+app.get("/tos", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "tos.html"));
+});
+
+app.get("/privacy", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "privacy.html"));
+});
+
 app.get("/invite", (req, res) => {
   const invite = process.env.INVITE_LINK;
   if (!invite) {
