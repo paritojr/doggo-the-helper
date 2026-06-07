@@ -71,6 +71,10 @@ body {
 }
 
 @media (max-width: 900px) {
+  .hero {
+    width: 92%;
+  }
+
   .hero h1 {
     font-size: 64px;
   }
@@ -81,10 +85,13 @@ body {
 
   .links {
     padding: 0 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
   .links a {
-    font-size: 64px;
+    font-size: 55px;
   }
 }
 
