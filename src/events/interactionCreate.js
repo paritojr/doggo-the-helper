@@ -13,7 +13,7 @@ client.on("interactionCreate", async (interaction) => {
             flags: MessageFlags.Ephemeral
          });
       }
-      await cmd.execute(interaction, client);
+      await cmd.execute(interaction);
    } catch (err) {
       console.error(err);
    }

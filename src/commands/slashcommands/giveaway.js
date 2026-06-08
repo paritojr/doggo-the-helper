@@ -39,7 +39,7 @@ export default {
             .setRequired(true))
       ),
 
-   async execute(interaction, client) {
+   async execute(interaction) {
       const subcommand = interaction.options.getSubcommand();
       if (subcommand === "stop") {
          const giveawayId = interaction.options.getString("id");
@@ -50,7 +50,7 @@ export default {
                flags: MessageFlags.Ephemeral
             });
          }
-         await stopGiveaway(client, giveawayId);
+         await stopGiveaway(giveawayId);
       } else if (subcommand === "start") {
          const prize = interaction.options.getString("prize");
          const time1 = interaction.options.getString("time");
@@ -109,7 +109,7 @@ export default {
             hostId: interaction.user.id,
          });
          setTimeout(() => {
-            stopGiveaway(client, giveawayId);
+            stopGiveaway(giveawayId);
          }, duration);
       }
    },

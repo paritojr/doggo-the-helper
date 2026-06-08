@@ -36,7 +36,7 @@ client.once("clientReady", async () => {
             client.user.setActivity(name, { type: type });
         }
     }, 10000);
-    restoreTimeouts(client)
+    restoreTimeouts()
     try {
         console.log("started refreshing application (/) commands...");
         await rest.put(Routes.applicationCommands(client.user.id), {
