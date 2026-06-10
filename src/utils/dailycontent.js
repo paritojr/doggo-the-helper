@@ -1,4 +1,5 @@
 import { dailyMiaChannels } from "../database.js";
+import { client } from "../client.js"
 const timeoutsig = new Map();
 function getNextRun(hour, minute) {
     const now = new Date();
@@ -13,7 +14,7 @@ function getNextRun(hour, minute) {
     return next;
 }
 
-export function scheduleDailyContent(client, channelId, config) {
+export function scheduleDailyContent(channelId, config) {
     const run = async () => {
         const channel = client.channels.cache.get(channelId);
         if (channel) {

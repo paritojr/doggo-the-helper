@@ -42,7 +42,6 @@ export function restoreTimeouts() {
     // daily stuff
     for (const [channelId, config] of dailyMiaChannels.entries()) {
         scheduleDailyContent(
-            client,
             channelId,
             config,
         );

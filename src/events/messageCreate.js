@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { textcmds } from "../commands/index.js";
 import config from "../../config.json" with { type: "json" };
 import { client } from "../client.js"

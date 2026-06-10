@@ -1,15 +1,15 @@
-import { CatDB, CatDBMap, CatDBSet } from "./utils/catDB.js";
+import CatDB from "./utils/catDB.js";
 
 const db = new CatDB("./db/catdb.sqlite");
 
-const activeGiveaways = new CatDBMap(db, "giveaways");
-const postboardChannels = new CatDBSet(db, "postboards");
-const coinz = new CatDBMap(db, "coinz");
-const countingChannels = new CatDBMap(db, "counting")
-const dailycoinzt = new CatDBMap(db, "dcoinzt");
-const dangerChannels = new CatDBSet(db, "dangerch");
-const dailyMiaChannels = new CatDBMap(db, "dmiach");
-const reminders = new CatDBMap(db, "reminders");
+const activeGiveaways = db.map("giveaways");
+const postboardChannels = db.set("postboards");
+const coinz = db.map("coinz");
+const countingChannels = db.map("counting")
+const dailycoinzt = db.map("dcoinzt");
+const dangerChannels = db.set("dangerch");
+const dailyMiaChannels = db.map("dmiach");
+const reminders = db.map("reminders");
 
 export {
   db,

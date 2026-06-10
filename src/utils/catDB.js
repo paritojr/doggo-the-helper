@@ -1,6 +1,6 @@
 import Database from "better-sqlite3";
 
-export class CatDB {
+export default class CatDB {
   constructor(path = "./db/catdb.sqlite") {
     this.db = new Database(path);
     this.db.pragma("journal_mode = WAL");
@@ -42,9 +42,17 @@ export class CatDB {
       "DELETE FROM store WHERE namespace = ? AND key = ?"
     ).run(ns, key);
   }
+
+  map(name) {
+    return new CatDBMap(this, name);
+  }
+
+  set(name) {
+    return new CatDBSet(this, name);
+  }
 }
 
-export class CatDBMap {
+class CatDBMap {
   constructor(db, key) {
     this.db = db;
     this.key = key;
@@ -93,7 +101,7 @@ export class CatDBMap {
   }
 }
 
-export class CatDBSet {
+class CatDBSet {
   constructor(db, key) {
     this.db = db;
     this.key = key;

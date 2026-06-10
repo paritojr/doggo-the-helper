@@ -31,7 +31,7 @@ export default {
       };
       
       dailyMiaChannels.set(channelId, config);
-      scheduleDailyContent(interaction.client, channelId, config, dailyMiaChannels);
+      scheduleDailyContent(channelId, config);
       const msgEmbed = new EmbedBuilder()
         .setDescription("This channel will now receive daily Mia pictures!")
         .setColor("#2a62fd")
