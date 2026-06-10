@@ -1,4 +1,4 @@
-import { textcmds } from "../commands/index.js";
+import { textcmds } from "../cmds.js";
 import config from "../../config.json" with { type: "json" };
 import { client } from "../client.js"
 import { postboardChannels, dangerChannels, countingChannels } from "../database.js";

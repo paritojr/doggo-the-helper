@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { REST, ActivityType } from "discord.js";
 import { Routes } from "discord-api-types/v10";
-import { slashcmds } from "./commands/index.js";
+import { slashcmds } from "./cmds.js";
 import { updater } from "./utils/updater.js";
 import { restoreTimeouts } from "./utils/restoreTimeouts.js";
 import { client } from "./client.js";

@@ -1,6 +1,6 @@
 import { MessageFlags } from "discord.js";
 import { client } from "../client.js"
-import { slashcmds } from "../commands/index.js";
+import { slashcmds } from "../cmds.js";
 client.on("interactionCreate", async (interaction) => {
    if (!interaction.isChatInputCommand()) return;
    const { commandName } = interaction;

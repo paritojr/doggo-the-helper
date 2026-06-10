@@ -16,11 +16,11 @@ async function loadCommands(dir, getName) {
 }
 
 export const slashcmds = await loadCommands(
-  path.join(__dirname, "slashcommands"),
+  path.join(__dirname, "commands", "slashcommands"),
   c => c.data?.name
 );
 
 export const textcmds = await loadCommands(
-  path.join(__dirname, "textcommands"),
+  path.join(__dirname, "commands", "textcommands"),
   c => c.name
 );
