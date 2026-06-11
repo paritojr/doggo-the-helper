@@ -1,5 +1,5 @@
 export function parseTime(timeString) {
-    const timeRegex = /^(\d+)([dhm])$/;
+    const timeRegex = /^(\d+)([dhms])$/;
     const match = timeString.match(timeRegex);
     if (!match) return null;
     const amount = parseInt(match[1]);
@@ -11,6 +11,8 @@ export function parseTime(timeString) {
             return amount * 60 * 60 * 1000;
         case "m":
             return amount * 60 * 1000;
+        case "s":
+            return amount * 1000;
         default:
             return null;
     }

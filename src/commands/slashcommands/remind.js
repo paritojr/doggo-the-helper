@@ -35,6 +35,7 @@ export default {
     }
 
     const remindAt = Date.now() + duration;
+    const timestamp = Math.floor(remindAt / 1000);
     const userReminders = reminders.get(interaction.user.id) ?? [];
 
     userReminders.push({
@@ -64,7 +65,7 @@ export default {
     }, duration);
 
     return interaction.reply({
-      content: `k, i'll remind you in ${timeInput} :)`,
+      content: `k, i'll remind you in <t:${timestamp}:R> :)`,
       flags: MessageFlags.Ephemeral,
     });
   },
