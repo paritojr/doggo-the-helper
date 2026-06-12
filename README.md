@@ -46,6 +46,11 @@ you can do anything with the source code, i've provided a few commands (more com
 	```sh
 	npm run start
 	```
+	or:
+	```sh
+	npm run no-web
+	```
+	(if you don't want the web server to run by default)
 
 
 as a bonus, if you want to invite your bot to other servers, you can make an bot invite link

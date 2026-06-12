@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"you serious?\"",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "no-web": "node src/index.js --no-web-server"
   },
   "keywords": [],
   "author": "paritojr",
