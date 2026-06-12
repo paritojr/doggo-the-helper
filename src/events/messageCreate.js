@@ -1,7 +1,7 @@
 import { textcmds } from "../cmds.js";
 import config from "../../config.json" with { type: "json" };
 import { client } from "../client.js"
-import { postboardChannels, dangerChannels, countingChannels } from "../database.js";
+import { postboardChannels, dangerChannels, countingChannels, linkedChannels } from "../database.js";
 
 const prefix = config.prefix;
 const cooldowns = new Map();
@@ -61,6 +61,24 @@ client.on("messageCreate", async (message) => {
             countingChannels.delete(message.channel.id);
         }
         return;
+    }
+
+    for (const [id, link] of linkedChannels.entries()) {
+        if (!link?.source || !link?.target) continue;
+
+        const isSource = message.channel.id === link.source;
+        const isTarget = message.channel.id === link.target;
+
+        if (!isSource && !isTarget) continue;
+
+        const targetChannelId = isSource ? link.target : link.source;
+        const targetChannel = await message.client.channels.fetch(targetChannelId).catch(() => null);
+        if (!targetChannel) continue;
+
+        await targetChannel.send(
+            `**${message.author.username}**: ${message.content || ""}`
+        ).catch(() => {});
+        break;
     }
 
     if (message.content.startsWith(prefix)) {

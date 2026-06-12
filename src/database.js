@@ -10,6 +10,7 @@ const dailycoinzt = db.map("dcoinzt");
 const dangerChannels = db.set("dangerch");
 const dailyMiaChannels = db.map("dmiach");
 const reminders = db.map("reminders");
+const linkedChannels = db.map("lnkch");
 
 export {
   db,
@@ -20,5 +21,6 @@ export {
   dailycoinzt,
   dailyMiaChannels,
   dangerChannels,
-  reminders
+  reminders,
+  linkedChannels
 };

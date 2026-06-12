@@ -40,11 +40,30 @@ export function restoreTimeouts() {
         }
     }
 
-    // daily stuff
+    //daily stuff
     for (const [channelId, config] of dailyMiaChannels.entries()) {
         scheduleDailyContent(
             channelId,
             config,
         );
     }
+
+    //expire unused bs
+    //and also, i am not giving a fuck if this is an interval and not a timeout fuck it
+    setInterval(() => {
+        for (const [id, link] of linkedChannels.entries()) {
+            if (!link) {
+                linkedChannels.delete(id);
+                continue;
+            }
+            const hasSource = !!link.source;
+            const hasTarget = !!link.target;
+            if (!hasSource || !hasTarget) {
+                const age = Date.now() - (link.createdAt ?? 0);
+                if (age > 30 * 60 * 1000) {
+                    linkedChannels.delete(id);
+                }
+            }
+        }
+    }, 5 * 60 * 1000);
 }
