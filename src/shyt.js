@@ -1,15 +1,9 @@
-import { textcmds } from "../cmds.js";
-import config from "../../config.json" with { type: "json" };
-import { client } from "../client.js"
-import { postboardChannels, dangerChannels, countingChannels, linkedChannels } from "../database.js";
-
-const prefix = config.prefix;
-const cooldowns = new Map();
-const cooldownTime = 1000;
+import { client } from "./client.js"
+import { postboardChannels, dangerChannels, countingChannels, linkedChannels } from "./database.js";
 
 client.on("messageCreate", async (message) => {
     if (message.author.bot) return;
-    if (message.channel.type === "dm") return;
+    if (!message.guild) return;
 
     const isPostboardChannel = postboardChannels.has(message.channel.id);
     const isOwner = message.author.id === process.env.OWNER_ID;
@@ -79,25 +73,6 @@ client.on("messageCreate", async (message) => {
             `**${message.author.username}**: ${message.content || ""}`
         ).catch(() => {});
         break;
-    }
-
-    if (message.content.startsWith(prefix)) {
-        const args = message.content.slice(prefix.length).trim().split(/ +/);
-        const commandName = args.shift().toLowerCase();
-        const command = textcmds[commandName];
-        if (!command) return;
-        if (command.ownerOnly && !isOwner) return;
-
-        const now = Date.now();
-        const expirationTime = cooldowns.get("global") || 0;
-        if (now < expirationTime) return;
-        cooldowns.set("global", now + cooldownTime);
-            
-        try {
-            await command.execute(message, args);
-        } catch (err) {
-            console.error("textcmd error:", err);
-        }
     }
 
     if (!isPostboardChannel) return;

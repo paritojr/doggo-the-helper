@@ -10,7 +10,7 @@ const runCommand = (command, options = {}) =>
     });
   });
 
-export async function updater() {
+async function updater() {
   try {
     const botCwd = process.cwd();
 
@@ -50,3 +50,5 @@ export async function updater() {
     console.error("updater error:", err);
   }
 }
+updater()
+setInterval(updater, 10 * 60 * 1000)
