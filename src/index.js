@@ -1,5 +1,4 @@
 import "dotenv/config";
-
 import "./textcommands.js";
 import "./slashcommands.js";
 import "./activity.js";
