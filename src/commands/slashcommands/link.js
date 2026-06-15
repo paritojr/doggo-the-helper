@@ -39,6 +39,10 @@ export default {
           .setDescription("link id")
           .setRequired(true)
         )
+    )
+    .addSubcommand(subcommand =>
+      subcommand.setName("unlink")
+        .setDescription("unlink this channel")
     ),
 
   async execute(interaction) {
@@ -107,6 +111,40 @@ export default {
         .setColor("Red")
       return interaction.reply({
         embeds: [neatEmbed],
+        flags: MessageFlags.Ephemeral
+      });
+    } else if (subcommand === "unlink") {
+      const channel = interaction.channel;
+      if (!channel) {
+        return interaction.reply({
+          content: "no channel found",
+          flags: MessageFlags.Ephemeral
+        });
+      }
+      
+      const entry = [...linkedChannels.entries()].find(([id, link]) =>
+        link.source === channel.id || link.target === channel.id
+      );
+      
+      if (!entry) {
+        return interaction.reply({
+          content: "this channel is not linked lmao",
+          flags: MessageFlags.Ephemeral
+        });
+      }
+
+      const [id, link] = entry;
+      if (link.source === channel.id) link.source = null;
+      if (link.target === channel.id) link.target = null;
+      
+      if (!link.source && !link.target) {
+        linkedChannels.delete(id);
+      } else {
+        linkedChannels.set(id, link);
+      }
+      await channel.send("**This channel has been unlinked.**");
+      return interaction.reply({
+        content: `unlinked <#${channel.id}> from \`${id}\``,
         flags: MessageFlags.Ephemeral
       });
     }

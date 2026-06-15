@@ -69,9 +69,10 @@ client.on("messageCreate", async (message) => {
         const targetChannel = await message.client.channels.fetch(targetChannelId).catch(() => null);
         if (!targetChannel) continue;
 
-        await targetChannel.send(
-            `**${message.author.username}**: ${message.content || ""}`
-        ).catch(() => {});
+        await targetChannel.send({
+            content: `**${message.author.username}**: ${message.content || ""}`,
+            allowedMentions: { parse: [] }
+        }).catch(() => {});
         break;
     }
 
