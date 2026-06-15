@@ -1,14 +1,20 @@
-import { SlashCommandBuilder, MessageFlags, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
+import { SlashCommandBuilder, MessageFlags, InteractionContextType, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
+import { countingChannels } from '../../database.js';
 export default {
    data: new SlashCommandBuilder()
         .setName('counting')
         .setDescription("counting game")
-        .setIntegrationTypes([0, 1])
-        .setContexts([0, 1, 2])
+        .setContexts(InteractionContextType.Guild)
+        .setIntegrationTypes(0)
         .addSubcommand(subcommand =>
            subcommand
             .setName('help')
             .setDescription('get help about counting game')
+         )
+        .addSubcommand(subcommand =>
+           subcommand
+            .setName('stats')
+            .setDescription('get current stats about counting game')
          ),
 
    async execute(interaction) {
@@ -34,6 +40,33 @@ export default {
         await interaction.reply({
             embeds: [funnyembed],
         });
+      } else if (subcommand === "stats") {
+         const data = countingChannels.get(interaction.channel.id);
+         if (!data) {
+            return interaction.reply({
+               content: "this channel has no counting game",
+               flags: MessageFlags.Ephemeral
+            });
+         }
+         
+         const { current, goal, lastUser } = data;
+         const remaining = Math.max(goal - current, 0);
+         const percent = Math.min((current / goal) * 100, 100).toFixed(1);
+         
+         const incredibleEmbed = new EmbedBuilder()
+         .setTitle("counting stats")
+         .setColor("#3060f1")
+         .addFields(
+            { name: "current number", value: String(current), inline: true },
+            { name: "goal", value: String(goal), inline: true },
+            { name: "remaining", value: String(remaining), inline: true },
+            { name: "progress", value: `${percent}%`, inline: true },
+            { name: "last counter", value: lastUser ? `<@${lastUser}>` : "none", inline: true }
+         );
+         
+         return interaction.reply({
+            embeds: [incredibleEmbed]
+         });
       }
    }
 };
