@@ -31,12 +31,20 @@ async function updater() {
 
     await runCommand("git pull", { cwd: botCwd });
 
+    const latestbs = await runCommand(`git log -1 --format=%s HEAD`, { cwd: botCwd });
+    const noRestart = latestbs.includes("--no-restart");
+
     const afterLock = fs.existsSync(lockPath)
       ? fs.readFileSync(lockPath, "utf8")
       : null;
 
     if (beforeLock !== afterLock) {
       await runCommand("npm ci", { cwd: botCwd });
+    }
+
+    if (noRestart) {
+      console.log("update finished with no restart");
+      return;
     }
 
     spawn("npm", ["run", "start"], {
