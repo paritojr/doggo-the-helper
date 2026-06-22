@@ -1,6 +1,5 @@
 import { client } from "./client.js";
 import { ActivityType } from "discord.js";
-let interval;
 const statuses = [
     { name: "doggo the doggo", type: ActivityType.Playing },
     { name: "normal", type: ActivityType.Custom, state: "relaxing as a doggo :)",},
