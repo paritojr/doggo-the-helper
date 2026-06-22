@@ -1,5 +1,7 @@
-import { Client, GatewayIntentBits } from "discord.js";
+import { Client, GatewayIntentBits, DefaultWebSocketManagerOptions } from "discord.js";
 import { restoreTimeouts } from "./utils/restoreTimeouts.js";
+
+DefaultWebSocketManagerOptions.identifyProperties.browser = 'Discord VR';
 
 const BOT_TOKEN = process.env.TOKEN;
 export const client = new Client({
