@@ -23,7 +23,7 @@ app.get("/tos", (req, res) => {
 });
 
 app.get("/privacy", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "privacy.html"));
+  res.sendFile(path.join(__dirname, "public", "pp.html"));
 });
 
 app.get("/invite", (req, res) => {
