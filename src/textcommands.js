@@ -31,21 +31,21 @@ client.on("messageCreate", async (message) => {
    if (!message.guild) return;
    const isOwner = message.author.id === process.env.OWNER_ID;
    if (message.content.startsWith(prefix)) {
-        const args = message.content.slice(prefix.length).trim().split(/ +/);
-        const commandName = args.shift().toLowerCase();
-        const command = textcmds[commandName];
-        if (!command) return;
-        if (command.ownerOnly && !isOwner) return;
+      const args = message.content.slice(prefix.length).trim().split(/ +/);
+      const commandName = args.shift().toLowerCase();
+      const command = textcmds[commandName];
+      if (!command) return;
+      if (command.ownerOnly && !isOwner) return;
 
-        const now = Date.now();
-        const expirationTime = cooldowns.get("global") || 0;
-        if (now < expirationTime) return;
-        cooldowns.set("global", now + cooldownTime);
+      const now = Date.now();
+      const expirationTime = cooldowns.get("global") || 0;
+      if (now < expirationTime) return;
+      cooldowns.set("global", now + cooldownTime);
                
-        try {
-            await command.execute(message, args);
-        } catch (err) {
-            console.error("text command error:", err);
-        }
+      try {
+        await command.execute(message, args);
+      } catch (err) {
+        console.error("text command error:", err);
+      }
     }
 });
