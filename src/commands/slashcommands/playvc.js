@@ -26,10 +26,11 @@ export default {
     ),
 
   async execute(interaction) {
+    const isOwner = interaction.user.id === process.env.OWNER_ID;
     const now = new Date();
     const isOpenTime = now.getUTCHours() === 20 && now.getUTCMinutes() < 15;
     
-    if (!isOpenTime) {
+    if (!isOwner && !isOpenTime) {
       const start = new Date(Date.UTC(
         now.getUTCFullYear(),
         now.getUTCMonth(),
