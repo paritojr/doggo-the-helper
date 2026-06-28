@@ -91,9 +91,12 @@ export default {
       activePlayer = player;
       player.play(resource);
       //max 1 minute lol
-      const timeout = setTimeout(() => {
-        player.stop();
-      }, 60 * 1000);
+      let timeout = null;
+      if (interaction.user.id !== process.env.OWNER_ID) {
+        const timeout = setTimeout(() => {
+          player.stop();
+        }, 60 * 1000);
+      }
       const cleanup = () => {
         clearTimeout(timeout);
         isPlaying = false;
