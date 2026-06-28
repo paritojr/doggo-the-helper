@@ -18,7 +18,7 @@ export default {
         .addStringOption(option =>
             option.setName('color')
                 .setDescription('color in hex (example: #2a62fd)')
-                .setRequired(true))
+                .setRequired(false))
         .addStringOption(option =>
             option.setName('footer')
                 .setDescription('the footer of the embed')
@@ -35,7 +35,7 @@ export default {
    async execute(interaction) {
       const title = interaction.options.getString("title");
       const description = interaction.options.getString("description");
-      const color = interaction.options.getString("color");
+      const color = interaction.options.getString("color") || "#2a62fd";
       const footer = interaction.options.getString("footer") || null;
       const timestamp = interaction.options.getBoolean("timestamp") || false;
       const image = interaction.options.getString("image");
