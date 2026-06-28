@@ -72,9 +72,20 @@ export default {
          console.log("flagged");
          return;
       } else {
-         await interaction.reply({ 
-            embeds: [awesomeEmbed],
-         });
+         const gInstalled = interaction.authorizingIntegrationOwners[0] !== undefined;
+         if (interaction.guildId && gInstalled) {
+            await interaction.channel.send({
+               embeds: [awesomeEmbed]
+            });
+            await interaction.reply({
+               content: 'done ig',
+               flags: MessageFlags.Ephemeral
+            });
+         } else {
+            await interaction.reply({
+               embeds: [awesomeEmbed]
+            });
+         }
       }
    }
 };

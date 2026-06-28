@@ -1,9 +1,9 @@
 import { AutoModerationRuleTriggerType } from 'discord-api-types/v10';
 export async function isContentFlagged(guild, content) {
+    if (!guild) return;
     try {
         const rules = await guild.autoModerationRules.fetch();
         const text = String(content || '').normalize('NFKC').toLowerCase().trim();
-        console.log('doggo is analyzing this text:', text);
         for (const rule of rules.values()) {
             if ( rule.triggerType === AutoModerationRuleTriggerType.Keyword || rule.triggerType === AutoModerationRuleTriggerType.MemberProfile ) {
                 const keywords = rule.triggerMetadata.keywordFilter;
