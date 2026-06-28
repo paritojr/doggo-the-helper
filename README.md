@@ -60,6 +60,5 @@ as a bonus, if you want to invite your bot to other servers, you can make an bot
 This bot is licensed under the MIT License, for more information, check the LICENSE file
 
 
-anyways, that should be it, pls use it, ty
-<br>
-also, if you're asking for the invite link, no
+anyways, that should be it, ty :)<br>
+also invite link [over here](https://doggo.paritojr.co/invite)
