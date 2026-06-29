@@ -8,18 +8,15 @@ export default {
     
     async execute(interaction) {
         const guild = interaction.guild;
-        await guild.members.fetch();
         const iconUrl = guild.iconURL({ dynamic: true, size: 256 }) || null;
         const emojiCount = guild.emojis.cache.size;
         const stickerCount = guild.stickers.cache.size;
         const creationDate = guild.createdAt;
         const boostLevel = guild.premiumTier;
         const boostCount = guild.premiumSubscriptionCount;
-        const botCount = guild.members.cache.filter(m => m.user.bot).size
         const channelCount = guild.channels.cache.filter((c) =>(c.type === 0 || c.type === 2 || c.type === 5 || c.type === 13 || c.type === 15) && c.viewable).size;
         const roleCount = guild.roles.cache.size;
         const serverOwner = await guild.fetchOwner();
-        const finalMemberCount = `${guild.memberCount} (${botCount} bots)`;
         const ageDays = Math.floor((Date.now() - guild.createdTimestamp) / 86400000);
         const features = guild.features.length
           ? guild.features.map(f => f
@@ -34,7 +31,7 @@ export default {
             .setThumbnail(iconUrl)
             .addFields(
                 { name: "created at", value: `<t:${Math.floor(creationDate.getTime() / 1000)}:F>\nthat's like, ${ageDays} days ago!`, inline: false },
-                { name: "members", value: String(finalMemberCount), inline: false },
+                { name: "members", value: String(guild.memberCount), inline: false },
                 { name: "channels", value: String(channelCount), inline: true },
                 { name: "boosts", value: `level ${boostLevel} (${boostCount} boosts)`, inline: true },
                 { name: "emojis", value: `${emojiCount}`, inline: true },
