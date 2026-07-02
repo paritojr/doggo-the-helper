@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, MessageFlags, ChannelType, InteractionContextType } from "discord.js";
+import { SlashCommandBuilder, MessageFlags, ChannelType } from "discord.js";
 import { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus, StreamType, entersState, VoiceConnectionStatus, demuxProbe } from "@discordjs/voice";
 import { Readable } from "node:stream";
 export let isPlaying = false;
@@ -10,7 +10,7 @@ export default {
     .setName("playvc")
     .setDescription("plays audio on a voice channel")
     .setIntegrationTypes(0)
-    .setContexts(InteractionContextType.Guild)
+    .setContexts([0])
     .addChannelOption(option =>
       option
         .setName("channel")
@@ -120,5 +120,5 @@ export default {
         });
       }
     }
-  },
+  }
 };

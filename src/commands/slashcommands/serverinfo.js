@@ -1,10 +1,10 @@
-import { EmbedBuilder, SlashCommandBuilder, InteractionContextType } from "discord.js";
+import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
 export default {
     data: new SlashCommandBuilder()
        .setName("serverinfo")
        .setDescription("shows server info")
        .setIntegrationTypes(0)
-       .setContexts(InteractionContextType.Guild),
+       .setContexts([0]),
     
     async execute(interaction) {
         const guild = interaction.guild;

@@ -1,12 +1,12 @@
-import { PermissionsBitField, PermissionFlagsBits, EmbedBuilder, SlashCommandBuilder, MessageFlags, InteractionContextType } from "discord.js";
+import { PermissionsBitField, PermissionFlagsBits, EmbedBuilder, SlashCommandBuilder, MessageFlags } from "discord.js";
 import { postboardChannels } from "../../database.js";
 
 export default {
     data: new SlashCommandBuilder()
         .setName('postboard')
         .setDescription('toggles postboard mode for a channel (auto-threads messages)')
-        .setContexts(InteractionContextType.Guild)
         .setIntegrationTypes(0)
+        .setContexts([0])
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
         .addChannelOption(option =>
             option.setName('channel')

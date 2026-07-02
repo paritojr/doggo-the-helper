@@ -1,4 +1,4 @@
-import { PermissionFlagsBits, SlashCommandBuilder, InteractionContextType, EmbedBuilder, MessageFlags } from "discord.js";
+import { PermissionFlagsBits, SlashCommandBuilder, EmbedBuilder, MessageFlags } from "discord.js";
 import { linkedChannels } from "../../database.js";
 
 function generateId() {
@@ -10,7 +10,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName("link")
     .setDescription("link stuff")
-    .setContexts(InteractionContextType.Guild)
+    .setContexts([0])
     .setIntegrationTypes(0)
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
     .addSubcommand(subcommand =>

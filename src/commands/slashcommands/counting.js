@@ -1,10 +1,10 @@
-import { SlashCommandBuilder, MessageFlags, InteractionContextType, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
+import { SlashCommandBuilder, MessageFlags, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
 import { countingChannels } from '../../database.js';
 export default {
    data: new SlashCommandBuilder()
         .setName('counting')
         .setDescription("counting game")
-        .setContexts(InteractionContextType.Guild)
+        .setContexts([0])
         .setIntegrationTypes(0)
         .addSubcommand(subcommand =>
            subcommand
