@@ -1,91 +1,90 @@
-import { SlashCommandBuilder, EmbedBuilder, MessageFlags } from 'discord.js';
+import { SlashCommandBuilder, EmbedBuilder, MessageFlags, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, PermissionFlagsBits } from 'discord.js';
 import { isContentFlagged } from "../../utils/isContentFlagged.js";
 
 export default {
    data: new SlashCommandBuilder()
         .setName('embed')
         .setDescription('creates a fantastic embed')
-        .setIntegrationTypes([0, 1])
-        .setContexts([0, 1, 2])
-        .addStringOption(option =>
-            option.setName('title')
-                .setDescription("the embed's title :O")
-                .setRequired(true))
-        .addStringOption(option =>
-            option.setName('description')
-                .setDescription('the description of the embed (use \\n for newlines)')
-                .setRequired(true))
-        .addStringOption(option =>
-            option.setName('color')
-                .setDescription('color in hex (example: #2a62fd)')
-                .setRequired(false))
-        .addStringOption(option =>
-            option.setName('footer')
-                .setDescription('the footer of the embed')
-                .setRequired(false))
-        .addBooleanOption(option =>
-            option.setName('timestamp')
-                .setDescription('choose whether to add a timestamp or not')
-                .setRequired(false))
-        .addStringOption(option =>
-            option.setName('image')
-                .setDescription('add an image URL')
-                .setRequired(false)),
+        .setIntegrationTypes([0])
+        .setContexts([0])
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
 
    async execute(interaction) {
-      const title = interaction.options.getString("title");
-      const description = interaction.options.getString("description");
-      const color = interaction.options.getString("color") || "#2a62fd";
-      const footer = interaction.options.getString("footer") || null;
-      const timestamp = interaction.options.getBoolean("timestamp") || false;
-      const image = interaction.options.getString("image");
-      const isTheColorValid = /^#[0-9A-Fa-f]{6}$/.test(color);
-      if (!isTheColorValid) {
-         await interaction.reply({
-            content: "whoops! color property is invalid, pls try again",
-            flags: MessageFlags.Ephemeral
-         });
-         return;
-      }
-      const awesomeEmbed = new EmbedBuilder()
-         .setTitle(title)
-         .setDescription(description.replace(/\\n/g, '\n'))
-         .setColor(color)
-      if (timestamp) {
-         awesomeEmbed.setTimestamp(Date.now());
-      }
-      if (footer != null) {
-         awesomeEmbed.setFooter({
-            text: footer
-         });
-      }
-      if (image != null) {
-         awesomeEmbed.setImage(image);
-      }
+      const thoseFields = [
+         { id: 'title', label: 'title', style: TextInputStyle.Short, required: true },
+         { id: 'description', label: 'description', style: TextInputStyle.Paragraph, required: true },
+         { id: 'color', label: 'color in hex', style: TextInputStyle.Short, required: false, value: '#2a62fd' },
+         { id: 'footer', label: 'footer', style: TextInputStyle.Short, required: false },
+         { id: 'image', label: 'image url', style: TextInputStyle.Short, required: false }
+      ];
+      const customId = `embed-modal-${interaction.id}`;
+      const modal = new ModalBuilder()
+         .setCustomId(customId)
+         .setTitle('embed maker')
+         .addComponents(
+            thoseFields.map(({ id, label, style, required, value }) => {
+               const input = new TextInputBuilder()
+                  .setCustomId(id)
+                  .setLabel(label)
+                  .setStyle(style)
+                  .setRequired(required);
+               if (value) input.setValue(value);
+               return new ActionRowBuilder().addComponents(input);
+            })
+         );
 
-      const isFlagged = await isContentFlagged(interaction.guild, `${title} ${description} ${footer}`);
-      if (isFlagged == true) {
-         await interaction.reply({ 
-            content: 'nuhuh, cant say that', 
-            flags: MessageFlags.Ephemeral
+      await interaction.showModal(modal);
+
+      try {
+         const submitted = await interaction.awaitModalSubmit({
+            time: 300_000,
+            filter: i => i.customId === customId && i.user.id === interaction.user.id,
          });
-         console.log("flagged");
-         return;
-      } else {
-         const gInstalled = interaction.authorizingIntegrationOwners[0] !== undefined;
-         if (interaction.guildId && gInstalled) {
-            await interaction.channel.send({
-               embeds: [awesomeEmbed]
-            });
-            await interaction.reply({
-               content: 'done ig',
+         const { fields } = submitted;
+         const title = fields.getTextInputValue('title');
+         const description = fields.getTextInputValue('description');
+         const color = fields.getTextInputValue('color') || "#2a62fd";
+         const footer = fields.getTextInputValue('footer') || null;
+         const image = fields.getTextInputValue('image') || null;
+         const isTheColorValid = /^#[0-9A-Fa-f]{6}$/.test(color);
+         if (!isTheColorValid) {
+            return submitted.reply({
+               content: "whoops! color property is invalid, pls try again",
                flags: MessageFlags.Ephemeral
             });
-         } else {
-            await interaction.reply({
-               embeds: [awesomeEmbed]
+         }
+
+         const isFlagged = await isContentFlagged(submitted.guild, `${title} ${description} ${footer}`);
+         if (isFlagged) {
+            console.log("flagged");
+            return submitted.reply({ 
+               content: 'nuhuh, cant say that', 
+               flags: MessageFlags.Ephemeral
             });
          }
+         const awesomeEmbed = new EmbedBuilder()
+            .setTitle(title)
+            .setDescription(description)
+            .setColor(color)
+            .setTimestamp(Date.now());
+
+         if (footer) {
+            awesomeEmbed.setFooter({ text: footer });
+         }
+
+         if (image) {
+            if (image.startsWith('http://') || image.startsWith('https://')) {
+               awesomeEmbed.setImage(image);
+            }
+         }
+         await submitted.channel.send({ embeds: [awesomeEmbed] });
+         return submitted.reply({
+            content: 'done ig',
+            flags: MessageFlags.Ephemeral
+         });
+      } catch (error) {
+         //deltarune reference real
+         console.log("YOU'RE TAKING TOO LONG");
       }
    }
 };
