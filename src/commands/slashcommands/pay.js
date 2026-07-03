@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { SlashCommandBuilder, MessageFlags } from 'discord.js';
 import { coinz } from "../../database.js";
 import { initCoinz } from "../../utils/initcoinz.js";
 
@@ -25,9 +25,31 @@ export default {
       const target = interaction.options.getUser("user");
       const amount = interaction.options.getInteger("amount");
       
+      if (sender.id === target.id) {
+         return interaction.reply({
+            content: `you can't send coinz to yourself bruh`,
+            flags: MessageFlags.Ephemeral
+         });
+      }
+
+      if (target.bot) {
+         return interaction.reply({
+            content: `dude...`,
+            flags: MessageFlags.Ephemeral
+         });
+      }
+
       initCoinz(sender.id);
       initCoinz(target.id);
       
+      const senderB = balances.get(sender.id);
+      if (senderB < amount) {
+         return interaction.reply({
+            content: `yee don't have enough coinz bro`,
+            flags: MessageFlags.Ephemeral
+         });
+      }
+
       balances.set(sender.id, balances.get(sender.id) - amount);
       balances.set(target.id, balances.get(target.id) + amount);
       

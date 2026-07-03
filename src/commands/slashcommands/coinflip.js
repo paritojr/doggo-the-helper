@@ -1,4 +1,4 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { EmbedBuilder, SlashCommandBuilder, MessageFlags } from "discord.js";
 import { coinz } from "../../database.js";
 import { initCoinz } from "../../utils/initcoinz.js";
 const balances = coinz;
@@ -30,6 +30,13 @@ export default {
       let balance = balances.get(userId);
       const choice = interaction.options.getString('choice');
       const bet = interaction.options.getInteger('bet');
+
+      if (balance < bet) {
+         return interaction.reply({
+            content: "you don't have enough coinz to gamble ts lol",
+            flags: MessageFlags.Ephemeral
+         });
+      }
 
       const results = ['heads', 'tails'];
       const flip = results[Math.floor(Math.random() * results.length)];
