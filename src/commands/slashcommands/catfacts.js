@@ -15,15 +15,8 @@ export default {
       }
 
       const data = await response.json();
-      const embed = new EmbedBuilder()
-        .setColor("#3060f1")
-        .setTitle("Fun fact about cats:")
-        .setDescription(data.fact)
-        .setFooter({ text: "meow" })
-        .setTimestamp();
-
       return interaction.reply({
-        embeds: [embed],
+        content: `Fun fact: ${data.fact}`,
       });
     } catch (error) {
       console.log(error);
