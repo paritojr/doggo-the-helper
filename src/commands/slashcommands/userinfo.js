@@ -1,8 +1,5 @@
 import { SlashCommandBuilder, ButtonStyle, MessageFlags } from "discord.js";
-import { coinz } from "../../database.js";
-import { initCoinz } from "../../utils/initcoinz.js";
 
-const balances = coinz;
 export default {
     data: new SlashCommandBuilder()
         .setName('userinfo')
@@ -20,8 +17,6 @@ export default {
         const createdUnix = Math.floor(user.createdTimestamp / 1000);
         const userType = user.bot ? "bot" : "human";
 
-        initCoinz(user.id);
-        const userBalance = balances.get(user.id);
         let displayName = user.globalName || user.username;
         let avatarUrl = user.displayAvatarURL({ size: 256 });
         let extraInfo = "";
@@ -42,7 +37,6 @@ export default {
         }
 
         let detailsContent = `created at: <t:${createdUnix}:d> (<t:${createdUnix}:R>)\n${extraInfo}\n` +
-                             `balance: ${userBalance} coinz\n` +
                              `type: \`${userType}\`${extraInfo2}`;
 
         await interaction.reply({
