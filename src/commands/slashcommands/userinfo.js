@@ -13,7 +13,12 @@ export default {
         ),
     
     async execute(interaction) {
-        const user = interaction.options.getUser("user") || interaction.user;
+        let user = interaction.options.getUser("user") || interaction.user;
+        try {
+            user = await interaction.client.users.fetch(user.id, { force: true });
+        } catch (err) {
+            console.log(`error: ${err}`);
+        }
         const createdUnix = Math.floor(user.createdTimestamp / 1000);
         const userType = user.bot ? "bot" : "human";
 
@@ -36,8 +41,27 @@ export default {
             }
         }
 
+        const actionComponents = [
+            {
+                type: 2,
+                style: ButtonStyle.Link,
+                label: "Avatar",
+                url: avatarUrl
+            }
+        ];
+
         let detailsContent = `created at: <t:${createdUnix}:d> (<t:${createdUnix}:R>)\n${extraInfo}\n` +
                              `type: \`${userType}\`${extraInfo2}`;
+
+        const bannerUrl = user.bannerURL({ size: 512 });
+        if (bannerUrl) {
+            actionComponents.push({
+                type: 2,
+                style: ButtonStyle.Link,
+                label: "Banner",
+                url: bannerUrl
+            });
+        }
 
         await interaction.reply({
             flags: MessageFlags.IsComponentsV2,
@@ -69,14 +93,7 @@ export default {
                         { type: 14 },
                         {
                             type: 1,
-                            components: [
-                                {
-                                    type: 2,
-                                    style: ButtonStyle.Link,
-                                    label: "Avatar",
-                                    url: avatarUrl
-                                }
-                            ],
+                            components: actionComponents,
                         }
                     ]
                 }
