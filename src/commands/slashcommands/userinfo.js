@@ -53,7 +53,7 @@ export default {
         let detailsContent = `created at: <t:${createdUnix}:d> (<t:${createdUnix}:R>)\n${extraInfo}\n` +
                              `type: \`${userType}\`${extraInfo2}`;
 
-        const bannerUrl = user.bannerURL({ size: 512 });
+        const bannerUrl = user.bannerURL({ size: 1024 });
         if (bannerUrl) {
             actionComponents.push({
                 type: 2,
