@@ -27,7 +27,7 @@ export default {
         let extraInfo = "";
         let extraInfo2 = "";
 
-        if (interaction.inGuild()) {
+        if (interaction.inGuild() && interaction.authorizingIntegrationOwners['0']) {
             try {
                 const member = await interaction.guild.members.fetch(user.id);
                 const joinedUnix = Math.floor(member.joinedTimestamp / 1000);
