@@ -11,8 +11,8 @@ export default {
     const apiLatency = Math.round(interaction.client.ws.ping);
 
     return interaction.reply({
-        content: `pong! hello ${interaction.user}!\nlatency (bot): ${botLatency}ms\nlatency (API): ${apiLatency}ms`,
-        flags: MessageFlags.Ephemeral
+      content: `pong! hello ${interaction.user}!\nlatency (bot): ${botLatency}ms\nlatency (API): ${apiLatency}ms`,
+      flags: MessageFlags.Ephemeral
     });
   },
 };
