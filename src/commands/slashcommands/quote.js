@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import { SlashCommandBuilder, EmbedBuilder, MessageFlags } from 'discord.js';
 export default {
   data: new SlashCommandBuilder()
     .setName("quote")
@@ -18,6 +18,11 @@ export default {
         await interaction.editReply({ embeds: [embed] });
     } catch (err) {
         console.error(err);
+        try {
+          await interaction.deleteReply();
+        } catch (derr) {
+          console.error("error (again wtf):", derr);
+        }
     }
   },
 };
