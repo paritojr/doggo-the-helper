@@ -1,6 +1,6 @@
 import { dailyMiaChannels } from "../database.js";
 import { client } from "../client.js"
-const timeoutsig = new Map();
+export const timeoutsig = new Map();
 function getNextRun(hour, minute) {
     const now = new Date();
     const next = new Date();

@@ -11,6 +11,7 @@ const dangerChannels = db.set("dangerch");
 const dailyMiaChannels = db.map("dmiach");
 const reminders = db.map("reminders");
 const linkedChannels = db.map("lnkch");
+const starBoards = db.map("starbs")
 
 export {
   db,
@@ -22,5 +23,6 @@ export {
   dailyMiaChannels,
   dangerChannels,
   reminders,
-  linkedChannels
+  linkedChannels,
+  starBoards
 };

@@ -2,15 +2,16 @@ import { reminders, activeGiveaways, dailyMiaChannels, linkedChannels } from "..
 import { stopGiveaway } from "./stopGiveaway.js";
 import { scheduleDailyContent } from "./dailycontent.js";
 import { client } from "../client.js";
-
+export const giveawayTimeouts = new Map();
 export function restoreTimeouts() {
     //giveaways
     for (const [id, g] of activeGiveaways.entries()) {
         const timeLeft = g.endTime - Date.now();
-        setTimeout(
+        const timeout = setTimeout(
             () => stopGiveaway(id),
             timeLeft > 0 ? timeLeft : 0
         );
+        giveawayTimeouts.set(id, timeout);
     }
 
     //reminders

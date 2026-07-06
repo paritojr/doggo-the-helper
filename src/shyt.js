@@ -1,5 +1,7 @@
 import { client } from "./client.js"
-import { postboardChannels, dangerChannels, countingChannels, linkedChannels } from "./database.js";
+import { postboardChannels, dangerChannels, countingChannels, linkedChannels, dailyMiaChannels, starBoards, activeGiveaways } from "./database.js";
+import { timeoutsig } from "./utils/dailycontent.js";
+import { giveawayTimeouts } from "./utils/restoreTimeouts.js";
 
 client.on("messageCreate", async (message) => {
     if (message.author.bot) return;
@@ -87,5 +89,53 @@ client.on("messageCreate", async (message) => {
         await message.react("🔥");
     } catch (err) {
         console.error("postboard error:", err);
+    }
+});
+
+client.on("guildDelete", async (guild) => {
+    if (!guild) return;
+    const guildChannels = guild.channels.cache;
+    for (const [channelId] of guildChannels) {
+        if (postboardChannels.has(channelId)) {
+            postboardChannels.delete(channelId);
+        }
+
+        if (countingChannels.has(channelId)) {
+            countingChannels.delete(channelId);
+        }
+
+        if (dailyMiaChannels.has(channelId)) {
+            dailyMiaChannels.delete(channelId);
+            const dailyTimeout = timeoutsig.get(channelId);
+            if (dailyTimeout) {
+                clearTimeout(dailyTimeout);
+                timeoutsig.delete(channelId);
+            }
+        }
+
+        if (linkedChannels.has(channelId)) {
+            linkedChannels.delete(channelId);
+        }
+    }
+
+    for (const [id, g] of activeGiveaways.entries()) {
+        if (g.guildId === guild.id || g.guildID === guild.id) {
+            activeGiveaways.delete(id);
+            const giveawayTimeout = giveawayTimeouts.get(id);
+            if (giveawayTimeout) {
+                clearTimeout(giveawayTimeout);
+                giveawayTimeouts.delete(id);
+            }
+        }
+    }
+
+    for (const [id, link] of linkedChannels.entries()) {
+        if (guildChannels.has(link.source) || guildChannels.has(link.target)) {
+            linkedChannels.delete(id);
+        }
+    }
+
+    if (starBoards.has(guild.id)) {
+        starBoards.delete(guild.id);
     }
 });

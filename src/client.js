@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, DefaultWebSocketManagerOptions } from "discord.js";
+import { Client, GatewayIntentBits, DefaultWebSocketManagerOptions, Partials } from "discord.js";
 import { restoreTimeouts } from "./utils/restoreTimeouts.js";
 
 DefaultWebSocketManagerOptions.identifyProperties.browser = 'Discord VR';
@@ -9,10 +9,16 @@ export const client = new Client({
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildMessageReactions,
         GatewayIntentBits.GuildVoiceStates,
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.DirectMessages,
     ],
+    partials: [
+        Partials.Message,
+        Partials.Reaction,
+        Partials.User,
+    ]
 });
 client.once("clientReady", async () => {
     console.log(`bot is online! logged in as ${client.user.tag}`);
