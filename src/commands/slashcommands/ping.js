@@ -1,4 +1,5 @@
 import { SlashCommandBuilder, MessageFlags } from "discord.js";
+
 export default {
   data: new SlashCommandBuilder()
     .setName("ping")
@@ -7,12 +8,15 @@ export default {
     .setContexts([0, 1, 2]),
 
   async execute(interaction) {
-    const botLatency = Date.now() - interaction.createdTimestamp;
-    const apiLatency = Math.round(interaction.client.ws.ping);
-
-    return interaction.reply({
-      content: `pong! hello ${interaction.user}!\nlatency (bot): ${botLatency}ms\nlatency (API): ${apiLatency}ms`,
-      flags: MessageFlags.Ephemeral
+    const response = await interaction.reply({
+      content: "pinging...",
+      flags: MessageFlags.Ephemeral,
+      withResponse: true
+    });
+    const msg = response.resource.message;
+    const totalLatency = msg.createdTimestamp - interaction.createdTimestamp;
+    return interaction.editReply({
+      content: `pong! hello ${interaction.user}!\nbot latency: ${totalLatency}ms`
     });
   },
 };
