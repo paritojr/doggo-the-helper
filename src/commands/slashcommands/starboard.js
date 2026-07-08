@@ -4,14 +4,14 @@ import { starBoards } from "../../database.js";
 export default {
   data: new SlashCommandBuilder()
     .setName("starboard")
-    .setDescription("admin configuration for the starboard system")
+    .setDescription("starboard bs")
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .setIntegrationTypes([0])
     .setContexts([0])
     .addSubcommand(subcommand =>
       subcommand
         .setName("setup")
-        .setDescription("configures the channel, emoji, and threshold for the starboard")
+        .setDescription("sets up the starboard")
         .addChannelOption(opt => 
           opt.setName("channel").setDescription("channel for starboard")
           .addChannelTypes(ChannelType.GuildText)
@@ -28,7 +28,7 @@ export default {
     .addSubcommand(subcommand =>
       subcommand
         .setName("disable")
-        .setDescription("completely disables the starboard and wipes its settings")
+        .setDescription("disables and deletes the starboard entirely")
     ),
 
   async execute(interaction) {
@@ -71,7 +71,7 @@ export default {
       }
       starBoards.delete(guildId);
       return interaction.editReply({
-        content: "starboard has been completely removed and disabled for this server :)"
+        content: "starboard was disabled and deleted, ty! :)"
       });
     }
   },

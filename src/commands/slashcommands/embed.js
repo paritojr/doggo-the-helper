@@ -4,7 +4,7 @@ import { isContentFlagged } from "../../utils/isContentFlagged.js";
 export default {
    data: new SlashCommandBuilder()
         .setName('embed')
-        .setDescription('creates a fantastic embed')
+        .setDescription('creates a fantastic embed using discord modals')
         .setIntegrationTypes([0])
         .setContexts([0])
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
