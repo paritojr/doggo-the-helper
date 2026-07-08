@@ -4,7 +4,7 @@ import config from "../../../config.json" with { type: "json" };
 
 export default {
   name: "danger",
-  description: "toggle anti-spam channels",
+  description: "toggle anti-spam (honeypot) channels",
   modOnly: true,
   async execute(message) {
     if (!message.guild) return;
