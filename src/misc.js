@@ -99,11 +99,9 @@ client.on("guildDelete", async (guild) => {
         if (postboardChannels.has(channelId)) {
             postboardChannels.delete(channelId);
         }
-
         if (countingChannels.has(channelId)) {
             countingChannels.delete(channelId);
         }
-
         if (dailyMiaChannels.has(channelId)) {
             dailyMiaChannels.delete(channelId);
             const dailyTimeout = timeoutsig.get(channelId);
@@ -112,7 +110,6 @@ client.on("guildDelete", async (guild) => {
                 timeoutsig.delete(channelId);
             }
         }
-
         if (linkedChannels.has(channelId)) {
             linkedChannels.delete(channelId);
         }
