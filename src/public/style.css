@@ -9,10 +9,13 @@
   box-sizing: border-box;
 }
 
+a {
+  color: white;
+}
+
 body {
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
 
   background: var(--bg);
   color: var(--text);
@@ -33,6 +36,13 @@ body {
   letter-spacing: -0.05em;
 }
 
+.hero h2 {
+  font-size: 60px;
+  font-weight: 200;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
 .hero p {
   margin-top: 32px;
 
@@ -43,7 +53,6 @@ body {
 }
 
 .links {
-  position: absolute;
   left: 0;
   right: 0;
   bottom: 70px;
@@ -52,6 +61,11 @@ body {
   justify-content: space-between;
 
   padding: 0 85px;
+}
+
+/* i'm a fucking genius */
+.absolute {
+  position: absolute;
 }
 
 .links a {

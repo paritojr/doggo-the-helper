@@ -26,6 +26,10 @@ app.get("/privacy", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "pp.html"));
 });
 
+app.get("/features", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "ft.html"));
+});
+
 app.get("/invite", (req, res) => {
   const invite = process.env.INVITE_LINK;
   if (!invite) {
