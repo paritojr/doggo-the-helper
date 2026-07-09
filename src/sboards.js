@@ -48,44 +48,49 @@ client.on("messageReactionAdd", async (reaction) => {
   const { message } = reaction;
   const guildId = message.guild.id;
 
-  const config = starBoards.get(guildId);
-  if (!config || !config.starboardChannelId) return;
+  let serverStarboards = starBoards.get(guildId);
+  if (!serverStarboards) return;
+  if (!Array.isArray(serverStarboards)) serverStarboards = [serverStarboards];
 
-  const targetEmoji = config.emoji ?? "⭐";
   const currentEmojiName = reaction.emoji.id 
     ? `<:${reaction.emoji.name}:${reaction.emoji.id}>`
     : reaction.emoji.name;
 
-  if (reaction.emoji.name !== targetEmoji && reaction.emoji.id !== targetEmoji && currentEmojiName !== targetEmoji) return;
+  for (const config of serverStarboards) {
+    if (!config || !config.starboardChannelId) continue;
 
-  if (!config.posts) config.posts = {};
+    const targetEmoji = config.emoji ?? "⭐";
+    if (reaction.emoji.name !== targetEmoji && reaction.emoji.id !== targetEmoji && currentEmojiName !== targetEmoji) continue;
 
-  const starCount = reaction.count;
-  const threshold = config.threshold ?? 5;
-  const existingStarboardMsgId = config.posts[message.id];
+    if (!config.posts) config.posts = {};
 
-  if (starCount < threshold && !existingStarboardMsgId) return;
+    const starCount = reaction.count;
+    const threshold = config.threshold ?? 5;
+    const existingStarboardMsgId = config.posts[message.id];
 
-  const starboardChannel = message.guild.channels.cache.get(config.starboardChannelId);
-  if (!starboardChannel) return;
+    if (starCount < threshold && !existingStarboardMsgId) continue;
 
-  const payload = buildMessage(message, starCount, targetEmoji);
+    const starboardChannel = message.guild.channels.cache.get(config.starboardChannelId);
+    if (!starboardChannel) continue;
 
-  if (existingStarboardMsgId) {
-    try {
-      const starboardMsg = await starboardChannel.messages.fetch(existingStarboardMsgId);
-      await starboardMsg.edit(payload);
-    } catch {
-      delete config.posts[message.id];
-      starBoards.set(guildId, config);
-    }
-  } else if (starCount >= threshold) {
-    try {
-      const sentMsg = await starboardChannel.send(payload);
-      config.posts[message.id] = sentMsg.id;
-      starBoards.set(guildId, config);
-    } catch (err) {
-      console.error(err);
+    const payload = buildMessage(message, starCount, targetEmoji);
+
+    if (existingStarboardMsgId) {
+      try {
+        const starboardMsg = await starboardChannel.messages.fetch(existingStarboardMsgId);
+        await starboardMsg.edit(payload);
+      } catch {
+        delete config.posts[message.id];
+        starBoards.set(guildId, serverStarboards);
+      }
+    } else if (starCount >= threshold) {
+      try {
+        const sentMsg = await starboardChannel.send(payload);
+        config.posts[message.id] = sentMsg.id;
+        starBoards.set(guildId, serverStarboards);
+      } catch (err) {
+        console.error(err);
+      }
     }
   }
 });
@@ -104,37 +109,42 @@ client.on("messageReactionRemove", async (reaction) => {
   const { message } = reaction;
   const guildId = message.guild.id;
 
-  const config = starBoards.get(guildId);
-  if (!config || !config.starboardChannelId || !config.posts) return;
+  let serverStarboards = starBoards.get(guildId);
+  if (!serverStarboards) return;
+  if (!Array.isArray(serverStarboards)) serverStarboards = [serverStarboards];
 
-  const targetEmoji = config.emoji ?? "⭐";
   const currentEmojiName = reaction.emoji.id 
     ? `<:${reaction.emoji.name}:${reaction.emoji.id}>`
     : reaction.emoji.name;
 
-  if (reaction.emoji.name !== targetEmoji && reaction.emoji.id !== targetEmoji && currentEmojiName !== targetEmoji) return;
+  for (const config of serverStarboards) {
+    if (!config || !config.starboardChannelId || !config.posts) continue;
 
-  const existingStarboardMsgId = config.posts[message.id];
-  if (!existingStarboardMsgId) return;
+    const targetEmoji = config.emoji ?? "⭐";
+    if (reaction.emoji.name !== targetEmoji && reaction.emoji.id !== targetEmoji && currentEmojiName !== targetEmoji) continue;
 
-  const starboardChannel = message.guild.channels.cache.get(config.starboardChannelId);
-  if (!starboardChannel) return;
+    const existingStarboardMsgId = config.posts[message.id];
+    if (!existingStarboardMsgId) continue;
 
-  const starCount = reaction.count;
-  const threshold = config.threshold ?? 5;
+    const starboardChannel = message.guild.channels.cache.get(config.starboardChannelId);
+    if (!starboardChannel) continue;
 
-  try {
-    const starboardMsg = await starboardChannel.messages.fetch(existingStarboardMsgId);
-    if (starCount < threshold) {
-      await starboardMsg.delete();
+    const starCount = reaction.count;
+    const threshold = config.threshold ?? 5;
+
+    try {
+      const starboardMsg = await starboardChannel.messages.fetch(existingStarboardMsgId);
+      if (starCount < threshold) {
+        await starboardMsg.delete();
+        delete config.posts[message.id];
+        starBoards.set(guildId, serverStarboards);
+      } else {
+        const payload = buildMessage(message, starCount, targetEmoji);
+        await starboardMsg.edit(payload);
+      }
+    } catch {
       delete config.posts[message.id];
-      starBoards.set(guildId, config);
-    } else {
-      const payload = buildMessage(message, starCount, targetEmoji);
-      await starboardMsg.edit(payload);
+      starBoards.set(guildId, serverStarboards);
     }
-  } catch {
-    delete config.posts[message.id];
-    starBoards.set(guildId, config);
   }
 });

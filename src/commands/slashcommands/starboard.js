@@ -29,6 +29,15 @@ export default {
       subcommand
         .setName("disable")
         .setDescription("disables and deletes the starboard entirely")
+        .addChannelOption(opt =>
+          opt.setName("channel").setDescription("starboard channel")
+          .addChannelTypes(ChannelType.GuildText)
+          .setRequired(true))
+    )
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName("list")
+        .setDescription("see em all")
     ),
 
   async execute(interaction) {
@@ -36,16 +45,28 @@ export default {
     const guildId = interaction.guildId;
 
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
-    const hasStarboard = starBoards.has(guildId);
+    
+    let serverStarboards = starBoards.get(guildId) || [];
+    if (!Array.isArray(serverStarboards)) {
+      serverStarboards = [serverStarboards];
+    }
 
     if (subcommand === "setup") {
-      if (hasStarboard) {
+      const sbChannel = interaction.options.getChannel("channel");
+
+      const channelExists = serverStarboards.some(sb => sb.starboardChannelId === sbChannel.id);
+      if (channelExists) {
         return interaction.editReply({
           content: "there is an starboard, you must use `/starboard disable` before setting up a new one"
         });
       }
 
-      const sbChannel = interaction.options.getChannel("channel");
+      if (serverStarboards.length >= 5) {
+        return interaction.editReply({
+          content: "maximum limit reached lol"
+        });
+      }
+
       const rawEmoji = interaction.options.getString("emoji");
       const rawThreshold = interaction.options.getInteger("threshold");
 
@@ -56,22 +77,46 @@ export default {
         posts: {}
       };
 
-      starBoards.set(guildId, config);
+      serverStarboards.push(config);
+      starBoards.set(guildId, serverStarboards);
 
       return interaction.editReply({
         content: `starboard updated!\n• channel: ${sbChannel}\n• emoji: ${config.emoji}\n• threshold: **${config.threshold}**`
       });
-    }
+    } else if (subcommand === "disable") {
+      const sbChannel = interaction.options.getChannel("channel");
+      const targetIndex = serverStarboards.findIndex(sb => sb.starboardChannelId === sbChannel.id);
 
-    if (subcommand === "disable") {
-      if (!hasStarboard) {
+      if (targetIndex === -1) {
         return interaction.editReply({
           content: "no starboards here LMAO"
         });
       }
-      starBoards.delete(guildId);
+      
+      serverStarboards.splice(targetIndex, 1);
+
+      if (serverStarboards.length === 0) {
+        starBoards.delete(guildId);
+      } else {
+        starBoards.set(guildId, serverStarboards);
+      }
+
       return interaction.editReply({
         content: "starboard was disabled and deleted, ty! :)"
+      });
+    } else if (subcommand === "list") {
+      if (serverStarboards.length === 0) {
+        return interaction.editReply({
+          content: "no starboards here LMAO"
+        });
+      }
+
+      const listLines = serverStarboards.map((sb, index) => {
+        return `**${index + 1}**. <#${sb.starboardChannelId}> | emoji: ${sb.emoji} | threshold: **${sb.threshold}**`;
+      });
+
+      return interaction.editReply({
+        content: `active starboards (${serverStarboards.length}/5):\n${listLines.join("\n")}`
       });
     }
   },
