@@ -90,7 +90,7 @@ export default {
             .setColor("#3060f1").setFooter({ text: "good luck to everyone!" })
             .setTimestamp();
          await interaction.reply({
-            content: "its giveaway time!!!! 🐾🎉",
+            content: "its giveaway time!!!! 🎉",
             embeds: [giveawayEmbed],
          });
          const giveawayMessage = await interaction.fetchReply();
