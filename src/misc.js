@@ -35,7 +35,20 @@ client.on("messageCreate", async (message) => {
             
         const num = Number(match[0]);
         const expected = state.current + 1;
+        
+        const MILESTONE_EVERY = 100;
+        const MAX_SAVES = 7; 
+
         if (message.author.id === state.lastUser || num !== expected) {
+            if (state.saves && state.saves > 0) {
+                state.saves -= 1;
+                state.lastUser = null;
+                countingChannels.set(message.channel.id, state);
+                
+                //...but it refused
+                await message.reply(`${message.author} ruined it! game starts back again now\n*...but it refused*\nthanks to your saves, you still are in **${state.current}**, but you have now only **${state.saves}** saves`);
+                return;
+            }
             await message.react('❌').catch(()=>{});
             await message.reply(`${message.author} ruined it! game starts back again now`)
             state.highest = Math.max(state.highest ?? 0, state.current);
@@ -48,6 +61,15 @@ client.on("messageCreate", async (message) => {
         state.current = num;
         state.lastUser = message.author.id;
         state.highest = Math.max(state.highest ?? 0, state.current);
+        
+        if (state.saves === undefined) state.saves = 0;
+        if (state.current % MILESTONE_EVERY === 0) {
+            if (state.saves < MAX_SAVES) {
+                state.saves += 1;
+                await message.channel.send(`**milestone reached!** the server now has **${state.current}** and earned 1 save!\ntotal: **${state.saves}/${MAX_SAVES}** saves`).catch(()=>{});
+            }
+        }
+
         countingChannels.set(message.channel.id, state);
         await message.react('✅').catch(()=>{});
         if (state.goal && state.current >= state.goal) {

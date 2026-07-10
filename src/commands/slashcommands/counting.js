@@ -26,7 +26,12 @@ export default {
         \\- a person can't count twice
         \\- non numeric inputs are ignored
 
-        if you get a correct number the bot reacts with "✅", otherwise it will react with "❌" and the game will restart
+        **save system:**
+        \\- the server earns **1 save** every **100** correct numbers.
+        \\- you can hold a maximum of **7** saves.
+        \\- if someone makes a mistake, a save is used, and the game doesn't reset
+
+        if you get a correct number the bot reacts with "✅", otherwise it will react with "❌" and the game will restart (unless you have at least a save ofc)
         if the channel gets to the goal the game ends
 
         that's it, have fun! :)
@@ -49,7 +54,7 @@ export default {
             });
          }
          
-         const { current, goal, lastUser } = data;
+         const { current, goal, lastUser, saves = 0, highest = 0 } = data;
          const remaining = Math.max(goal - current, 0);
          const percent = Math.min((current / goal) * 100, 100).toFixed(1);
          
@@ -61,6 +66,8 @@ export default {
             { name: "goal", value: String(goal), inline: true },
             { name: "remaining", value: String(remaining), inline: true },
             { name: "progress", value: `${percent}%`, inline: true },
+            { name: "saves", value: `${saves}/7`, inline: true },
+            { name: "highest streak", value: String(highest), inline: true }, 
             { name: "last counter", value: lastUser ? `<@${lastUser}>` : "none", inline: true }
          );
          
