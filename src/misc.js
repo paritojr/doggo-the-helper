@@ -117,14 +117,12 @@ client.on("messageCreate", async (message) => {
 
 client.on("guildDelete", async (guild) => {
     if (!guild) return;
-    const guildChannels = guild.channels.cache;
-    for (const [channelId] of guildChannels) {
-        if (postboardChannels.has(channelId)) {
-            postboardChannels.delete(channelId);
-        }
-        if (countingChannels.has(channelId)) {
-            countingChannels.delete(channelId);
-        }
+    const channelIds = Array.from(guild.channels.cache.keys());
+    
+    for (const channelId of channelIds) {
+        postboardChannels.delete(channelId);
+        countingChannels.delete(channelId);
+        
         if (dailyMiaChannels.has(channelId)) {
             dailyMiaChannels.delete(channelId);
             const dailyTimeout = timeoutsig.get(channelId);
@@ -133,13 +131,13 @@ client.on("guildDelete", async (guild) => {
                 timeoutsig.delete(channelId);
             }
         }
-        if (linkedChannels.has(channelId)) {
-            linkedChannels.delete(channelId);
-        }
+        
+        linkedChannels.delete(channelId);
     }
 
     for (const [id, g] of activeGiveaways.entries()) {
-        if (g.guildId === guild.id || g.guildID === guild.id) {
+        const giveawayguild = g.guildId || g.guildID;
+        if (giveawayguild === guild.id) {
             activeGiveaways.delete(id);
             const giveawayTimeout = giveawayTimeouts.get(id);
             if (giveawayTimeout) {
@@ -150,12 +148,10 @@ client.on("guildDelete", async (guild) => {
     }
 
     for (const [id, link] of linkedChannels.entries()) {
-        if (guildChannels.has(link.source) || guildChannels.has(link.target)) {
+        if (guild.channels.cache.has(link.source) || guild.channels.cache.has(link.target)) {
             linkedChannels.delete(id);
         }
     }
 
-    if (starBoards.has(guild.id)) {
-        starBoards.delete(guild.id);
-    }
+    starBoards.delete(guild.id);
 });
