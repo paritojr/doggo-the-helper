@@ -100,17 +100,18 @@ client.on("messageCreate", async (message) => {
         break;
     }
 
-    if (!isPostboardChannel) return;
-    try {
-        if (message.hasThread) return;
-        const name = `${message.author.username}'s post`;
-        await message.startThread({
-            name,
-            autoArchiveDuration: 1440,
-        });
-        await message.react("🔥");
-    } catch (err) {
-        console.error("postboard error:", err);
+    if (isPostboardChannel) {
+        try {
+            if (message.hasThread) return;
+            const name = `${message.author.username}'s post`;
+            await message.startThread({
+                name,
+                autoArchiveDuration: 1440,
+            });
+            await message.react("🔥");
+        } catch (err) {
+            console.error("postboard error:", err);
+        }
     }
 });
 
