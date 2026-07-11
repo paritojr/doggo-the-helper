@@ -5,7 +5,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName("starboard")
     .setDescription("starboard bs")
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
     .setIntegrationTypes([0])
     .setContexts([0])
     .addSubcommand(subcommand =>
