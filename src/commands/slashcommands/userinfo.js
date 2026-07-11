@@ -28,12 +28,21 @@ export default {
         let extraInfo = "";
         let extraInfo2 = "";
 
-        if (member && member.joined_at) {
-            const joinedUnix = Math.floor(new Date(member.joined_at).getTime() / 1000);
-            const isBooster = member.premium_since ? "yes!" : "no :(";
-            displayName = member.nick || displayName;
-            extraInfo = `joined server at: <t:${joinedUnix}:d> (<t:${joinedUnix}:R>)\n`;
+        if (member) {
+            const joinDate = member.joinedAt || member.joined_at || member.joinedTimestamp;
+            const premiumSince = member.premiumSince || member.premium_since || member.premiumSinceTimestamp;
+
+            if (joinDate) {
+                const joinDateObj = new Date(joinDate);
+                if (!isNaN(joinDateObj)) {
+                    const joinedUnix = Math.floor(joinDateObj.getTime() / 1000);
+                    extraInfo = `joined server at: <t:${joinedUnix}:d> (<t:${joinedUnix}:R>)\n`;
+                }
+            }
+
+            const isBooster = premiumSince ? "yes!" : "no :(";
             extraInfo2 = `\nbooster: ${isBooster}`;
+            displayName = member.nickname || member.nick || displayName;
         }
 
         const actionComponents = [
