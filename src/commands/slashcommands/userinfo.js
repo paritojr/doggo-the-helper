@@ -14,6 +14,7 @@ export default {
     
     async execute(interaction) {
         let user = interaction.options.getUser("user") || interaction.user;
+        let member = interaction.options.getMember("user") || interaction.member;
         try {
             user = await interaction.client.users.fetch(user.id, { force: true });
         } catch (err) {
@@ -27,18 +28,12 @@ export default {
         let extraInfo = "";
         let extraInfo2 = "";
 
-        if (interaction.inGuild() && interaction.authorizingIntegrationOwners['0']) {
-            try {
-                const member = await interaction.guild.members.fetch(user.id);
-                const joinedUnix = Math.floor(member.joinedTimestamp / 1000);
-                const isBooster = member.premiumSince ? "yes!" : "no :(";
-                displayName = member.displayName;
-                avatarUrl = member.displayAvatarURL({ size: 256 });
-                extraInfo = `joined server at: <t:${joinedUnix}:d> (<t:${joinedUnix}:R>)\n`;
-                extraInfo2 = `\nbooster: ${isBooster}`;
-            } catch (err) {
-                console.log("my bad")
-            }
+        if (member && member.joined_at) {
+            const joinedUnix = Math.floor(new Date(member.joined_at).getTime() / 1000);
+            const isBooster = member.premium_since ? "yes!" : "no :(";
+            displayName = member.nick || displayName;
+            extraInfo = `joined server at: <t:${joinedUnix}:d> (<t:${joinedUnix}:R>)\n`;
+            extraInfo2 = `\nbooster: ${isBooster}`;
         }
 
         const actionComponents = [
