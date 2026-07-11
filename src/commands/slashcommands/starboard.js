@@ -10,8 +10,8 @@ export default {
     .setContexts([0])
     .addSubcommand(subcommand =>
       subcommand
-        .setName("setup")
-        .setDescription("sets up the starboard")
+        .setName("add")
+        .setDescription("adds a starboard")
         .addChannelOption(opt => 
           opt.setName("channel").setDescription("channel for starboard")
           .addChannelTypes(ChannelType.GuildText)
@@ -27,8 +27,8 @@ export default {
     )
     .addSubcommand(subcommand =>
       subcommand
-        .setName("disable")
-        .setDescription("disables and deletes the starboard entirely")
+        .setName("remove")
+        .setDescription("remove a starboard")
         .addChannelOption(opt =>
           opt.setName("channel").setDescription("starboard channel")
           .addChannelTypes(ChannelType.GuildText)
@@ -51,7 +51,7 @@ export default {
       serverStarboards = [serverStarboards];
     }
 
-    if (subcommand === "setup") {
+    if (subcommand === "add") {
       const sbChannel = interaction.options.getChannel("channel");
 
       const channelExists = serverStarboards.some(sb => sb.starboardChannelId === sbChannel.id);
@@ -83,7 +83,7 @@ export default {
       return interaction.editReply({
         content: `starboard updated!\n• channel: ${sbChannel}\n• emoji: ${config.emoji}\n• threshold: **${config.threshold}**`
       });
-    } else if (subcommand === "disable") {
+    } else if (subcommand === "remove") {
       const sbChannel = interaction.options.getChannel("channel");
       const targetIndex = serverStarboards.findIndex(sb => sb.starboardChannelId === sbChannel.id);
 
