@@ -57,7 +57,7 @@ export default {
       const channelExists = serverStarboards.some(sb => sb.starboardChannelId === sbChannel.id);
       if (channelExists) {
         return interaction.editReply({
-          content: "there is an starboard, you must use `/starboard disable` before setting up a new one"
+          content: "there is an starboard, you must use `/starboard remove` to remove it"
         });
       }
 
