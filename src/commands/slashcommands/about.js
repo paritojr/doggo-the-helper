@@ -16,7 +16,7 @@ export default {
         name: "bot info",
         iconURL: interaction.client.user.displayAvatarURL({ extension: 'png', size: 256 })
       })
-      .setDescription("hello! i'm doggo the helper, a free and open-source multi-purpose discord bot with all the features you'll ever need from a discord bot")
+      .setDescription("hello! i'm doggo the helper, a free and open-source multi-purpose discord bot with all the features you'll ever need from a discord bot :)")
       .addFields(
         { name: "server installs", value: `${interaction.client.guilds.cache.size}`, inline: true },
         { name: "user installs", value: `${stupidData.approximateUserInstallCount || 0}`, inline: true },
