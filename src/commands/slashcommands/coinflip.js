@@ -46,19 +46,20 @@ export default {
       balances.set(userId, balance);
 
       const userEmbed = new EmbedBuilder()
-      .setTitle(`coin flip results`)
-      .setColor("#3060f1")
-      .addFields(
-        { name: 'your choice', value: `**${choice}**`, inline: true },
-        { name: 'result', value: `**${flip}**`, inline: true },
-        { name: 'outcome', value: win ? 'you won 🎉' : 'you lost 💀', inline: true },
-        { name: 'change:', value: `${winnings}`, inline: true },
-        { name: 'balance:', value: `${balance}`, inline: true },
-      )
-      .setFooter({
-         text: "wowsers"
-      })
-      .setTimestamp();
+        .setTitle(`coin flip results`)
+        .setColor("#3060f1")
+        .addFields(
+          { name: 'your choice', value: `**${choice}**`, inline: true },
+          { name: 'result', value: `**${flip}**`, inline: true },
+          { name: 'outcome', value: win ? 'you won 🎉' : 'you lost 💀', inline: true },
+          { name: 'change:', value: `${winnings}`, inline: true },
+          { name: 'balance:', value: `${balance}`, inline: true },
+        )
+        .setFooter({
+           text: "wowsers"
+        })
+        .setTimestamp();
+      
       await interaction.reply({
          embeds: [userEmbed],
       });
