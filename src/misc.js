@@ -36,8 +36,8 @@ client.on("messageCreate", async (message) => {
         const num = Number(match[0]);
         const expected = state.current + 1;
         
-        const MILESTONE_EVERY = 100;
-        const MAX_SAVES = 7; 
+        const MILESTONE_EVERY = 50;
+        const MAX_SAVES = 15; 
 
         if (message.author.id === state.lastUser || num !== expected) {
             if (state.saves && state.saves > 0) {

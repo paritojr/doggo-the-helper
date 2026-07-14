@@ -27,8 +27,8 @@ export default {
         \\- non numeric inputs are ignored
 
         **save system:**
-        \\- the server earns **1 save** every **100** correct numbers.
-        \\- you can hold a maximum of **7** saves.
+        \\- the server earns **1 save** every **50** correct numbers.
+        \\- you can hold a maximum of **15** saves.
         \\- if someone makes a mistake, a save is used, and the game doesn't reset
 
         if you get a correct number the bot reacts with "✅", otherwise it will react with "❌" and the game will restart (unless you have at least a save ofc)
@@ -66,7 +66,7 @@ export default {
             { name: "goal", value: String(goal), inline: true },
             { name: "remaining", value: String(remaining), inline: true },
             { name: "progress", value: `${percent}%`, inline: true },
-            { name: "saves", value: `${saves}/7`, inline: true },
+            { name: "saves", value: `${saves}/15`, inline: true },
             { name: "highest streak", value: String(highest), inline: true }, 
             { name: "last counter", value: lastUser ? `<@${lastUser}>` : "none", inline: true }
          );
