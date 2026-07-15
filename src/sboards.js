@@ -9,6 +9,7 @@ function buildMessage(message, starCount, emoji) {
       name: message.author.tag, 
       iconURL: message.author.displayAvatarURL({ dynamic: true }) 
     })
+    .setFooter({ text: `message id: ${message.id}` })
     .setTimestamp(message.createdAt);
 
   if (message.content && message.content.trim().length > 0) {
