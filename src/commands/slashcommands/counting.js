@@ -59,17 +59,17 @@ export default {
          const percent = Math.min((current / goal) * 100, 100).toFixed(1);
          
          const incredibleEmbed = new EmbedBuilder()
-         .setTitle("counting stats")
-         .setColor("#3060f1")
-         .addFields(
-            { name: "current number", value: String(current), inline: true },
-            { name: "goal", value: String(goal), inline: true },
-            { name: "remaining", value: String(remaining), inline: true },
-            { name: "progress", value: `${percent}%`, inline: true },
-            { name: "saves", value: `${saves}/15`, inline: true },
-            { name: "highest streak", value: String(highest), inline: true }, 
-            { name: "last counter", value: lastUser ? `<@${lastUser}>` : "none", inline: true }
-         );
+           .setTitle("counting stats")
+           .setColor("#3060f1")
+           .addFields(
+              { name: "current number", value: String(current), inline: true },
+              { name: "goal", value: String(goal), inline: true },
+              { name: "remaining", value: String(remaining), inline: true },
+              { name: "progress", value: `${percent}%`, inline: true },
+              { name: "saves", value: `${saves}/15`, inline: true },
+              { name: "highest streak", value: String(highest), inline: true }, 
+              { name: "last counter", value: lastUser ? `<@${lastUser}>` : "none", inline: true }
+           );
          
          return interaction.reply({
             embeds: [incredibleEmbed]
