@@ -7,7 +7,7 @@ function buildMessage(message, starCount, emoji) {
     .setColor(0xdd2f46)
     .setAuthor({ 
       name: message.author.tag, 
-      iconURL: message.author.displayAvatarURL({ dynamic: true }) 
+      iconURL: message.author.displayAvatarURL({ forceStatic: false }) 
     })
     .setFooter({ text: `message id: ${message.id}` })
     .setTimestamp(message.createdAt);
@@ -44,11 +44,18 @@ client.on("messageReactionAdd", async (reaction) => {
     }
   }
 
-  if (!reaction.message.guild) return;
+  let { message } = reaction;
+  if (!message.author) {
+    try {
+      message = await reaction.message.channel.messages.fetch(reaction.message.id);
+    } catch {
+      return;
+    }
+  }
 
-  const { message } = reaction;
+  if (!message.guild) return;
+
   const guildId = message.guild.id;
-
   let serverStarboards = starBoards.get(guildId);
   if (!serverStarboards) return;
   if (!Array.isArray(serverStarboards)) serverStarboards = [serverStarboards];
@@ -105,11 +112,18 @@ client.on("messageReactionRemove", async (reaction) => {
     }
   }
 
-  if (!reaction.message.guild) return;
+  let { message } = reaction;
+  if (!message.author) {
+    try {
+      message = await reaction.message.channel.messages.fetch(reaction.message.id);
+    } catch {
+      return;
+    }
+  }
 
-  const { message } = reaction;
+  if (!message.guild) return;
+
   const guildId = message.guild.id;
-
   let serverStarboards = starBoards.get(guildId);
   if (!serverStarboards) return;
   if (!Array.isArray(serverStarboards)) serverStarboards = [serverStarboards];

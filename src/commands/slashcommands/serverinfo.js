@@ -8,7 +8,7 @@ export default {
     
     async execute(interaction) {
         const guild = interaction.guild;
-        const iconUrl = guild.iconURL({ dynamic: true, size: 256 }) || null;
+        const iconUrl = guild.iconURL({ forceStatic: true, size: 256 }) || null;
         const emojiCount = guild.emojis.cache.size;
         const stickerCount = guild.stickers.cache.size;
         const creationDate = guild.createdAt;
