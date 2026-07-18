@@ -76,7 +76,8 @@ client.on("messageCreate", async (message) => {
             await message.channel.send(`goal reached dudes: ${state.current}`).catch(()=>{});
             state.current = 0;
             state.lastUser = null;
-            countingChannels.delete(message.channel.id);
+            state.saves = 0;
+            countingChannels.set(message.channel.id, state);
         }
         return;
     }

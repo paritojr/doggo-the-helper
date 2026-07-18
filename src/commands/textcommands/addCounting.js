@@ -9,12 +9,12 @@ export default {
       return;
     }
     if (!args[0]) {
-      return message.reply(`usage: \\${config.prefix}addcounting #channel <goal>`);
+      return message.reply(`usage: \\${config.prefix}addcounting #channel [goal]`);
     }
     const channelMention = args[0];
     const goalArg = args[1];
     if (!channelMention.startsWith('<#') || !channelMention.endsWith('>')) {
-      return message.reply(`usage: \\${config.prefix}addcounting #channel <goal>`);
+      return message.reply(`usage: \\${config.prefix}addcounting #channel [goal]`);
     }
     const channelId = channelMention.slice(2, -1);
     const channel = message.guild.channels.cache.get(channelId);
@@ -23,9 +23,12 @@ export default {
       return message.reply('channel not found');
     }
 
-    const goal = parseInt(goalArg, 10);
-    if (isNaN(goal) || goal <= 0) {
-      return message.reply('provide a valid number for goal');
+    let goal = null;
+    if (goalArg) {
+      goal = parseInt(goalArg, 10);
+      if (isNaN(goal) || goal <= 0) {
+        return message.reply('provide a valid number for goal');
+      }
     }
     if (countingChannels.has(channel.id)) {
       return message.reply('that channel has already a counting game lol');
@@ -38,6 +41,7 @@ export default {
       highest: 0
     });
     
-    return message.reply(`counting game added to ${channel}! the goal is: ${goal}`);
+    const responsebruh = goal ? `counting game added to ${channel}! the goal is: ${goal}`: `counting game added to ${channel}! it is an infinite counting game btw`;
+    return message.reply(responsebruh);
   }
 };
