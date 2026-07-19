@@ -37,11 +37,13 @@ client.on("messageCreate", async (message) => {
       if (!command) return;
       if (command.ownerOnly && !isOwner) return;
 
+      const userId = message.author.id;
       const now = Date.now();
-      const expirationTime = cooldowns.get("global") || 0;
-      if (now < expirationTime) return;
-      cooldowns.set("global", now + cooldownTime);
-               
+      const expirationTime = cooldowns.get(userId) || 0;
+      if (now < expirationTime) {
+        return; 
+      }
+      cooldowns.set(userId, now + cooldownTime); 
       try {
         await command.execute(message, args);
       } catch (err) {
