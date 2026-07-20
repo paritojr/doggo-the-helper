@@ -39,7 +39,7 @@ export async function stopGiveaway(giveawayId) {
 
       const winnerEmbed = new EmbedBuilder()
          .setTitle("🎉 GIVEAWAY ENDED! 🎉")
-         .setDescription(`**Prize:** ${giveaway.prize}\n**Winner:** ${winnerList}`)
+         .setDescription(`**Prize:** ${giveaway.prize}\n**Winner(s):** ${winnerList}`)
          .setColor("#00FF00")
          .setTimestamp();
 
