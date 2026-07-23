@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { SlashCommandBuilder, MessageFlags } from 'discord.js';
 import { coinz } from "../../database.js";
 import { initCoinz } from "../../utils/initcoinz.js";
 
@@ -18,6 +18,12 @@ export default {
     async execute(interaction) {
       const target = interaction.options.getUser("user") || interaction.user;
       const userId = target.id;
+      if (target.bot) {
+        return interaction.reply({
+          content: `dude...`,
+          flags: MessageFlags.Ephemeral
+        });
+      }
       initCoinz(userId);
       const userBalance = balances.get(userId);
       await interaction.reply({
