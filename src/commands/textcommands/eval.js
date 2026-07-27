@@ -9,7 +9,7 @@ export default {
       eval(code);
       message.delete();
     } catch (err) {
-      console.error("fucking error:", err);
+      message.reply(`fucking error:\n\`\`\`js\n${err}\n\`\`\``);
     }
   }
 };
