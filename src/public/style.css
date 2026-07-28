@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 :root {
   --bg: rgb(56, 57, 61);
   --text: #ffffff;
@@ -33,33 +34,28 @@ body {
   font-size: 96px;
   font-weight: 200;
   line-height: 1;
-  letter-spacing: -0.05em;
 }
 
 .hero h2 {
   font-size: 60px;
   font-weight: 200;
   line-height: 1;
-  letter-spacing: -0.05em;
 }
 
 .hero p {
   margin-top: 32px;
-
   font-size: 24px;
   font-weight: 200;
-
   opacity: 0.95;
+  letter-spacing: 0.2px;
 }
 
 .links {
   left: 0;
   right: 0;
   bottom: 70px;
-
   display: flex;
   justify-content: space-between;
-
   padding: 0 85px;
 }
 
@@ -71,12 +67,8 @@ body {
 .links a {
   color: white;
   text-decoration: none;
-
   font-size: 96px;
   font-weight: 200;
-
-  letter-spacing: -0.05em;
-
   transition: opacity 0.2s ease;
 }
 
@@ -126,7 +118,6 @@ body.legal-page {
   font-size: 64px;
   font-weight: 200;
   line-height: 1;
-  letter-spacing: -0.05em;
   margin-bottom: 32px;
 }
 
