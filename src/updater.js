@@ -47,7 +47,7 @@ async function updater() {
       return;
     }
 
-    spawn("npm", ["run", "start"], {
+    spawn(process.argv[0], process.argv.slice(1), {
       cwd: botCwd,
       detached: true,
       stdio: "inherit",
