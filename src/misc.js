@@ -2,6 +2,7 @@ import { client } from "./client.js"
 import { postboardChannels, dangerChannels, countingChannels, linkedChannels, dailyMiaChannels, starBoards, activeGiveaways } from "./database.js";
 import { timeoutsig } from "./utils/dailycontent.js";
 import { giveawayTimeouts } from "./utils/restoreTimeouts.js";
+import { WebhookClient } from "discord.js";
 
 client.on("messageCreate", async (message) => {
     if (message.author.bot) return;
@@ -83,21 +84,37 @@ client.on("messageCreate", async (message) => {
     }
 
     for (const [id, link] of linkedChannels.entries()) {
-        if (!link?.source || !link?.target) continue;
+        if (!link?.source?.id || !link?.target?.id) continue;
 
-        const isSource = message.channel.id === link.source;
-        const isTarget = message.channel.id === link.target;
+        const isSource = message.channel.id === link.source.id;
+        const isTarget = message.channel.id === link.target.id;
 
         if (!isSource && !isTarget) continue;
-
-        const targetChannelId = isSource ? link.target : link.source;
-        const targetChannel = await message.client.channels.fetch(targetChannelId).catch(() => null);
-        if (!targetChannel) continue;
-
-        await targetChannel.send({
-            content: `**${message.author.username}**: ${message.content || ""}`,
-            allowedMentions: { parse: [] }
-        }).catch(() => {});
+        const destination = isSource ? link.target : link.source;
+        if (!destination.url) continue;
+        
+        try {
+            const webhookClient = new WebhookClient({ url: destination.url });
+            const files = message.attachments.filter(att => att.size <= 5242880).map(att => att.url);
+            
+            let contentText = message.content || "";
+            //i made this, zach modified this, and i stole it
+            const stickers = message.stickers?.filter(s => s.type !== 1 && !s.url.endsWith('.json')).map(s => `${s.url}?size=160`) || []
+            if (stickers.length > 0) {
+                contentText += `\n${stickers.join("\n")}`;
+            }
+            await webhookClient.send({
+              content: contentText || undefined,
+              username: message.member?.displayName || message.author.username,
+              avatarURL: message.author.displayAvatarURL({ forceStatic: false }),
+              files: files.length > 0 ? files : undefined,
+              allowedMentions: { parse: [] }
+            });
+        } catch (error) {
+            //did you seriously expect a professional error handler
+            //look im not THAT type of guy shut the fuck up
+            console.error(`WE HAVE AN ERROR ON ${id} FUUUUUUUUUCK:`, error);
+        }
         break;
     }
 
