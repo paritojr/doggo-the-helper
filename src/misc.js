@@ -105,9 +105,8 @@ client.on("messageCreate", async (message) => {
             }
             await webhookClient.send({
               content: contentText || undefined,
-              username: message.member?.displayName && message.member.displayName !== message.author.username
-                ? `${message.member.displayName} (${message.author.username})`
-                : message.author.username,
+              username: message.member.nickname ? `${message.member.nickname} (${message.member.user.globalName})` 
+                : message.member.displayName,
               avatarURL: message.author.displayAvatarURL({ forceStatic: false }),
               files: files.length > 0 ? files : undefined,
               allowedMentions: { parse: [] }
