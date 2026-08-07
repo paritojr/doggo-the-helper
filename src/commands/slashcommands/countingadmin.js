@@ -40,7 +40,7 @@ export default {
 
         if (countingChannels.has(channel.id)) {
           return interaction.reply({
-            content: 'that channel has already a counting game lol',
+            content: 'that channel already has a counting game lol',
             flags: MessageFlags.Ephemeral
           });
         }
