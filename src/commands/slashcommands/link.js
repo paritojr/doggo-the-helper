@@ -6,6 +6,15 @@ function generateId() {
   return Math.random().toString(36).substring(2, 8).toUpperCase();
 }
 
+async function deleteWebhook(interaction, url) {
+  if (!url) return;
+  try {
+    const parts = url.split("/");
+    const webhook = await interaction.client.fetchWebhook(parts.at(-2), parts.at(-1));
+    await webhook.delete("link modified mfs");
+  } catch (e) {}
+}
+
 export default {
   data: new SlashCommandBuilder()
     .setName("link")
@@ -134,15 +143,8 @@ export default {
       }
 
       await interaction.deferReply({ flags: MessageFlags.Ephemeral });
-      for (const side of ["source", "target"]) {
-        if (link[side]?.url) {
-          try {
-            const parts = link[side].url.split("/");
-            const client = await interaction.client.fetchWebhook(parts.at(-2), parts.at(-1));
-            await client.delete("link removed mfs!!!!");
-          } catch (e) {}
-        }
-      }
+      await deleteWebhook(interaction, link.source?.url);
+      await deleteWebhook(interaction, link.target?.url);
 
       linkedChannels.delete(id);
       const neatEmbed = new EmbedBuilder()
@@ -151,7 +153,6 @@ export default {
         .setColor("Red")
 
       return interaction.editReply({ embeds: [neatEmbed] });
-
     } else if (subcommand === "unlink") {
       const channel = interaction.channel;
       if (!channel) {
@@ -176,13 +177,7 @@ export default {
       const [id, link] = entry;
       const side = (link.source?.id === channel.id) ? "source" : (link.target?.id === channel.id) ? "target" : null;
       if (side) {
-        if (link[side].url) {
-          try {
-            const parts = link[side].url.split("/");
-            const client = await interaction.client.fetchWebhook(parts.at(-2), parts.at(-1));
-            await client.delete("Channel unlinked");
-          } catch (e) {}
-        }
+        await deleteWebhook(interaction, link[side]?.url);
         link[side] = null;
       }
       
