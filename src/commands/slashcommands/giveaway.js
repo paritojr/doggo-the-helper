@@ -1,6 +1,6 @@
+import ms from 'ms';
 import { EmbedBuilder, SlashCommandBuilder, MessageFlags } from "discord.js";
 import { isContentFlagged } from "../../utils/isContentFlagged.js";
-import { parseTime } from "../../utils/parseTime.js";
 import { activeGiveaways } from "../../database.js";
 import { stopGiveaway } from "../../utils/stopGiveaway.js";
 
@@ -62,7 +62,7 @@ export default {
             });
             return;
          }
-         const duration = parseTime(time1);
+         const duration = ms(time1);
          if (!duration) {
             await interaction.reply({
                content: "invalid time format, use format like: 1d, 5h, 30m",

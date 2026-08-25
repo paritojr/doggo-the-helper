@@ -1,5 +1,5 @@
+import ms from 'ms';
 import { SlashCommandBuilder, MessageFlags } from "discord.js";
-import { parseTime } from "../../utils/parseTime.js";
 import { reminders } from "../../database.js";
 
 export default {
@@ -25,7 +25,7 @@ export default {
     const timeInput = interaction.options.getString("time");
     const reminder = interaction.options.getString("message");
 
-    const duration = parseTime(timeInput);
+    const duration = ms(timeInput);
 
     if (!duration) {
       return interaction.reply({
