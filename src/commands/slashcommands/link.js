@@ -1,9 +1,10 @@
+import { randomBytes } from "crypto";
 import { PermissionFlagsBits, SlashCommandBuilder, EmbedBuilder, MessageFlags } from "discord.js";
 import { linkedChannels } from "../../database.js";
 
 function generateId() {
   //the bullshit of all time
-  return Math.random().toString(36).substring(2, 8).toUpperCase();
+  return randomBytes(3).toString("hex").toUpperCase();
 }
 
 async function deleteWebhook(interaction, url) {
