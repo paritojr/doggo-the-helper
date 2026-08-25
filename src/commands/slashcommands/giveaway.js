@@ -1,4 +1,5 @@
 import ms from 'ms';
+import { randomBytes } from "crypto";
 import { EmbedBuilder, SlashCommandBuilder, MessageFlags } from "discord.js";
 import { isContentFlagged } from "../../utils/isContentFlagged.js";
 import { activeGiveaways } from "../../database.js";
@@ -85,7 +86,7 @@ export default {
             console.log("flagged");
             return;
          }
-         const giveawayId = Date.now().toString();
+         const giveawayId = (parseInt(randomBytes(6).toString("hex"), 16) % 9000000000000 + 1000000000000).toString();
          const endTime = Date.now() + duration;
          const giveawayEmbed = new EmbedBuilder()
             .setTitle(`${prize} giveaway!`)
