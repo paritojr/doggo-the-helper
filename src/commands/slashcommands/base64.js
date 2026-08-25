@@ -41,11 +41,13 @@ export default {
             });
         } else if (subcommand === "decode") {
             const inputlol = interaction.options.getString("text");
-            const string = Buffer.from(inputlol, "base64").toString("utf8");
+            const isBase64 = /^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(inputlol);
+            let string;
+            string = isBase64 ? Buffer.from(inputlol, "base64").toString("utf8") : "Invalid input.";
             const funnyembed = new EmbedBuilder()
-            .setTitle("results:")
-            .setDescription(`${string}`)
-            .setColor("#3060f1");
+              .setTitle("results:")
+              .setDescription(`${string}`)
+              .setColor("#3060f1");
 
             await interaction.reply({
                 embeds: [funnyembed],

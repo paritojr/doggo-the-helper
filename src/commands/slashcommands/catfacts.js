@@ -13,7 +13,6 @@ export default {
       if (!response.ok) {
         throw new Error(`api's status: ${response.status}`);
       }
-
       const data = await response.json();
       return interaction.reply({
         content: `Fun fact: ${data.fact}`,
