@@ -46,7 +46,9 @@ export async function stopGiveaway(giveawayId) {
       await channel.send({ embeds: [winnerEmbed] });
 
       activeGiveaways.delete(giveawayId);
+      return true;
    } catch (err) {
       console.error("error ending giveaway:", err);
+      return false;
    }
 }

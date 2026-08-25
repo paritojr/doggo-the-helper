@@ -50,7 +50,13 @@ export default {
                flags: MessageFlags.Ephemeral
             });
          }
-         await stopGiveaway(giveawayId);
+         const finished = await stopGiveaway(giveawayId);
+         if (finished) {
+            return interaction.reply({
+               content: "giveaway ended!",
+               flags: MessageFlags.Ephemeral
+            });
+         }
       } else if (subcommand === "start") {
          const prize = interaction.options.getString("prize");
          const time1 = interaction.options.getString("time");
