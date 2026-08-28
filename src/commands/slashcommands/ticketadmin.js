@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, MessageFlags, ChannelType } from "discord.js";
+import { SlashCommandBuilder, MessageFlags, ChannelType, PermissionFlagsBits } from "discord.js";
 import { ticketPanels } from "../../database.js";
 import { tInitialize, tDestroy } from "../../utils/ticketUtils.js";
 
@@ -6,6 +6,7 @@ export default {
   data: new SlashCommandBuilder()
     .setName("ticketadmin")
     .setDescription("manages ticket panels for your server")
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
     .setIntegrationTypes([0])
     .setContexts([0])
     .addSubcommand((subcommand) =>
