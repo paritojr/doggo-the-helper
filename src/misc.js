@@ -1,8 +1,8 @@
 import { client } from "./client.js"
-import { postboardChannels, dangerChannels, countingChannels, linkedChannels, dailyMiaChannels, starBoards, activeGiveaways } from "./database.js";
+import { postboardChannels, dangerChannels, countingChannels, linkedChannels, dailyMiaChannels, starBoards, activeGiveaways, ticketPanels } from "./database.js";
 import { timeoutsig } from "./utils/dailycontent.js";
 import { giveawayTimeouts } from "./utils/restoreTimeouts.js";
-import { WebhookClient } from "discord.js";
+import { WebhookClient, ChannelType, ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, MessageFlags } from "discord.js";
 
 client.on("messageCreate", async (message) => {
     if (message.author.bot) return;
@@ -139,9 +139,10 @@ client.on("guildDelete", async (guild) => {
     const channelIds = Array.from(guild.channels.cache.keys());
     
     for (const channelId of channelIds) {
-        postboardChannels.delete(channelId);
-        countingChannels.delete(channelId);
-        
+        if (postboardChannels.has(channelId)) postboardChannels.delete(channelId);
+        if (countingChannels.has(channelId)) countingChannels.delete(channelId);
+        if (ticketPanels.has(channelId)) ticketPanels.delete(channelId);
+
         if (dailyMiaChannels.has(channelId)) {
             dailyMiaChannels.delete(channelId);
             const dailyTimeout = timeoutsig.get(channelId);
@@ -151,7 +152,7 @@ client.on("guildDelete", async (guild) => {
             }
         }
         
-        linkedChannels.delete(channelId);
+        if (linkedChannels.has(channelId)) linkedChannels.delete(channelId);
     }
 
     for (const [id, g] of activeGiveaways.entries()) {
@@ -173,4 +174,68 @@ client.on("guildDelete", async (guild) => {
     }
 
     starBoards.delete(guild.id);
+});
+
+client.on("interactionCreate", async (interaction) => {
+  if (!interaction.isButton()) return;
+  if (interaction.customId === "ticket_open") {
+    const panelData = ticketPanels.get(interaction.channel.id);
+    if (!panelData) {
+      return interaction.reply({
+        content: "panel config missing (aka 404)",
+        flags: MessageFlags.Ephemeral
+      });
+    }
+
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+    const ticketThread = await interaction.channel.threads.create({
+      name: `ticket-${interaction.user.username}`,
+      type: ChannelType.PrivateThread,
+      invitable: false
+    });
+
+    await ticketThread.members.add(interaction.user.id);
+    if (panelData.role) {
+      await ticketThread.members.add(panelData.role).catch(() => {});
+    }
+
+    const embed = new EmbedBuilder()
+      .setTitle(`Ticket: ${panelData.name}`)
+      .setDescription(panelData.description || "Click below to close this ticket.")
+      .setColor(0x5865F2);
+
+    const closeButton = new ButtonBuilder()
+      .setCustomId("ticket_close")
+      .setLabel("Close")
+      .setStyle(ButtonStyle.Danger)
+      .setEmoji("🔒");
+
+    const row = new ActionRowBuilder().addComponents(closeButton);
+
+    await ticketThread.send({
+      content: `${interaction.user} & <@&${panelData.role}>`,
+      embeds: [embed],
+      components: [row]
+    });
+
+    return interaction.editReply({
+      content: `Your ticket has been opened in ${ticketThread}`,
+    });
+  } else if (interaction.customId === "ticket_close") {
+    const targetThread = interaction.channel;
+    if (!targetThread || !targetThread.isThread()) return;
+
+    const panelData = ticketPanels.get(targetThread.parentId);
+    const shouldArchive = panelData ? panelData.swa : false;
+
+    try {
+      await interaction.update({ components: [] });
+      if (shouldArchive) {
+        await targetThread.setLocked(true);
+        await targetThread.setArchived(true);
+      } else {
+        await targetThread.delete();
+      }
+    } catch {}
+  }
 });
