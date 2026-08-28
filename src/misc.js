@@ -195,9 +195,6 @@ client.on("interactionCreate", async (interaction) => {
     });
 
     await ticketThread.members.add(interaction.user.id);
-    if (panelData.role) {
-      await ticketThread.members.add(panelData.role).catch(() => {});
-    }
 
     const embed = new EmbedBuilder()
       .setTitle(`Ticket: ${panelData.name}`)
