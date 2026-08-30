@@ -95,18 +95,28 @@ client.on("messageCreate", async (message) => {
         
         try {
             const webhookClient = new WebhookClient({ url: destination.url });
-            const files = message.attachments.filter(att => att.size <= 5242880).map(att => att.url);
-            
-            let contentText = message.content || "";
+            const hasSnapshot = message.messageSnapshots && (message.messageSnapshots.length > 0 || message.messageSnapshots.size > 0);
+            const targetMessage = message.messageSnapshots?.first?.() || message;
+            const files = targetMessage?.attachments ? targetMessage.attachments.filter(att => att.size <= 5242880).map(att => att.url) : [];
+            let contentText = targetMessage?.content || "";
             //i made this, zach modified this, and i stole it
-            const stickers = message.stickers?.filter(s => s.type !== 1 && !s.url.endsWith('.json')).map(s => `${s.url}?size=160`) || []
+            const stickers = targetMessage?.stickers?.filter(s => s.type !== 1 && !s.url.endsWith('.json')).map(s => `${s.url}?size=160`) || [];
             if (stickers.length > 0) {
                 contentText += `\n${stickers.join("\n")}`;
             }
+            if (hasSnapshot && contentText.trim()) {
+                //once again i stole shit from zach lmao
+                contentText = `-# ↷ *Forwarded*\n${contentText}`;
+            }
+
+            if (!contentText.trim() && files.length === 0) continue;
+            const name = message.member?.nickname 
+                ? `${message.member.nickname} (${message.member.user?.globalName || message.author.username})` 
+                : (message.member?.displayName || message.author.displayName);
+            
             await webhookClient.send({
-              content: contentText || undefined,
-              username: message.member.nickname ? `${message.member.nickname} (${message.member.user.globalName})` 
-                : message.member.displayName,
+              content: contentText.trim() || undefined,
+              username: name.substring(0, 80),
               avatarURL: message.author.displayAvatarURL({ forceStatic: false }),
               files: files.length > 0 ? files : undefined,
               allowedMentions: { parse: [] }
