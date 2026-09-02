@@ -58,12 +58,6 @@ export async function tModify(channelId) {
 
     const message = await channel.messages.fetch(panelData.messageId).catch(() => null);
     if (!message) {
-      /*
-      i'm sure this will be used for like, the 1 server that used this before this change
-      like 99.9% of the servers using doggo the helper won't even trigger this condition
-      and it will be only used once unless crazy shit goes on
-      in which i'll personally be surprised bc there would be no fucking way that shit would be real
-      */
       return await tInitialize(channelId);
     }
 
