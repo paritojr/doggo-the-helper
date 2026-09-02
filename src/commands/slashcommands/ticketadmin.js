@@ -104,7 +104,7 @@ export default {
       }
       const thoseFields = [
         { id: 'name', label: 'name', style: TextInputStyle.Short, required: true, value: panelData.name },
-        { id: 'description', label: 'description', style: TextInputStyle.Paragraph, required: true, value: panelData.description || "" },
+        { id: 'description', label: 'description (supports markdown too!)', style: TextInputStyle.Paragraph, required: true, value: panelData.description || "" },
         { id: 'role', label: 'input a role id (only 1)', style: TextInputStyle.Short, required: true, value: panelData.role },
         { id: 'archive', label: 'archive?', style: TextInputStyle.Short, required: true, value: String(panelData.swa) }
       ];
