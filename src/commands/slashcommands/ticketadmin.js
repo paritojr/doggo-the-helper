@@ -111,7 +111,7 @@ export default {
       const customId = `embed-modal-${interaction.id}`;
       const modal = new ModalBuilder()
         .setCustomId(customId)
-        .setTitle('embed maker')
+        .setTitle('modify ticket panel')
         .addComponents(
           thoseFields.map(({ id, label, style, required, value }) => {
             const input = new TextInputBuilder()
