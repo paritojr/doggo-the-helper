@@ -8,10 +8,14 @@ export default {
       return;
     }
 
-    const member = message.mentions.members.first();
-    if (!member) return message.reply(`usage: \\${config.prefix}ban @user <reason>`);
+    let member = message.mentions.members.first();
+    if (!member && args[0]) {
+      member = await message.guild.members.fetch(args[0]).catch(() => null);
+    }
+    if (!member) return message.reply(`usage: \\${config.prefix}ban @user/user id <reason>`);
 
-    const reason = args.slice(1).join(" ") || "No reason provided";
+    const someargs = (args[0] === member.id || args[0]?.includes(member.id)) ? args.slice(1) : args;
+    const reason = someargs.join(" ") || "No reason provided";
 
     try {
       await member.send(
