@@ -55,21 +55,20 @@ export default {
          }
          
          const { current, goal, lastUser, saves = 0, highest = 0 } = data;
-         const goalV = goal ? String(goal) : "infinite";
-         const remaining = goal ? String(Math.max(goal - current, 0)) : "none";
-         const percent = goal ? `${Math.min((current / goal) * 100, 100).toFixed(1)}%` : "infinite";
-         
+         const goalV = goal ? String(goal) : null;
+         const remaining = goal ? String(Math.max(goal - current, 0)) : null;
+         const percent = goal ? `${Math.min((current / goal) * 100, 100).toFixed(1)}%` : null;
          const incredibleEmbed = new EmbedBuilder()
            .setTitle("counting stats")
            .setColor("#3060f1")
-           .addFields(
-              { name: "current number", value: String(current), inline: true },
-              { name: "goal", value: goalV, inline: true },
-              { name: "remaining", value: remaining, inline: true },
-              { name: "progress", value: percent, inline: true },
-              { name: "saves", value: `${saves}/15`, inline: true },
-              { name: "highest streak", value: String(highest), inline: true }, 
-              { name: "last counter", value: lastUser ? `<@${lastUser}>` : "none", inline: true }
+           .setDescription(
+              `**current number:** ${current}\n` +
+              (goalV ? `**goal:** ${goalV}\n` : "") +
+              (remaining ? `**remaining:** ${remaining}\n` : "") +
+              (percent ? `**progress:** ${percent}\n` : "") +
+              `**saves:** ${saves}/15\n` +
+              `**highest streak:** ${highest}\n` +
+              `**last counter:** ${lastUser ? `<@${lastUser}>` : "no one"}`
            );
          
          return interaction.reply({
