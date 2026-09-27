@@ -15,7 +15,10 @@ export default {
     const amountArg = args[1];
     let member = message.mentions.members.first();
     if (!member && targetArg) {
-      member = await message.guild.members.fetch(targetArg).catch(() => null);
+      const cleanId = targetArg.replace(/[^0-9]/g, "");
+      if (cleanId) {
+        member = await message.guild.members.fetch(cleanId).catch(() => null);
+      }
     }
     if (!member) {
       return message.reply(`usage: \\${config.prefix}purge @user/user id <amount>`);
