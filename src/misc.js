@@ -31,10 +31,34 @@ client.on("messageCreate", async (message) => {
         if (!state) return;
             
         const raw = message.content.trim();
-        const match = raw.match(/^\d+/); 
-        if (!match) return;
+        let num;
+        const mathMatch = raw.match(/^(\d+)\s*([+\-*/])\s*(\d+)$/);
+        if (mathMatch) {
+            const num1 = Number(mathMatch[1]);
+            const operator = mathMatch[2];
+            const num2 = Number(mathMatch[3]);
             
-        const num = Number(match[0]);
+            if (operator === '+') num = num1 + num2;
+            else if (operator === '-') num = num1 - num2;
+            else if (operator === '*') num = num1 * num2;
+            else if (operator === '/') {
+                if (num2 === 0) return;
+                num = num1 / num2;
+            }
+        } else {
+            const normalMatch = raw.match(/^\d+$/); 
+            if (!normalMatch) return;
+            num = Number(normalMatch[0]);
+        }
+
+        if (!Number.isInteger(num)) {
+            return; 
+        }
+
+        if (num < 0) {
+            return;
+        }
+
         const expected = state.current + 1;
         
         const MILESTONE_EVERY = 50;
