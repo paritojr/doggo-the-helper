@@ -32,7 +32,7 @@ client.on("messageCreate", async (message) => {
             
         const raw = message.content.trim();
         let num;
-        const mathMatch = raw.match(/^(\d+)\s*([+\-*/])\s*(\d+)$/);
+        const mathMatch = raw.match(/^(\d+)\s*([+\-*/])\s*(\d+)/);
         if (mathMatch) {
             const num1 = Number(mathMatch[1]);
             const operator = mathMatch[2];
@@ -46,7 +46,7 @@ client.on("messageCreate", async (message) => {
                 num = num1 / num2;
             }
         } else {
-            const normalMatch = raw.match(/^\d+$/); 
+            const normalMatch = raw.match(/^\d+/); 
             if (!normalMatch) return;
             num = Number(normalMatch[0]);
         }
