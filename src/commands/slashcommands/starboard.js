@@ -61,7 +61,7 @@ export default {
         });
       }
 
-      if (serverStarboards.length >= 5) {
+      if (serverStarboards.length >= 10) {
         return interaction.editReply({
           content: "maximum limit reached lol"
         });
@@ -116,7 +116,7 @@ export default {
       });
 
       return interaction.editReply({
-        content: `active starboards (${serverStarboards.length}/5):\n${listLines.join("\n")}`
+        content: `active starboards (${serverStarboards.length}/10):\n${listLines.join("\n")}`
       });
     }
   },
