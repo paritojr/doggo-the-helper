@@ -95,6 +95,12 @@ client.on("messageCreate", async (message) => {
             }
         }
 
+        if (state.current === 1000) {
+            state.saves += 3;
+            if (state.saves > MAX_SAVES) state.saves = MAX_SAVES; 
+            await message.channel.send(`**CONGRATS**! 🎉🎉🎉\nyou got to 1000 (superb!)\nas a gift, apart from giving you a save, we will give you 3 extra saves!\nkeep going!`).catch(()=>{});
+        }
+
         countingChannels.set(message.channel.id, state);
         await message.react('✅').catch(()=>{});
         if (state.goal && state.current >= state.goal) {
