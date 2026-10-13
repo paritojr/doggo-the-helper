@@ -33,7 +33,7 @@ export default {
 
       if (balance < bet) {
          return interaction.reply({
-            content: "you don't have enough coinz to gamble ts lol",
+            content: "you don't have enough coinz...",
             flags: MessageFlags.Ephemeral
          });
       }
@@ -46,14 +46,12 @@ export default {
       balances.set(userId, balance);
 
       const userEmbed = new EmbedBuilder()
-        .setTitle(`coin flip results`)
-        .setColor("#3060f1")
+        .setTitle(win ? 'you won! 🎉' : 'you lost 💀')
+        .setColor(win ? '#2ecc71' : '#e74c3c')
         .addFields(
           { name: 'your choice', value: `**${choice}**`, inline: true },
           { name: 'result', value: `**${flip}**`, inline: true },
-          { name: 'outcome', value: win ? 'you won 🎉' : 'you lost 💀', inline: true },
-          { name: 'change:', value: `${winnings}`, inline: true },
-          { name: 'balance:', value: `${balance}`, inline: true },
+          { name: 'balance:', value: `${balance}`, inline: false },
         )
         .setFooter({
            text: "wowsers"
