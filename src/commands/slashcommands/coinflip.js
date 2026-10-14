@@ -51,7 +51,7 @@ export default {
         .addFields(
           { name: 'your choice', value: `**${choice}**`, inline: true },
           { name: 'result', value: `**${flip}**`, inline: true },
-          { name: 'balance:', value: `${balance}`, inline: false },
+          { name: 'balance:', value: `${balance} coinz`, inline: false },
         )
         .setFooter({
            text: "wowsers"
